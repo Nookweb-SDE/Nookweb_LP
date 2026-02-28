@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+enum LeadStatus {
+  new
+  contacted
+  qualified
+  lost
+}
+
+model Lead {
+  id           String     @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  company      String?
+  service      String?
+  budget       String?
+  message      String
+  consentLgpd  Boolean
+  status       LeadStatus @default(new)
+  createdAt    DateTime   @default(now())
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  body        String
+  category    String
+  author      String
+  tags        Json?
+  publishedAt DateTime
+  coverImage  String?
+  createdAt   DateTime @default(now())
+}
+
+model Case {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  title       String
+  description String
+  category    String
+  image       String
+  stack       String?   // JSON ou lista separada por vírgula
+  results     String?
+  testimonial String?
+  createdAt   DateTime @default(now())
+}
+
+model TeamMember {
+  id    String  @id @default(cuid())
+  name  String
+  role  String
+  bio   String?
+  image String
+}
+
+model SiteConfig {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}

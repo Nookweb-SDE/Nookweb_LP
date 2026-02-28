@@ -1,0 +1,309 @@
+/* Variáveis e estilos do Hero, carrossel em órbita e Stats (site completo Nookweb) */
+
+:root {
+  --hero-bg: #000000;
+  --hero-orange: #FF4500;
+  --hero-orange2: #FF6D00;
+  --hero-cream: #F5F0E8;
+}
+
+.bg-hero-dark {
+  background-color: var(--hero-bg);
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.animate-marquee-hero {
+  animation: marquee 20s linear infinite;
+}
+
+.hero-layout {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 80rem;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: 2rem;
+}
+@media (min-width: 1024px) {
+  .hero-layout {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    gap: 3rem;
+  }
+}
+
+.hero-left {
+  flex: 1;
+  min-width: 0;
+  max-width: 36rem;
+}
+
+.hero-right {
+  flex: 0 0 auto;
+  width: 100%;
+  max-width: 100%;
+  height: 420px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .hero-right {
+    width: min(600px, 52vw);
+    max-width: 600px;
+    height: 680px;
+    justify-content: flex-end;
+  }
+}
+
+.hero-orbit {
+  width: 100%;
+  max-width: 560px;
+  height: 100%;
+  min-height: 520px;
+  position: relative;
+  overflow: visible;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-orbit-track {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  overflow: visible;
+}
+
+.hero-orbit-item {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 168px;
+  margin: -84px 0 0 -150px;
+  border-radius: 18px;
+  padding: 2px;
+  overflow: visible;
+  will-change: transform;
+  /* Borda gradiente animada laranja puro */
+  background: linear-gradient(135deg, #FF4500, #FF6D00, rgba(200,75,47,0.4), #FF6D00, #FF4500);
+  background-size: 300% 300%;
+  animation: hero-orbit-border 5s ease-in-out infinite;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.hero-orbit-item-inner {
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  overflow: hidden;
+  background: #0a0a0a;
+  position: relative;
+}
+
+.hero-orbit-item-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center top;
+  display: block;
+}
+
+/* Label com vidro fosco (glassmorphism) */
+.hero-orbit-item-label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 10px 14px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #ffffff;
+  letter-spacing: 0.03em;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.9);
+  z-index: 2;
+  /* Glassmorphism real — legível em qualquer fundo */
+  background: rgba(0, 0, 0, 0.48);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Dot laranja pulsante */
+.hero-orbit-dot {
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #FF4500;
+  flex-shrink: 0;
+  animation: dot-pulse 2.2s ease-in-out infinite;
+}
+
+.hero-orbit-item-label-only {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.04);
+  font-size: 0.9rem;
+}
+
+@keyframes dot-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.55; transform: scale(0.65); }
+}
+
+@keyframes hero-orbit-border {
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes hero-orbit-glow {
+  0%   { opacity: 0.6; transform: scale(0.98); }
+  100% { opacity: 1;   transform: scale(1.02); }
+}
+
+@keyframes shimmer {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(100%); }
+}
+
+.btn-hero-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-hero-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 40%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0.2) 60%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  transition: transform 0.6s ease;
+}
+.btn-hero-shimmer:hover::before {
+  transform: translateX(100%);
+  transition: transform 0.6s ease;
+}
+
+.stats-cards-grid {
+  display: grid;
+  grid-template-columns: minmax(340px, 1fr);
+  gap: 2rem;
+  justify-items: center;
+  max-width: 72rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  padding-top: 2rem;
+}
+@media (min-width: 640px) {
+  .stats-cards-grid {
+    grid-template-columns: repeat(2, minmax(340px, 1fr));
+  }
+}
+@media (min-width: 1024px) {
+  .stats-cards-grid {
+    grid-template-columns: repeat(3, minmax(340px, 1fr));
+    gap: 2.5rem;
+  }
+}
+
+.stats-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  width: 340px;
+  max-width: 340px;
+}
+
+.stats-card {
+  width: 100%;
+  min-width: 340px;
+  max-width: 340px;
+  height: 180px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(22, 22, 24, 0.92);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1.25rem;
+  box-sizing: border-box;
+}
+
+.stats-card-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  color: var(--hero-cream);
+  margin: 0 0 0.5rem 0;
+  text-align: center;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+@media (min-width: 640px) {
+  .stats-card-title { font-size: 1.75rem; }
+}
+@media (min-width: 1024px) {
+  .stats-card-title { font-size: 2rem; }
+}
+
+.stats-card-divider {
+  border: none;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.12);
+  margin: 0 0 0.5rem 0;
+  width: 80px;
+}
+
+.stats-card-description {
+  font-family: 'DM Sans', sans-serif;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: center;
+  margin: 0;
+  padding: 0 0.25rem;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+@media (min-width: 640px) {
+  .stats-card-description { font-size: 1rem; }
+}
+
+.stats-card-badge {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

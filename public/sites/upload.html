@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head><title>Upload Imagem</title></head>
+<body style="background:#111;color:#fff;font-family:sans-serif;padding:40px;text-align:center">
+  <h2>Upload → site1.jpg</h2>
+  <input type="file" id="f" accept="image/*" style="display:none">
+  <div id="status" style="margin-top:20px;font-size:18px">Aguardando imagem...</div>
+  <script>
+    const input = document.getElementById('f');
+    const status = document.getElementById('status');
+    input.addEventListener('change', async () => {
+      const file = input.files[0];
+      if (!file) return;
+      status.textContent = 'Enviando...';
+      try {
+        const res = await fetch('http://127.0.0.1:3099/site1.jpg', {
+          method: 'POST',
+          body: file,
+        });
+        if (res.ok) status.textContent = '✅ site1.jpg salvo com sucesso!';
+        else status.textContent = '❌ Erro: ' + res.status;
+      } catch(e) {
+        status.textContent = '❌ ' + e.message;
+      }
+    });
+    // Dispara o input automaticamente
+    window.onload = () => input.click();
+  </script>
+</body>
+</html>

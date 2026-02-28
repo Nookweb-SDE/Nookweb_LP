@@ -1,0 +1,34 @@
+# Dependencies
+node_modules/
+
+# Build
+dist/
+*.local
+
+# Env (nunca commitar segredos)
+.env
+.env.local
+.env.*.local
+
+# Logs e cache
+*.log
+npm-debug.log*
+.npm
+.eslintcache
+*.tsbuildinfo
+.vite/
+
+# Prisma
+prisma/*.db
+prisma/*.db-journal
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE (opcional – descomente se quiser ignorar)
+# .vscode/
+# .idea/
+
+# Puppeteer / Chromium (em public/sites)
+public/sites/node_modules/
