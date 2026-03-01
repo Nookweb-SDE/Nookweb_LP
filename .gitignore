@@ -30,5 +30,8 @@ Thumbs.db
 # .vscode/
 # .idea/
 
+# Claude (não usado no projeto – usa Cursor/.cursorrules)
+.claude/
+
 # Puppeteer / Chromium (em public/sites)
 public/sites/node_modules/
