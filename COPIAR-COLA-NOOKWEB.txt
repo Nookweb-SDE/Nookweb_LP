@@ -1,0 +1,72 @@
+═══════════════════════════════════════════════════════════════════════════════
+NOOKWEB — PALETAS, EFEITOS E TIPOGRAFIA (COPIAR E COLAR NO CLAUDE OPUS)
+═══════════════════════════════════════════════════════════════════════════════
+
+CORES
+-----
+Globais (index.css):
+  surface-main: #E7E8E0 (fundo geral)
+  heavy: #1C1A16 (texto principal)
+  neutral: #767069 (texto secundário)
+  soft: #E8E2DD (fundos suaves)
+  pure: #FFFFFF (branco)
+  pure-warm: #F9F9F4 (branco quente)
+  accent-primary: #086249 (verde CTAs)
+  accent-danger: #9C1C1E (vermelho)
+  accent-warm: #B8860B (dourado)
+
+Hero / escuras:
+  hero-bg: #000000
+  hero-orange: #FF4500
+  hero-orange2: #FF6D00
+  hero-cream: #F5F0E8
+
+Paleta P (Serviços / Stats):
+  orange: #FF4500
+  orangeAlt: #FF6D00
+  silver: #c0c0c0
+  metal: #1a1a1c
+  heavy: #1C1A16
+  neutral: #767069
+  cream: #F5F0E8
+  warm: #F9F9F4
+  surface: #E7E8E0
+  black: #000000
+  blackSoft: #0a0a0a
+  white: #FFFFFF
+
+Electric border:
+  electric-border: #c0c0c0
+  electric-light: #e8e8e8
+  neutral-900: #1a1a1c
+
+MeshGradient: #000000, #1a1a1a, #333333, #ffffff
+
+TIPOGRAFIA
+----------
+DM Sans — corpo, UI, navegação, botões (font-sans)
+Instrument Serif — títulos, headlines (font-serif, font-display)
+Space Mono — labels, marquee, badges (font-mono)
+
+Google Fonts:
+https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Instrument+Serif:ital@0;1&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap
+
+EFEITOS / ANIMAÇÕES
+-------------------
+Shimmer texto: linear-gradient + background-position -200%→200% (shimmer-gradient)
+Formas 3D: rotateCube, rotateGem, rotatePrism, rotateRing, rotateSphere, rocketSpin, lightningSpin, starSpin
+Entradas: revealUp, detailIn, tagIn, statsCardIn
+Gradiente barra: linear-gradient(90deg, #FF4500, #FF6D00, rgba(192,192,192,0.3))
+Cards Stats hover: borda laranja sutil, gradiente escuro #222224→#1a1a1c
+MetalBadge: radial-gradient, conic-gradient sheen
+drop-shadow formas 3D: 0 0 16px #FF450066
+Easing: cubic-bezier(.23,1,.32,1), cubic-bezier(.34,1.2,.64,1)
+
+COMPONENTES
+-----------
+LiquidMetalButton: shader liquid metal, 148×46 ou 260×58px
+MetalBadge: #222224, #0f0f11, #1a1a1c
+Navbar hover: #FF4500 (escuro) / #086249 (claro)
+FeatureCard hover: accent-primary #086249
+
+═══════════════════════════════════════════════════════════════════════════════

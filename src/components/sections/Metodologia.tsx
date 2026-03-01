@@ -17,7 +17,7 @@ export function Metodologia() {
       <Container>
         <SectionHeader
           label="Metodologia"
-          title="No-Code, IA e Código Profissional"
+          title="Low-code, IA e Código Profissional"
           description="Do no-code ao código nativo: React, Python, Java, Node.js e mais. Escolhemos a stack certa para cada projeto."
         />
         <div className="grid sm:grid-cols-2 gap-6">

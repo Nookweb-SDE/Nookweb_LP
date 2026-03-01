@@ -9,6 +9,6 @@ export const HERO_CAROUSEL_ITEMS: { label: string; image?: string }[] = [
   { label: 'BaaS & Infraestrutura', image: '/sites/site4.jpg' },
   { label: 'Automações N8N', image: '/sites/site5.jpg' },
   { label: 'UI/UX Design', image: '/sites/site6.jpg' },
-  { label: 'No-Code + Código', image: '/sites/site7.jpg' },
+  { label: 'Low-code', image: '/sites/site7.jpg' },
   { label: 'IA Integrada', image: '/sites/site8.jpg' },
 ]

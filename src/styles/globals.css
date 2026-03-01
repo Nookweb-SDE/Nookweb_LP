@@ -188,6 +188,12 @@
   to { transform: translateX(100%); }
 }
 
+/* Gradiente animado para texto (Hero "DIGITAIS." e Serviços "em Dias") */
+@keyframes shimmer-gradient {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .btn-hero-shimmer {
   position: relative;
   overflow: hidden;

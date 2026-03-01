@@ -7,7 +7,8 @@ export function Hero() {
   return (
     <section
       data-dark-section
-      className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-24 pb-32 bg-hero-dark"
+      className="relative min-h-screen flex flex-col overflow-hidden pb-32 bg-hero-dark"
+      style={{ paddingTop: '56px' }}
     >
       <div
         className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
@@ -16,11 +17,11 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col min-h-[calc(100vh-6rem)] pb-4">
-        <div className="hero-layout flex-1 flex flex-col min-h-0">
-          <div className="hero-left">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-stretch min-h-[calc(100vh-64px)] pb-4">
+        <div className="hero-layout flex flex-col min-h-0 items-start">
+          <div className="hero-left w-full">
             <motion.div
-              className="mb-10"
+              className="mb-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6 }}
@@ -32,7 +33,7 @@ export function Hero() {
                 >
                   Agência Digital
                 </span>
-                <span className="text-xs text-white/30">Est. 2024 · São Paulo, BR</span>
+                <span className="text-xs text-white/30">Est. 2022 · São Paulo, BR</span>
               </div>
             </motion.div>
 
@@ -45,9 +46,17 @@ export function Hero() {
                     initial={{ opacity: 0, y: '100%' }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, delay: 0.1 + i * 0.1 }}
-                    style={{
-                      color: i === 2 ? 'var(--hero-orange)' : 'var(--hero-cream)',
-                    }}
+                    style={
+                      i === 2
+                        ? {
+                            background: 'linear-gradient(90deg, var(--hero-orange), var(--hero-orange2), #c0c0c0, var(--hero-orange))',
+                            backgroundSize: '200% auto',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            animation: 'shimmer-gradient 3.5s linear infinite',
+                          }
+                        : { color: 'var(--hero-cream)' }
+                    }
                   >
                     <span className="block">{word}</span>
                   </motion.span>
@@ -74,7 +83,9 @@ export function Hero() {
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
                 <p className="font-sans text-base text-white/50 leading-relaxed max-w-[420px]">
-                  Sites, aplicativos, SaaS e BaaS construídos com precisão. Do wireframe ao produto em produção — sem atalhos, sem compromissos.
+                  Do papel ao ar em semanas. Do amador ao profissional.
+                <br />
+                Site, app, ERP, CRM, BaaS, IA ou automação — seja começando do zero ou reconstruindo o que não funciona, entregamos a solução certa para seu negócio crescer sem limite.
                 </p>
               </motion.div>
             </div>
@@ -99,7 +110,7 @@ export function Hero() {
               'BaaS & Infraestrutura',
               'Automações N8N',
               'UI/UX Design',
-              'No-Code + Código Profissional',
+              'Low-code',
               'IA Integrada',
             ]
               .concat([
@@ -109,13 +120,13 @@ export function Hero() {
                 'BaaS & Infraestrutura',
                 'Automações N8N',
                 'UI/UX Design',
-                'No-Code + Código Profissional',
+                'Low-code',
                 'IA Integrada',
               ])
               .map((item) => (
                 <div
                   key={item}
-                  className="flex items-center gap-6 px-8 font-sans text-xs font-semibold tracking-widest uppercase text-white/30 whitespace-nowrap"
+                  className="flex items-center gap-6 px-8 font-mono text-xs font-semibold tracking-widest uppercase text-white/30 whitespace-nowrap"
                 >
                   {item}
                   <span style={{ color: 'var(--hero-orange)' }} className="text-[0.5rem]">

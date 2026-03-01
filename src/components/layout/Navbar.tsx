@@ -66,7 +66,7 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         <Link
           to="/"
-          className={`font-serif text-xl transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
+          className={`font-sans text-xl transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
         >
           Nookweb
         </Link>
@@ -87,7 +87,7 @@ export function Navbar() {
         </div>
 
         <button
-          className={`md:hidden p-2 rounded-lg transition-colors duration-300 ${
+          className={`md:hidden p-2 rounded-lg font-sans transition-colors duration-300 ${
             textLight ? 'text-white hover:bg-white/10' : 'text-heavy hover:bg-heavy/5'
           }`}
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -112,7 +112,7 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className={`md:hidden border-t ${textLight ? 'bg-heavy border-white/10' : 'bg-pure border-heavy/5'}`}
           >
-            <div className="px-4 py-4 flex flex-col gap-4">
+            <div className="px-4 py-4 flex flex-col gap-4 font-sans">
               {links.map((link) => (
                 <Link
                   key={link.to}

@@ -8,19 +8,25 @@ interface LiquidMetalButtonProps {
   to?: string
   href?: string
   onClick?: () => void
+  /** 'compact' = cards | 'default' = header | 'wide' = footer | 'large' = CTAs */
+  size?: 'compact' | 'default' | 'wide' | 'large'
 }
 
-const WIDTH = 142
-const HEIGHT = 46
-const INNER_WIDTH = 138
-const INNER_HEIGHT = 42
+const SIZES = {
+  compact: { width: 128, height: 42, innerWidth: 124, innerHeight: 38, fontSize: 12, translateZ: 18 },
+  default: { width: 148, height: 46, innerWidth: 144, innerHeight: 42, fontSize: 14, translateZ: 20 },
+  wide: { width: 178, height: 46, innerWidth: 174, innerHeight: 42, fontSize: 14, translateZ: 20 },
+  large: { width: 260, height: 58, innerWidth: 254, innerHeight: 54, fontSize: 15, translateZ: 24 },
+} as const
 
 export function LiquidMetalButton({
   label = 'Iniciar Projeto',
   to = '/contato',
   href,
   onClick,
+  size = 'default',
 }: LiquidMetalButtonProps) {
+  const { width, height, innerWidth, innerHeight, fontSize, translateZ } = SIZES[size]
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
   const shaderRef = useRef<HTMLDivElement>(null)
@@ -107,8 +113,8 @@ export function LiquidMetalButton({
       <div
         style={{
           position: 'relative',
-          width: `${WIDTH}px`,
-          height: `${HEIGHT}px`,
+          width: `${width}px`,
+          height: `${height}px`,
           transformStyle: 'preserve-3d',
           transition: 'all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1)',
         }}
@@ -118,32 +124,32 @@ export function LiquidMetalButton({
             position: 'absolute',
             top: 0,
             left: 0,
-            width: `${WIDTH}px`,
-            height: `${HEIGHT}px`,
+            width: `${width}px`,
+            height: `${height}px`,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: '6px',
             transformStyle: 'preserve-3d',
-            transform: 'translateZ(20px)',
+            transform: `translateZ(${translateZ}px)`,
             zIndex: 30,
             pointerEvents: 'none',
           }}
         >
           <span
             style={{
-              fontSize: '14px',
-              color: '#e8e8e8',
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: `${fontSize}px`,
               fontWeight: 500,
+              color: '#e8e8e8',
+              lineHeight: 1,
+              letterSpacing: '0.01em',
+              textAlign: 'center',
               textShadow: '0 1px 2px rgba(0,0,0,0.6), 0 0 1px rgba(0,0,0,0.8)',
               whiteSpace: 'nowrap',
             }}
           >
             {label}
           </span>
-          <svg width="14" height="14" fill="none" stroke="#e8e8e8" strokeWidth="2" viewBox="0 0 24 24" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}>
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
         </div>
 
         <div
@@ -151,8 +157,8 @@ export function LiquidMetalButton({
             position: 'absolute',
             top: 0,
             left: 0,
-            width: `${WIDTH}px`,
-            height: `${HEIGHT}px`,
+            width: `${width}px`,
+            height: `${height}px`,
             transformStyle: 'preserve-3d',
             transform: `translateZ(10px) ${isPressed ? 'translateY(1px) scale(0.98)' : 'translateY(0) scale(1)'}`,
             zIndex: 20,
@@ -160,8 +166,8 @@ export function LiquidMetalButton({
         >
           <div
             style={{
-              width: `${INNER_WIDTH}px`,
-              height: `${INNER_HEIGHT}px`,
+              width: `${innerWidth}px`,
+              height: `${innerHeight}px`,
               margin: '2px',
               borderRadius: '100px',
               background: 'linear-gradient(180deg, #202020 0%, #000000 100%)',
@@ -177,8 +183,8 @@ export function LiquidMetalButton({
             position: 'absolute',
             top: 0,
             left: 0,
-            width: `${WIDTH}px`,
-            height: `${HEIGHT}px`,
+            width: `${width}px`,
+            height: `${height}px`,
             transformStyle: 'preserve-3d',
             transform: `translateZ(0px) ${isPressed ? 'translateY(1px) scale(0.98)' : 'translateY(0) scale(1)'}`,
             zIndex: 10,
@@ -186,8 +192,8 @@ export function LiquidMetalButton({
         >
           <div
             style={{
-              height: `${HEIGHT}px`,
-              width: `${WIDTH}px`,
+              height: `${height}px`,
+              width: `${width}px`,
               borderRadius: '100px',
               boxShadow: isPressed
                 ? '0px 0px 0px 1px rgba(0, 0, 0, 0.5), 0px 1px 2px 0px rgba(0, 0, 0, 0.3)'
@@ -204,9 +210,9 @@ export function LiquidMetalButton({
                 borderRadius: '100px',
                 overflow: 'hidden',
                 position: 'relative',
-                width: `${WIDTH}px`,
-                maxWidth: `${WIDTH}px`,
-                height: `${HEIGHT}px`,
+                width: `${width}px`,
+                maxWidth: `${width}px`,
+                height: `${height}px`,
               }}
             />
           </div>
@@ -223,13 +229,13 @@ export function LiquidMetalButton({
               position: 'absolute',
               top: 0,
               left: 0,
-              width: `${WIDTH}px`,
-              height: `${HEIGHT}px`,
+              width: `${width}px`,
+              height: `${height}px`,
               background: 'transparent',
               cursor: 'pointer',
               zIndex: 40,
               transformStyle: 'preserve-3d',
-              transform: 'translateZ(25px)',
+              transform: `translateZ(${translateZ + 5}px)`,
               borderRadius: '100px',
             }}
             aria-hidden
@@ -246,15 +252,15 @@ export function LiquidMetalButton({
               position: 'absolute',
               top: 0,
               left: 0,
-              width: `${WIDTH}px`,
-              height: `${HEIGHT}px`,
+              width: `${width}px`,
+              height: `${height}px`,
               background: 'transparent',
               border: 'none',
               cursor: 'pointer',
               padding: 0,
               zIndex: 40,
               transformStyle: 'preserve-3d',
-              transform: 'translateZ(25px)',
+              transform: `translateZ(${translateZ + 5}px)`,
               borderRadius: '100px',
             }}
             aria-label={label}
