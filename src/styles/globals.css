@@ -19,6 +19,26 @@
 .animate-marquee-hero {
   animation: marquee 20s linear infinite;
 }
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee-hero { animation: none; }
+}
+
+/* Footer headline shimmer */
+@keyframes footer-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.footer-shimmer-text {
+  background: linear-gradient(90deg, #FF4500, #FF6D00, #e8e8e8, #FF4500);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: footer-shimmer 4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .footer-shimmer-text { animation: none; }
+}
 
 .hero-layout {
   display: flex;
@@ -91,10 +111,10 @@
   top: 50%;
   left: 50%;
   width: 300px;
-  height: 168px;
-  margin: -84px 0 0 -150px;
+  height: 140px;
+  margin: -70px 0 0 -150px;
   border-radius: 18px;
-  padding: 2px;
+  padding: 1px;
   overflow: visible;
   will-change: transform;
   /* Borda gradiente animada laranja puro */
