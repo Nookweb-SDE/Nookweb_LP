@@ -11,6 +11,8 @@ import NookLeadPreview from "./previews/NookLeadPreview";
 import LatEmPreview from "./previews/LatEmPreview";
 import ContPixPreview from "./previews/ContPixPreview";
 import GrupoWR2Preview from "./previews/GrupoWR2Preview";
+import RevivazIframePreview from "./previews/RevivazIframePreview";
+import OnlyCaesPreview from "./previews/OnlyCaesPreview";
 import { FoodieWagonPreview } from "./previews/FoodieWagonPreview";
 import { MinimalAnimatedHeroPreview } from "./previews/MinimalAnimatedHeroPreview";
 import { AppPreview } from "./previews/AppPreview";
@@ -55,13 +57,14 @@ export function CasePreviewRenderer({ caseType, variant }: Props) {
   if (data.id === "site-contpix") return <ContPixPreview />;
   if (data.id === "site-grupowr2") return <GrupoWR2Preview />;
 
-  // Apps (02) — handled by Cursor
+  // Apps (02)
   if (data.id === "app-fitconnect") return <FitConnectPreview />;
   if (data.id === "app-sportconnect") return <SportConnectProPreview />;
+  if (data.id === "app-revivaz") return <RevivazIframePreview />;
 
   // SaaS (03)
-  if (data.id === "saas-revivaz") return <RevivazPreview />;
   if (data.id === "saas-nooklead-crm") return <NookleadCRMPreview />;
+  if (data.id === "saas-onlycaes") return <OnlyCaesPreview />;
   if (data.id === "saas-b") return <MetricFlowPreview />;
 
   // BaaS (04)

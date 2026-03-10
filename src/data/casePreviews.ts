@@ -224,6 +224,14 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       palette: { bg: "#0f172a", accent: "#EAB308", accentSoft: "rgba(234,179,8,0.15)", text: "#FFFFFF", textMuted: "#94a3b8", card: "#1e293b", border: "rgba(234,179,8,0.2)" },
       sections: [],
     },
+    {
+      id: "app-revivaz",
+      clientName: "Revivaz",
+      clientTagline: "Saúde mental solidária",
+      template: "app",
+      palette: { bg: "#F8FAFC", accent: "#0D9488", accentSoft: "rgba(13,148,136,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
+      sections: [],
+    },
   ],
 
   /* ═══ 03. PLATAFORMAS SAAS — Multi-vertical ═══ */
@@ -237,11 +245,11 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       sections: [],
     },
     {
-      id: "saas-revivaz",
-      clientName: "Revivaz",
-      clientTagline: "Atendimento solidário: psiquiatras e psicólogos conectados a quem mais precisa",
-      template: "landing",
-      palette: { bg: "#F8FAFC", accent: "#0D9488", accentSoft: "rgba(13,148,136,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
+      id: "saas-onlycaes",
+      clientName: "OnlyCaes",
+      clientTagline: "Plataforma SaaS — version-test",
+      template: "dashboard",
+      palette: { bg: "#F8FAFC", accent: "#6366f1", accentSoft: "rgba(99,102,241,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
       sections: [],
     },
     {
