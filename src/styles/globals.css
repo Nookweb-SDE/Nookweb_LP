@@ -11,6 +11,25 @@
   background-color: var(--hero-bg);
 }
 
+/* Efeito degradê igual ao "DIGITAIS." do hero nos links do header (hover) */
+.nav-link-text {
+  transition: background 0.3s ease, background-clip 0.3s ease, color 0.3s ease, -webkit-text-fill-color 0.3s ease, background-position 0.3s ease;
+}
+.group:hover .nav-link-text {
+  background: linear-gradient(90deg, var(--hero-orange), var(--hero-orange2), #c0c0c0, var(--hero-orange));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer-gradient 3.5s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .group:hover .nav-link-text {
+    animation: none;
+  }
+}
+
 @keyframes marquee {
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
@@ -18,6 +37,14 @@
 
 .animate-marquee-hero {
   animation: marquee 20s linear infinite;
+}
+
+@keyframes case-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+.animate-case-float {
+  animation: case-float 5s ease-in-out infinite;
 }
 @media (prefers-reduced-motion: reduce) {
   .animate-marquee-hero { animation: none; }
@@ -328,8 +355,102 @@
   .stats-card-description { font-size: 1rem; }
 }
 
+/* ═══════════════════════════════════════════════
+   Minimal Animated Hero (v0) — keyframes e animações
+═══════════════════════════════════════════════ */
+@keyframes line-shadow {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 100% -100%;
+  }
+}
+:root {
+  --animate-line-shadow: line-shadow 15s linear infinite;
+}
+
+@keyframes shimmer-slide {
+  to {
+    transform: translate(calc(100cqw - 100%), 0);
+  }
+}
+
+@keyframes spin-around {
+  0% {
+    transform: translateZ(0) rotate(0);
+  }
+  15%,
+  35% {
+    transform: translateZ(0) rotate(90deg);
+  }
+  65%,
+  85% {
+    transform: translateZ(0) rotate(270deg);
+  }
+  100% {
+    transform: translateZ(0) rotate(360deg);
+  }
+}
+
+.animate-line-shadow {
+  animation: var(--animate-line-shadow);
+}
+.animate-shimmer-slide {
+  animation: shimmer-slide 1s ease-in-out infinite alternate;
+}
+.animate-spin-around {
+  animation: spin-around 2s infinite linear;
+}
+
 .stats-card-badge {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* ═══ Cases Section — layout responsivo ═══ */
+.cases-main-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  align-items: start;
+}
+@media (min-width: 768px) {
+  .cases-main-grid {
+    grid-template-columns: 280px 1fr;
+    gap: 24px;
+  }
+}
+@media (min-width: 1024px) {
+  .cases-main-grid {
+    grid-template-columns: 360px 1fr;
+    gap: 32px;
+  }
+}
+
+/* Video performance optimizations */
+video {
+  will-change: opacity;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.cases-section-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+  padding: 32px 16px;
+}
+@media (min-width: 768px) {
+  .cases-section-inner {
+    padding: 56px 24px;
+  }
+}
+@media (min-width: 1024px) {
+  .cases-section-inner {
+    padding: 80px 28px;
+  }
 }

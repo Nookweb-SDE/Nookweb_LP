@@ -1,5 +1,8 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { LiquidMetalButton } from "@/components/ui/LiquidMetalButton";
+import { LiquidMetalIconButton } from "@/components/ui/LiquidMetalIconButton";
+import { CasePreviewRenderer } from "@/components/cases/CasePreviewRenderer";
+import { CASE_PREVIEWS } from "@/data/casePreviews";
 
 /* ═══════════════════════════════════════════════
    CONCEITO: "INTELLIGENCE DOSSIER"
@@ -36,40 +39,41 @@ const P = {
    Alinhado às 8 categorias do Hero Carousel
    (HERO_CAROUSEL_ITEMS em src/data/heroCarousel.ts)
 ──────────────────────────────────────────────── */
+/* Tipos de solução — genéricos e escaláveis (sem nichos fixos) */
 const CASES = [
   {
     id: 1, num: "01", cat: "Sites",
-    title: "Sites de Alto Impacto",
-    tagline: "+240% de conversão",
+    title: "Sites de Alta Conversão",
+    tagline: "Landings que convertem",
     result: "+240%", resultLabel: "Taxa de conversão",
-    desc: "One-page premium com animações GSAP, prova social dinâmica e A/B testing — entregou leads qualificados em 48h do launch.",
+    desc: "One-page premium com animações GSAP, prova social dinâmica e A/B testing. Tipo: landing de alto impacto — entrega leads qualificados em 48h do launch.",
     tags: ["React", "GSAP", "Analytics", "SEO"],
     visual: "site",
   },
   {
     id: 2, num: "02", cat: "Apps",
     title: "Aplicativos Mobile",
-    tagline: "Validação em 4 semanas",
+    tagline: "Nativo iOS + Android",
     result: "4wk",   resultLabel: "Do wireframe ao ar",
-    desc: "Nativo iOS/Android com autenticação, geolocalização e notificações push. Validação de mercado antes do investimento total.",
+    desc: "Tipo: app mobile nativo — autenticação, geolocalização e push. Validação de mercado antes do investimento total.",
     tags: ["Flutter", "Firebase", "Maps API"],
     visual: "app",
   },
   {
     id: 3, num: "03", cat: "SaaS",
     title: "Plataformas SaaS",
-    tagline: "Multi-tenant com recorrência",
+    tagline: "Fintech, logística, educação, saúde, B2B",
     result: "12k",   resultLabel: "Usuários/mês",
-    desc: "White-label com billing automático, onboarding guiado e painel de métricas por tenant — do zero a produção em 8 semanas.",
+    desc: "SaaS para múltiplos segmentos — fintech, logística, educação, saúde, marketplaces B2B, CRM interno, automação de vendas e painéis operacionais. Arquitetura multi-tenant, billing white-label e analytics em tempo real. Do conceito à escala em 8 semanas.",
     tags: ["Next.js", "Supabase", "Stripe", "AWS"],
     visual: "saas",
   },
   {
     id: 4, num: "04", cat: "BaaS",
     title: "BaaS & Infraestrutura",
-    tagline: "Infra bancária em semanas",
+    tagline: "APIs e compliance",
     result: "99.9%", resultLabel: "Uptime garantido",
-    desc: "BaaS com KYC automatizado, transações PIX, webhooks e painel de compliance. Deploy em AWS com SLA enterprise.",
+    desc: "Tipo: infra bancária — KYC, transações, webhooks e painel de compliance. Deploy em AWS com SLA enterprise.",
     tags: ["Node.js", "AWS Lambda", "Stripe", "KYC"],
     visual: "baas",
   },
@@ -78,7 +82,7 @@ const CASES = [
     title: "Automações N8N",
     tagline: "Workflows sem código",
     result: "−80%",  resultLabel: "Tempo manual",
-    desc: "Integrações entre CRM, Google Sheets, e-mail e APIs. Automação de onboarding, follow-up e relatórios recorrentes.",
+    desc: "Tipo: automação entre sistemas — CRM, Sheets, e-mail e APIs. Onboarding, follow-up e relatórios recorrentes.",
     tags: ["N8N", "Webhooks", "Zapier", "APIs"],
     visual: "n8n",
   },
@@ -87,16 +91,16 @@ const CASES = [
     title: "UI/UX Design",
     tagline: "Interfaces que convertem",
     result: "3×",   resultLabel: "Engajamento",
-    desc: "Pesquisa de usuário, wireframes, protótipos Figma e design system. Do conceito à entrega para o time de dev.",
+    desc: "Tipo: design system completo — pesquisa, wireframes, Figma e protótipos. Do conceito à entrega para o time de dev.",
     tags: ["Figma", "Protopie", "Research", "Design System"],
     visual: "design",
   },
   {
     id: 7, num: "07", cat: "Low-code",
     title: "Low-code",
-    tagline: "MVP em semanas, não meses",
+    tagline: "MVP em semanas",
     result: "6wk",  resultLabel: "Time to market",
-    desc: "Plataformas como Airtable, Bubble e Glide. Validação rápida, sem contratar equipe de desenvolvimento.",
+    desc: "Tipo: validação rápida — Airtable, Bubble, Glide. Protótipos funcionais sem contratar equipe de desenvolvimento.",
     tags: ["Airtable", "Bubble", "Glide", "Notion"],
     visual: "lowcode",
   },
@@ -105,193 +109,11 @@ const CASES = [
     title: "IA Integrada",
     tagline: "Chatbot + análise preditiva",
     result: "−70%",  resultLabel: "Tickets manuais",
-    desc: "Pipeline de IA integrado ao CRM: triagem de leads, atendimento automatizado e relatórios gerados por LLM em tempo real.",
+    desc: "Tipo: pipeline de IA no CRM — triagem de leads, atendimento automatizado e relatórios gerados por LLM em tempo real.",
     tags: ["Claude API", "N8N", "Python", "Webhooks"],
     visual: "ai",
   },
 ];
-
-/* ─── ABSTRACT SVG VISUALS ───────────────────── */
-function Visual({ type, active }: { type: string; active: boolean }) {
-  const o = active ? P.orange : "rgba(192,192,192,0.25)";
-  const o2 = active ? P.orangeAlt : "rgba(192,192,192,0.12)";
-  const fill = active ? "rgba(255,69,0,0.12)" : "rgba(255,255,255,0.03)";
-
-  const map: Record<string, React.ReactNode> = {
-    erp: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        <defs>
-          <linearGradient id="eg" x1="0" y1="0" x2="200" y2="140" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor={active?P.orange:"#c0c0c0"} stopOpacity=".6"/>
-            <stop offset="100%" stopColor={active?P.orangeAlt:"#e8e8e8"} stopOpacity=".2"/>
-          </linearGradient>
-        </defs>
-        {[{x:20,h:60},{x:52,h:90},{x:84,h:50},{x:116,h:110},{x:148,h:75}].map((b,i)=>(
-          <g key={i}>
-            <rect x={b.x} y={140-b.h-10} width="24" height={b.h} rx="3"
-              fill={i===3?fill:"rgba(255,255,255,0.03)"} stroke={i===3?o:o2} strokeWidth={i===3?"1":"0.5"}/>
-            {i===3 && <rect x={b.x} y={140-b.h-10} width="24" height={b.h*.4} rx="3" fill={active?"rgba(255,69,0,0.18)":"rgba(255,255,255,0.04)"}/>}
-          </g>
-        ))}
-        {[30,60,90,120].map((y,i)=>(
-          <line key={i} x1="10" x2="180" y1={y} y2={y} stroke="rgba(255,255,255,0.05)" strokeWidth=".5" strokeDasharray="4 4"/>
-        ))}
-        <polyline points="20,100 52,70 84,85 116,30 148,55" stroke={o} strokeWidth={active?"1.5":"0.8"} fill="none" strokeLinejoin="round"/>
-        {active && <polyline points="20,100 52,70 84,85 116,30 148,55" stroke={P.orange} strokeWidth="1" fill="none" opacity=".3" strokeLinejoin="round" style={{filter:"blur(3px)"}}/>}
-        {[{x:20,y:100},{x:52,y:70},{x:84,y:85},{x:116,y:30},{x:148,y:55}].map((p,i)=>(
-          <circle key={i} cx={p.x+12} cy={p.y} r={i===3?4:2.5}
-            fill={i===3?P.orange:"rgba(255,255,255,0.15)"} stroke={i===3?P.orangeAlt:"transparent"} strokeWidth="1"/>
-        ))}
-      </svg>
-    ),
-    saas: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        <circle cx="100" cy="70" r="22" stroke={o} strokeWidth="1" fill={fill}/>
-        <circle cx="100" cy="70" r="12" stroke={o2} strokeWidth=".7" fill="rgba(255,255,255,0.02)"/>
-        <circle cx="100" cy="70" r="4" fill={active?P.orange:"rgba(192,192,192,0.3)"}/>
-        <ellipse cx="100" cy="70" rx="50" ry="18" stroke="rgba(255,255,255,0.06)" strokeWidth=".5" strokeDasharray="3 3"/>
-        <ellipse cx="100" cy="70" rx="70" ry="28" stroke="rgba(255,255,255,0.04)" strokeWidth=".5" strokeDasharray="4 4"/>
-        {[0,72,144,216,288].map((a,i)=>{
-          const r=50, ax=100+r*Math.cos(a*Math.PI/180), ay=70+18*Math.sin(a*Math.PI/180);
-          return (
-            <g key={i}>
-              <line x1="100" y1="70" x2={ax} y2={ay} stroke={o2} strokeWidth=".4" strokeDasharray="2 3"/>
-              <circle cx={ax} cy={ay} r={i===0?6:4} fill={i===0?fill:"rgba(255,255,255,0.04)"}
-                stroke={i===0?o:o2} strokeWidth={i===0?"1":".5"}/>
-            </g>
-          );
-        })}
-        {[["TENANT A",30,30],["TENANT B",150,28],["TENANT C",155,115],["TENANT D",20,112]].map(([l,x,y],i)=>(
-          <text key={i} x={x} y={y} fontSize="7" fill={o2} fontFamily="monospace" opacity=".7">{l as string}</text>
-        ))}
-      </svg>
-    ),
-    app: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        <rect x="68" y="8" width="64" height="124" rx="10" stroke={o} strokeWidth="1" fill="rgba(255,255,255,0.02)"/>
-        <rect x="68" y="8" width="64" height="20" rx="10" fill={fill} stroke={o} strokeWidth=".5"/>
-        <rect x="84" y="12" width="32" height="8" rx="4" fill="rgba(0,0,0,.6)" stroke={o2} strokeWidth=".5"/>
-        <rect x="76" y="34" width="48" height="24" rx="3" fill={fill} stroke={o2} strokeWidth=".5"/>
-        <rect x="76" y="64" width="20" height="14" rx="2" fill="rgba(255,255,255,0.04)" stroke={o2} strokeWidth=".5"/>
-        <rect x="100" y="64" width="24" height="14" rx="2" fill={fill} stroke={o} strokeWidth=".5"/>
-        <rect x="76" y="82" width="48" height="8" rx="2" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)" strokeWidth=".4"/>
-        <rect x="76" y="94" width="30" height="8" rx="2" fill="rgba(255,255,255,0.03)" stroke="rgba(255,255,255,0.05)" strokeWidth=".4"/>
-        <rect x="88" y="118" width="24" height="3" rx="1.5" fill={active?"rgba(255,69,0,0.5)":"rgba(255,255,255,0.1)"}/>
-        <circle cx="40" cy="50" r="16" stroke={o2} strokeWidth=".5" fill="rgba(255,255,255,0.02)" strokeDasharray="2 3"/>
-        <circle cx="160" cy="95" r="12" stroke={o2} strokeWidth=".5" fill="rgba(255,255,255,0.02)" strokeDasharray="2 3"/>
-        <line x1="56" y1="50" x2="68" y2="50" stroke={o2} strokeWidth=".5" strokeDasharray="2 2"/>
-        <line x1="132" y1="88" x2="148" y2="95" stroke={o2} strokeWidth=".5" strokeDasharray="2 2"/>
-      </svg>
-    ),
-    ai: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        {[30,60,90].map((y,i)=>(
-          <circle key={`l1-${i}`} cx="30" cy={y+10} r="8" stroke={o2} strokeWidth=".8" fill={fill}/>
-        ))}
-        {[20,50,80,110].map((y,i)=>(
-          <circle key={`l2-${i}`} cx="85" cy={y+5} r="8" stroke={o} strokeWidth="1" fill={i===1?fill:"rgba(255,255,255,0.02)"}/>
-        ))}
-        {[30,60,90].map((y,i)=>(
-          <circle key={`l3-${i}`} cx="140" cy={y+10} r="8" stroke={o2} strokeWidth=".8" fill={fill}/>
-        ))}
-        <circle cx="178" cy="65" r="10" stroke={o} strokeWidth="1.2" fill={fill}/>
-        {active && <circle cx="178" cy="65" r="10" stroke={P.orange} strokeWidth="1" fill="none" opacity=".3" style={{filter:"blur(4px)"}}/>}
-        {[40,70,100].map((y1,i)=>
-          [25,55,85,115].map((y2,j)=>(
-            <line key={`${i}-${j}`} x1="38" y1={y1} x2="77" y2={y2} stroke="rgba(255,255,255,0.04)" strokeWidth=".4"/>
-          ))
-        )}
-        {[25,55,85,115].map((y1,i)=>
-          [40,70,100].map((y2,j)=>(
-            <line key={`${i}-${j}`} x1="93" y1={y1} x2="132" y2={y2} stroke={i===1?"rgba(255,69,0,0.15)":"rgba(255,255,255,0.04)"} strokeWidth=".4"/>
-          ))
-        )}
-        {[40,70,100].map((y,i)=>(
-          <line key={i} x1="148" y1={y} x2="168" y2="65" stroke={o2} strokeWidth=".5"/>
-        ))}
-        {active && <circle cx="85" cy="55" r="5" fill={P.orange} opacity=".6"/>}
-      </svg>
-    ),
-    site: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        <rect x="10" y="10" width="180" height="120" rx="6" stroke={o} strokeWidth="1" fill="rgba(255,255,255,0.02)"/>
-        <rect x="10" y="10" width="180" height="22" rx="6" fill={fill} stroke={o} strokeWidth=".5"/>
-        {[18,25,32].map((cx,i)=>(
-          <circle key={i} cx={cx} cy="21" r="3" fill={i===0?P.orange+"44":o2}/>
-        ))}
-        <rect x="46" y="15" width="100" height="12" rx="3" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.08)" strokeWidth=".5"/>
-        <rect x="18" y="38" width="120" height="14" rx="2" fill={fill}/>
-        <rect x="18" y="56" width="80" height="8" rx="2" fill="rgba(255,255,255,0.04)"/>
-        <rect x="18" y="68" width="90" height="8" rx="2" fill="rgba(255,255,255,0.03)"/>
-        <rect x="18" y="82" width="50" height="18" rx="4" fill={active?"rgba(255,69,0,0.25)":"rgba(255,255,255,0.05)"} stroke={o} strokeWidth=".8"/>
-        <rect x="148" y="36" width="36" height="52" rx="3" fill="rgba(255,255,255,0.04)" stroke={o2} strokeWidth=".5"/>
-        <text x="156" y="108" fontSize="9" fill={o} fontFamily="monospace" fontWeight="700">+240%</text>
-        <polyline points="148,118 158,112 168,115 178,103" stroke={o} strokeWidth="1" fill="none" strokeLinejoin="round"/>
-      </svg>
-    ),
-    baas: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        {[0,1,2].map(i=>(
-          <g key={i}>
-            <ellipse cx="100" cy={35+i*28} rx="55" ry="14" fill={i===0?fill:"rgba(255,255,255,0.02)"} stroke={i===0?o:o2} strokeWidth={i===0?"1":".5"}/>
-            <rect x="45" y={35+i*28} width="110" height="14" fill={i===0?"rgba(255,69,0,0.06)":"rgba(255,255,255,0.01)"} stroke={i===0?o:o2} strokeWidth={i===0?".8":".4"}/>
-            <ellipse cx="100" cy={49+i*28} rx="55" ry="14" fill="transparent" stroke={i===0?o:o2} strokeWidth={i===0?"1":".5"}/>
-          </g>
-        ))}
-        {active && (
-          <g transform="translate(82,52)">
-            <line x1="0" y1="8" x2="8" y2="0" stroke={P.orange} strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="8" y1="0" x2="16" y2="8" stroke={P.orange} strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="0" y1="8" x2="8" y2="16" stroke={P.orange} strokeWidth="1.5" strokeLinecap="round"/>
-            <line x1="8" y1="16" x2="16" y2="8" stroke={P.orange} strokeWidth="1.5" strokeLinecap="round"/>
-          </g>
-        )}
-        <text x="76" y="126" fontSize="9" fill={o} fontFamily="monospace">99.9% SLA</text>
-        <circle cx="70" cy="123" r="3" fill={active?P.orange:"rgba(192,192,192,0.3)"}/>
-      </svg>
-    ),
-    n8n: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        {[[40,50],[90,35],[90,65],[140,50]].map(([cx,cy],i)=>(
-          <g key={i}>
-            <rect x={cx-14} y={cy-10} width="28" height="20" rx="4" fill={i===1?fill:"rgba(255,255,255,0.02)"} stroke={i===1?o:o2} strokeWidth=".8"/>
-            <line x1={cx+14} y1={cy} x2={cx+26} y2={cy} stroke={o2} strokeWidth=".6" strokeDasharray="2 2"/>
-          </g>
-        ))}
-        <path d="M66 50 L76 50 M76 50 L76 35 L84 35" stroke={o} strokeWidth=".8" fill="none" strokeLinecap="round"/>
-        <path d="M76 50 L76 65 L84 65" stroke={o} strokeWidth=".8" fill="none" strokeLinecap="round"/>
-        <path d="M116 50 L126 50" stroke={o} strokeWidth=".8" fill="none" strokeLinecap="round"/>
-        {active && <circle cx="90" cy="50" r="4" fill={P.orange} opacity=".8"/>}
-      </svg>
-    ),
-    design: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        <rect x="50" y="30" width="100" height="80" rx="6" stroke={o} strokeWidth="1" fill={fill}/>
-        <rect x="58" y="42" width="40" height="8" rx="2" fill="rgba(255,255,255,0.06)" stroke={o2} strokeWidth=".5"/>
-        <rect x="58" y="56" width="60" height="8" rx="2" fill="rgba(255,255,255,0.04)" stroke={o2} strokeWidth=".5"/>
-        <circle cx="75" cy="95" r="6" fill={active?P.orange+"44":"rgba(255,255,255,0.08)"} stroke={o} strokeWidth=".8"/>
-        <circle cx="95" cy="95" r="6" fill={active?P.orangeAlt+"33":"rgba(255,255,255,0.06)"} stroke={o2} strokeWidth=".5"/>
-        <circle cx="115" cy="95" r="6" fill="rgba(255,255,255,0.04)" stroke={o2} strokeWidth=".5"/>
-        <rect x="120" y="38" width="22" height="60" rx="3" fill="rgba(255,255,255,0.03)" stroke={o2} strokeWidth=".5"/>
-        <rect x="128" y="38" width="22" height="45" rx="3" fill={fill} stroke={o} strokeWidth=".5"/>
-      </svg>
-    ),
-    lowcode: (
-      <svg viewBox="0 0 200 140" fill="none" style={{width:"100%",height:"100%"}}>
-        {[[35,40],[75,40],[115,40],[155,40],[55,85],[95,85],[135,85]].map(([x,y],i)=>(
-          <rect key={i} x={x} y={y} width={i<4?"28":"36"} height={i<4?"22":"18"} rx="3"
-            fill={i===2?fill:"rgba(255,255,255,0.03)"} stroke={i===2?o:o2} strokeWidth={i===2?"1":".5"}/>
-        ))}
-        <line x1="63" y1="62" x2="73" y2="75" stroke={o2} strokeWidth=".5"/>
-        <line x1="103" y1="62" x2="103" y2="75" stroke={o2} strokeWidth=".5"/>
-        <line x1="143" y1="62" x2="133" y2="75" stroke={o2} strokeWidth=".5"/>
-        {active && <rect x="113" y="38" width="28" height="22" rx="3" fill="none" stroke={P.orange} strokeWidth="1.2" strokeDasharray="3 2"/>}
-      </svg>
-    ),
-  };
-
-  return map[type] || map.site;
-}
 
 /* ─── ANIMATED RESULT NUMBER ─────────────────── */
 function AnimResult({ value, label, active }: { value: string; label: string; active: boolean }) {
@@ -362,8 +184,16 @@ export function CasesSection() {
   const [active,  setActive]  = useState(0);
   const [entered, setEntered] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
+  const [caseVariant, setCaseVariant] = useState(0);
+  const [previewFading, setPreviewFading] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const previewScrollRef = useRef<HTMLDivElement>(null);
   const c = CASES[active];
+  const variantCount = CASE_PREVIEWS[c.visual]?.length ?? 2;
+
+  useEffect(() => {
+    if (caseVariant >= variantCount) setCaseVariant(0);
+  }, [variantCount, caseVariant]);
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -382,6 +212,10 @@ export function CasesSection() {
       @keyframes fadeSlideIn { from{opacity:0;transform:translateX(20px)} to{opacity:1;transform:translateX(0)} }
       @keyframes orb      { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-15px,-20px) scale(1.05)} }
 
+      .case-preview-scroll::-webkit-scrollbar { width: 8px; }
+      .case-preview-scroll::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); border-radius: 4px; }
+      .case-preview-scroll::-webkit-scrollbar-thumb { background: rgba(255,69,0,0.4); border-radius: 4px; }
+      .case-preview-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,69,0,0.6); }
     `;
     document.head.appendChild(s);
 
@@ -391,12 +225,23 @@ export function CasesSection() {
 
   const changeCase = useCallback((idx: number) => {
     if (idx === active || transitioning) return;
+    setCaseVariant(0);
     setTransitioning(true);
     setTimeout(() => {
       setActive(idx);
       setTimeout(() => setTransitioning(false), 400);
     }, 160);
   }, [active, transitioning]);
+
+  const switchVariant = useCallback((v: number) => {
+    if (v === caseVariant || v < 0 || v >= variantCount) return;
+    setPreviewFading(true);
+    setTimeout(() => {
+      setCaseVariant(v);
+      if (previewScrollRef.current) previewScrollRef.current.scrollTop = 0;
+      setTimeout(() => setPreviewFading(false), 50);
+    }, 150);
+  }, [caseVariant, variantCount]);
 
   return (
     <section
@@ -417,7 +262,7 @@ export function CasesSection() {
       <div style={{ position:"absolute", top:0, left:0, right:0, height:"1px", background:`linear-gradient(90deg,transparent,${P.orange}33,${P.orange}66,${P.orange}33,transparent)` }}/>
       <div style={{ position:"absolute", bottom:0, left:0, right:0, height:"1px", background:`linear-gradient(90deg,transparent,rgba(255,255,255,0.07),transparent)` }}/>
 
-      <div style={{ maxWidth:"1280px", margin:"0 auto", padding:"80px 48px", width:"100%", position:"relative", zIndex:1 }}>
+      <div className="cases-section-inner">
 
         {/* ══ HEADER ══ */}
         <div style={{
@@ -464,7 +309,7 @@ export function CasesSection() {
         </div>
 
         {/* ══ MAIN: LEFT LIST + RIGHT STAGE ══ */}
-        <div style={{ display:"grid", gridTemplateColumns:"400px 1fr", gap:"48px", alignItems:"start" }}>
+        <div className="cases-main-grid">
 
           {/* ─── LEFT: NUMBERED LIST ─── */}
           <div style={{ position:"relative" }}>
@@ -583,54 +428,52 @@ export function CasesSection() {
               transform: transitioning ? "translateY(8px)" : "translateY(0)",
               transition:"opacity .3s ease, transform .3s ease",
             }}>
-              <div style={{
-                height:"240px",
-                background:`linear-gradient(135deg,rgba(255,255,255,0.02),rgba(255,69,0,0.04))`,
-                borderBottom:`1px solid rgba(255,255,255,0.05)`,
-                position:"relative",
-                display:"flex",
-                alignItems:"center",
-                justifyContent:"center",
-                padding:"24px 40px",
-                overflow:"hidden",
-              }}>
-
+              {/* ─── PREVIEW MODE: scrollable case preview (sempre visível) ─── */}
+              <div
+                ref={previewScrollRef}
+                className="case-preview-scroll"
+                style={{
+                  height:"420px",
+                  overflowY:"auto",
+                  overflowX:"hidden",
+                  position:"relative",
+                  borderBottom:`1px solid rgba(255,255,255,0.05)`,
+                  scrollbarWidth:"thin",
+                  scrollbarColor:"rgba(255,69,0,0.3) transparent",
+                }}
+              >
+                {/* Sticky top bar: category badge + variant indicator */}
                 <div style={{
-                  position:"absolute", right:"24px", bottom:"-20px",
-                  fontFamily:"'Instrument Serif',serif",
-                  fontSize:"120px", fontStyle:"italic",
-                  fontWeight:"400", lineHeight:1,
-                  color:P.cream, opacity:.04,
-                  pointerEvents:"none", userSelect:"none",
-                  transition:"opacity .5s ease",
-                }}>{c.num}</div>
-
-                <div
-                  key={active}
-                  style={{
-                    width:"220px", height:"150px",
-                    position:"relative", zIndex:1,
-                    animation:"fadeSlideIn .5s ease both",
-                  }}
-                >
-                  <Visual type={c.visual} active={!transitioning} />
+                  position:"sticky", top:0, zIndex:5,
+                  display:"flex", justifyContent:"space-between", alignItems:"center",
+                  padding:"6px 12px",
+                  background:"rgba(0,0,0,0.7)",
+                  backdropFilter:"blur(8px)",
+                  WebkitBackdropFilter:"blur(8px)",
+                  borderBottom:"1px solid rgba(255,255,255,0.06)",
+                }}>
+                  <span style={{
+                    fontFamily:"'Space Mono',monospace",
+                    fontSize:"8px", letterSpacing:"2px", textTransform:"uppercase",
+                    color:P.orange,
+                    background:"rgba(255,69,0,0.12)",
+                    border:"1px solid rgba(255,69,0,0.2)",
+                    padding:"2px 8px", borderRadius:"100px",
+                  }}>{c.cat}</span>
+                  <span style={{
+                    fontFamily:"'Space Mono',monospace",
+                    fontSize:"8px", letterSpacing:"1px",
+                    color:"rgba(255,255,255,0.4)",
+                  }}>{caseVariant + 1}/{variantCount}</span>
                 </div>
 
+                {/* Preview content with fade transition */}
                 <div style={{
-                  position:"absolute", top:"16px", right:"16px",
-                  fontFamily:"'Space Mono',monospace",
-                  fontSize:"9px", letterSpacing:"3px", textTransform:"uppercase",
-                  color:P.orange,
-                  background:"rgba(255,69,0,0.1)",
-                  border:"1px solid rgba(255,69,0,0.25)",
-                  padding:"4px 12px", borderRadius:"100px",
-                }}>{c.cat}</div>
-
-                <div style={{
-                  position:"absolute", top:"18px", left:"20px",
-                  fontFamily:"'Space Mono',monospace", fontSize:"10px",
-                  color:"rgba(255,255,255,0.2)", letterSpacing:"2px",
-                }}>{c.num}</div>
+                  opacity: previewFading ? 0 : 1,
+                  transition:"opacity .15s ease",
+                }}>
+                  <CasePreviewRenderer caseType={c.visual} variant={caseVariant} />
+                </div>
               </div>
 
               <div style={{ padding:"32px 36px", flex:1, display:"flex", flexDirection:"column" }}>
@@ -678,27 +521,24 @@ export function CasesSection() {
                     ))}
                   </div>
 
-                  <div style={{ display:"flex", gap:"8px" }}>
-                    {[
-                      { label:"←", action:()=>changeCase((active-1+CASES.length)%CASES.length) },
-                      { label:"→", action:()=>changeCase((active+1)%CASES.length) },
-                    ].map(({ label, action },i)=>(
-                      <button key={i} onClick={action} style={{
-                        width:"36px", height:"36px", borderRadius:"50%",
-                        background:"rgba(255,255,255,0.04)",
-                        border:"1px solid rgba(255,255,255,0.1)",
-                        color:"rgba(255,255,255,0.5)",
-                        fontSize:"14px", cursor:"pointer",
-                        display:"flex", alignItems:"center", justifyContent:"center",
-                        transition:"all .3s ease",
-                        fontFamily:"inherit",
-                      }}
-                        onMouseEnter={e=>{e.currentTarget.style.borderColor=P.orange;e.currentTarget.style.color=P.orange;e.currentTarget.style.background="rgba(255,69,0,0.08)";}}
-                        onMouseLeave={e=>{e.currentTarget.style.borderColor="rgba(255,255,255,0.1)";e.currentTarget.style.color="rgba(255,255,255,0.5)";e.currentTarget.style.background="rgba(255,255,255,0.04)";}}
-                      >{label}</button>
-                    ))}
-
-                    <LiquidMetalButton label="Ver case ↗" to="/cases" size="compact" />
+                  <div style={{ display:"flex", gap:"8px", alignItems:"center" }}>
+                    <span style={{
+                      fontFamily:"'Space Mono',monospace",
+                      fontSize:"9px", color:"rgba(255,255,255,0.35)",
+                      letterSpacing:"1px", padding:"0 2px",
+                    }}>{caseVariant + 1}/{variantCount}</span>
+                    <LiquidMetalIconButton
+                      label="←"
+                      onClick={()=>switchVariant((caseVariant - 1 + variantCount) % variantCount)}
+                      disabled={caseVariant === 0}
+                      highlighted={caseVariant === 0}
+                    />
+                    <LiquidMetalIconButton
+                      label="→"
+                      onClick={()=>switchVariant((caseVariant + 1) % variantCount)}
+                      disabled={caseVariant === variantCount - 1}
+                      highlighted={caseVariant === variantCount - 1}
+                    />
                   </div>
                 </div>
               </div>

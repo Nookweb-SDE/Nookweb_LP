@@ -76,11 +76,22 @@ export function Navbar() {
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm font-sans transition-colors duration-300 ${
-                textLight ? 'text-white/80 hover:text-white' : 'text-heavy/80 hover:text-heavy'
+              className={`group relative text-sm font-sans ${
+                textLight ? 'text-white/80' : 'text-heavy/80'
               }`}
             >
-              {link.label}
+              <span className="nav-link-text inline-block">
+                {link.label}
+              </span>
+              <motion.span
+                className="absolute left-0 bottom-0 h-[2px] w-full block origin-left"
+                style={{
+                  background: textLight ? 'var(--hero-orange, #FF4500)' : 'var(--accent-primary, currentColor)',
+                }}
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+              />
             </Link>
           ))}
           <LiquidMetalButton label="Iniciar Projeto" to="/contato" />
