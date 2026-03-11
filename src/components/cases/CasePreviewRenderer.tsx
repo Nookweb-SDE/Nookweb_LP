@@ -36,6 +36,7 @@ import QuickMarketPreview from "./previews/QuickMarketPreview";
 import ValidaKitPreview from "./previews/ValidaKitPreview";
 import SmartDeskPreview from "./previews/SmartDeskPreview";
 import InsightAIPreview from "./previews/InsightAIPreview";
+import IACorporativaPreview from "./previews/IACorporativaPreview";
 
 interface Props {
   caseType: string;   // "site" | "app" | "saas" | "baas" | "n8n" | "design" | "lowcode" | "ai"
@@ -89,6 +90,7 @@ export function CasePreviewRenderer({ caseType, variant }: Props) {
   // IA (08)
   if (data.id === "ai-a") return <SmartDeskPreview />;
   if (data.id === "ai-b") return <InsightAIPreview />;
+  if (data.id === "ai-corporativa") return <IACorporativaPreview />;
 
   // Generic fallbacks
   switch (data.template) {

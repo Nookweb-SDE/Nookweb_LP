@@ -106,11 +106,11 @@ const CASES = [
   },
   {
     id: 8, num: "08", cat: "IA",
-    title: "IA Integrada",
-    tagline: "Chatbot + análise preditiva",
-    result: "−70%",  resultLabel: "Tickets manuais",
-    desc: "Tipo: pipeline de IA no CRM — triagem de leads, atendimento automatizado e relatórios gerados por LLM em tempo real.",
-    tags: ["Claude API", "N8N", "Python", "Webhooks"],
+    title: "IA Corporativa Local",
+    tagline: "On-premise · RAG · Self-service",
+    result: "0%",   resultLabel: "Dado sensível em cloud",
+    desc: "IA generativa dentro da empresa: LLM local (Ollama), base de conhecimento própria com RAG, relatórios em português que viram SQL e dashboard. Privacidade e controle operacional totais.",
+    tags: ["Ollama", "RAG", "Supabase", "LangChain"],
     visual: "ai",
   },
 ];

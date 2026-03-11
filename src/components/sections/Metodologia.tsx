@@ -13,7 +13,7 @@ const features = [
 
 export function Metodologia() {
   return (
-    <section className="py-24 bg-pure-warm/50">
+    <section id="como-funciona" className="py-24 bg-pure-warm/50">
       <Container>
         <SectionHeader
           label="Metodologia"

@@ -266,7 +266,7 @@ const SERVICES = [
   { id: 4, number: '04', icon: ICONS.cloud, shape: 'ring' as const, title: 'SaaS / BaaS / CaaS', subtitle: 'Plataformas Escaláveis', description: 'Plataformas multi-tenant com recorrência e APIs robustas para crescimento exponencial.', tags: ['Multi-tenant', 'API', 'Cloud', 'Scale'] },
   { id: 5, number: '05', icon: ICONS.erp, shape: 'sphere' as const, title: 'ERP / CRM', subtitle: 'Gestão Integrada', description: 'Sistemas de gestão, pipelines de venda e automação de processos para máxima eficiência.', tags: ['Automação', 'Pipeline', 'BI', 'Workflows'] },
   { id: 6, number: '06', icon: ICONS.api, shape: 'ring' as const, title: 'Integrações & API', subtitle: 'Conexão Total', description: 'Webhooks, ETL, middleware e orquestração de dados em tempo real.', tags: ['REST', 'GraphQL', 'Webhooks', 'ETL'] },
-  { id: 7, number: '07', icon: ICONS.ai, shape: 'gem' as const, title: 'Inteligência Artificial', subtitle: 'IA Aplicada', description: 'Chatbots, análise preditiva e soluções customizadas com modelos de IA de ponta.', tags: ['LLM', 'NLP', 'Visão', 'Automação'] },
+  { id: 7, number: '07', icon: ICONS.ai, shape: 'gem' as const, title: 'IA Corporativa Local', subtitle: 'Privacidade & Controle', description: 'IA generativa dentro da sua empresa: LLM on-premise, RAG com sua base de conhecimento, relatórios self-service em português e chat corporativo com fontes citadas. Zero dado sensível em cloud externo — operação sob seu controle.', tags: ['On-premise', 'RAG', 'Ollama', 'Self-service'] },
 ]
 
 /* ════════════════════════════════
@@ -430,7 +430,7 @@ export function ServicosSection() {
             transition: 'all .8s ease .45s',
           }}
         >
-          7 categorias cobrindo toda a jornada digital do seu negócio.
+          7 categorias: do site à IA corporativa local, cobrindo toda a jornada digital do seu negócio.
         </p>
 
         <div style={{ maxWidth: 200, margin: '20px auto 0', opacity: entered ? 1 : 0, transition: 'opacity 1s ease .65s' }}>

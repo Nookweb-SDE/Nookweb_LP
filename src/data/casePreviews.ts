@@ -440,5 +440,13 @@ export const CASE_PREVIEWS: CasePreviewMap = {
         { type: "chart", title: "Previsão de Leads — 7 dias", chartType: "line", data: [32, 38, 42, 35, 45, 48, 52], labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"] },
       ],
     },
+    {
+      id: "ai-corporativa",
+      clientName: "IA Corporativa Local",
+      clientTagline: "On-premise · RAG · Relatórios self-service",
+      template: "dashboard",
+      palette: { bg: "#0a0e14", accent: "#FF4500", accentSoft: "rgba(255,69,0,0.12)", text: "#F5F0E8", textMuted: "#94A3B8", card: "#141414", border: "rgba(255,255,255,0.06)" },
+      sections: [],
+    },
   ],
 };

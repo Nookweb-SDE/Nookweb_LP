@@ -58,10 +58,10 @@ export const services: Service[] = [
   {
     id: '7',
     slug: 'inteligencia-artificial',
-    name: 'Inteligência Artificial',
-    description: 'Chatbots, análise preditiva, automação com IA, dashboards inteligentes, NLP.',
+    name: 'IA Corporativa & Inteligência Artificial',
+    description: 'IA generativa dentro da sua empresa: modelos on-premise, RAG com base de conhecimento própria, relatórios self-service em linguagem natural e chatbots corporativos. Sem expor dados confidenciais na nuvem — operação sob seu controle, com privacidade e governança.',
     icon: '🤖',
-    features: ['Chatbots', 'Análise preditiva', 'Automação IA', 'NLP'],
-    stack: ['OpenAI', 'Claude', 'Custom'],
+    features: ['IA Corporativa Local (LLM on-premise)', 'RAG com documentos internos', 'Relatórios em português → SQL/dashboard', 'Chat corporativo com fontes citadas', 'Zero dado sensível em cloud externo'],
+    stack: ['Ollama', 'LangChain', 'Supabase', 'Open WebUI', 'N8N', 'Docker'],
   },
 ]
