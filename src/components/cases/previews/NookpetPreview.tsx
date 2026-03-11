@@ -3,7 +3,6 @@
  * Baseado na pasta Nookpet (área de trabalho). Apenas front, enquadramento perfeito.
  */
 
-import React from "react";
 import { Search, MapPin, ChevronDown, Star, Shield, Clock, PawPrint, Home, Building2, Footprints, Award, Scissors, Stethoscope, ShoppingBag, Heart } from "lucide-react";
 
 const PURPLE = "#5C2D91";

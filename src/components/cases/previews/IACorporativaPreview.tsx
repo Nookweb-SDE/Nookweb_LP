@@ -3,8 +3,7 @@
  * Paleta Nookweb: laranja (#FF4500), prata, fundo escuro, cream.
  */
 
-import React from "react";
-import { Cpu, FileText, BarChart3, Shield, Server, Database } from "lucide-react";
+import { FileText, BarChart3, Server } from "lucide-react";
 
 const ORANGE = "#FF4500";
 const ORANGE_ALT = "#FF6D00";
