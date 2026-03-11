@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/monosphera-dashboard", "destination": "/monosphera-dashboard/index.html" },
+    { "source": "/monosphera-dashboard/dashboard-preview", "destination": "/monosphera-dashboard/index.html" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

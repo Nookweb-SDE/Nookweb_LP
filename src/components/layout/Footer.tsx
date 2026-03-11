@@ -96,10 +96,11 @@ export function Footer() {
 
       {/* ── CTA Block: "Pronto para construir?" ── */}
       <div
+        className="footer-cta-block"
         style={{
           maxWidth: '1280px',
           margin: '0 auto',
-          padding: '80px 24px 64px',
+          padding: '40px 16px 32px',
           textAlign: 'center',
         }}
       >
@@ -194,13 +195,7 @@ export function Footer() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.35 }}
-          style={{
-            display: 'flex',
-            justifyContent: 'center',
-            gap: '48px',
-            marginTop: '48px',
-            flexWrap: 'wrap',
-          }}
+          className="flex justify-center gap-6 sm:gap-10 md:gap-12 lg:gap-16 mt-8 sm:mt-10 md:mt-12 flex-wrap"
         >
           {STATS.map(({ value, label }) => (
             <div
@@ -242,7 +237,7 @@ export function Footer() {
 
       {/* ── Grid: Logo | Nav | Contato ── */}
       <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12 max-w-[1280px] mx-auto px-6 pb-12 pt-16"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12 max-w-[1280px] mx-auto px-4 sm:px-6 pb-8 sm:pb-12 pt-10 sm:pt-16"
         style={{ borderTop: `1px solid ${P.border}` }}
       >
         {/* Col 1: Logo + desc */}
@@ -407,10 +402,10 @@ export function Footer() {
       <div
         style={{
           borderTop: `1px solid ${P.border}`,
-          padding: '24px 24px 32px',
+          padding: '20px 16px 24px',
         }}
       >
-        <div className="max-w-[1280px] mx-auto flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 text-center sm:text-left">
+        <div className="max-w-[1280px] mx-auto flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 text-center sm:text-left px-4 sm:px-6">
           <p
             style={{
               fontSize: '12px',

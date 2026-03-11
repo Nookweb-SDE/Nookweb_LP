@@ -21,7 +21,7 @@ export function BlogPost() {
 
   if (!post) {
     return (
-      <main className="py-20 text-center">
+      <main className="py-12 sm:py-20 text-center px-4">
         <p>Post não encontrado.</p>
         <Link to="/blog">Voltar ao blog</Link>
       </main>
@@ -29,12 +29,12 @@ export function BlogPost() {
   }
 
   return (
-    <main className="py-20">
+    <main className="py-12 sm:py-16 md:py-20">
       <Container>
-        <article className="max-w-3xl">
+        <article className="max-w-3xl w-full overflow-x-hidden">
           <Link to="/blog" className="text-accent hover:underline">← Blog</Link>
-          <span className="ml-4 font-mono text-sm text-neutral">{post.date}</span>
-          <h1 className="mt-4 font-display text-4xl text-heavy">{post.title}</h1>
+          <span className="ml-2 sm:ml-4 font-mono text-sm text-neutral">{post.date}</span>
+          <h1 className="mt-4 font-display text-2xl sm:text-3xl md:text-4xl text-heavy">{post.title}</h1>
           <div className="prose prose-lg mt-8 text-neutral">
             <ReactMarkdown>{post.body}</ReactMarkdown>
           </div>

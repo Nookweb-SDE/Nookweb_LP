@@ -1,8 +1,9 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { Navbar } from './components/layout/Navbar'
 import { Footer } from './components/layout/Footer'
 import { Home } from './pages/Home'
+import SuperAdminMonospheraCopy from './superadmin-monosphera/SuperAdminApp'
 import { ServicosIndex } from './pages/ServicosIndex'
 import { ServicoDetalhe } from './pages/ServicoDetalhe'
 import { CasesIndex } from './pages/CasesIndex'
@@ -16,15 +17,19 @@ import { Termos } from './pages/Termos'
 import { NotFound } from './pages/NotFound'
 
 export default function App() {
+  const location = useLocation()
+  const isSuperAdminPreview = location.pathname.startsWith('/superadmin-preview')
+
   return (
     <>
       <Helmet>
         <title>Nookweb — Holding Digital | Sistema Certo, Na Hora Certa</title>
         <meta name="description" content="Apps inteligentes até 90% mais barato e 10x mais rápido. Sites, E-commerce, SaaS, ERP, IA." />
       </Helmet>
-      <Navbar />
-      <div className="min-h-screen flex flex-col">
+      {!isSuperAdminPreview && <Navbar />}
+      <div className="min-h-screen min-h-[100dvh] flex flex-col main-safe-top">
         <Routes>
+          <Route path="/superadmin-preview/*" element={<SuperAdminMonospheraCopy />} />
           <Route path="/" element={<Home />} />
           <Route path="/servicos" element={<ServicosIndex />} />
           <Route path="/servicos/:slug" element={<ServicoDetalhe />} />
@@ -39,7 +44,7 @@ export default function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </div>
-      <Footer />
+      {!isSuperAdminPreview && <Footer />}
     </>
   )
 }

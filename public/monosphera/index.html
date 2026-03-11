@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="./vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monosphera v2.0 - War Room</title>
+    <base href="/monosphera/" />
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+    <script type="module" crossorigin src="./assets/index-CdEDNG_G.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-C8Topkm4.css">
+    <style>
+      /* Preview overrides — navbar menor para caber no painel */
+      nav.fixed .text-xl { font-size: 13px !important; letter-spacing: 0.08em !important; }
+      nav.fixed .gap-6 { gap: 0.6rem !important; }
+      nav.fixed .text-sm { font-size: 10px !important; }
+      nav.fixed .px-5 { padding-left: 0.6rem !important; padding-right: 0.6rem !important; }
+      nav.fixed .py-2 { padding-top: 0.3rem !important; padding-bottom: 0.3rem !important; }
+      nav.fixed .h-16 { height: 2.5rem !important; }
+      nav.fixed .md\:h-20 { height: 2.5rem !important; }
+      nav.fixed .gap-3 { gap: 0.4rem !important; }
+
+      /* Força layout desktop — esconde hamburger, mostra links sempre */
+      nav.fixed .md\:flex  { display: flex !important; }
+      nav.fixed .hidden.md\:flex { display: flex !important; }
+      nav.fixed .md\:hidden { display: none !important; }
+
+      /* Compacta os itens de nav para caber em painel estreito */
+      nav.fixed .max-w-7xl { max-width: 100% !important; padding-left: 10px !important; padding-right: 10px !important; }
+      nav.fixed .sm\:px-6, nav.fixed .lg\:px-8 { padding-left: 10px !important; padding-right: 10px !important; }
+    </style>
+  </head>
+  <body class="bg-aegis-900 text-white">
+    <div id="root"></div>
+
+    <script>
+      /* ── Mapa i18n → código GT ── */
+      var _gtMap = {
+        'en-US':'en','pt-BR':'pt','pt-PT':'pt',
+        'es-ES':'es','fr-FR':'fr','de-DE':'de',
+        'it-IT':'it','ru-RU':'ru','zh-CN':'zh-CN',
+        'ja-JP':'ja','ko-KR':'ko','ar-SA':'ar',
+        'hi-IN':'hi','id-ID':'id','tr-TR':'tr',
+        'pl-PL':'pl','nl-NL':'nl','sv-SE':'sv',
+        'th-TH':'th','vi-VN':'vi'
+      };
+
+      /* ── 1. Bloqueia detecção automática por IP ── */
+      var _origFetch = window.fetch;
+      window.fetch = function(url) {
+        if (typeof url === 'string' && url.indexOf('cloudflare.com/cdn-cgi/trace') !== -1)
+          return Promise.reject(new Error('blocked'));
+        return _origFetch.apply(this, arguments);
+      };
+
+      /* ── 2. Determina idioma ativo ── */
+      // Só usa preferência salva se o USUÁRIO escolheu manualmente
+      var _manual = localStorage.getItem('mono_manual') === '1';
+      var _lang   = _manual ? (localStorage.getItem('monosphera_language') || 'en-US') : 'en-US';
+      var _gtLang = _gtMap[_lang] || 'en';
+
+      // Sincroniza com o que o app vai ler
+      localStorage.setItem('monosphera_language', _lang);
+
+      /* ── 3. Intercepta seleção de idioma pelo usuário ── */
+      var _orig = localStorage.setItem.bind(localStorage);
+      localStorage.setItem = function(k, v) {
+        _orig(k, v);
+        if (k === 'monosphera_language') {
+          _orig('mono_manual', '1');
+          _gtLang = _gtMap[v] || 'en';
+          // Aplica via combo do widget (sem reload se já estiver no idioma certo)
+          applyGTLang(_gtLang);
+        }
+      };
+
+      /* ── 4. Aplica tradução via API do widget ── */
+      function applyGTLang(lang, attempts) {
+        attempts = attempts || 0;
+        var sel = document.querySelector('.goog-te-combo');
+        if (sel) {
+          if (lang === 'pt') {
+            // Restaura original
+            if (window.google && google.translate && google.translate.TranslateElement) {
+              google.translate.TranslateElement.getInstance() &&
+              google.translate.TranslateElement.getInstance().restore &&
+              google.translate.TranslateElement.getInstance().restore();
+            }
+            sel.value = '';
+            sel.dispatchEvent(new Event('change'));
+          } else {
+            sel.value = lang;
+            sel.dispatchEvent(new Event('change'));
+          }
+        } else if (attempts < 20) {
+          setTimeout(function(){ applyGTLang(lang, attempts + 1); }, 300);
+        }
+      }
+
+      /* ── 5. Inicializa widget GT e aplica idioma ── */
+      window.googleTranslateElementInit = function() {
+        new google.translate.TranslateElement({
+          pageLanguage: 'pt',
+          autoDisplay:  false
+        }, 'gt-el');
+
+        // Espera o widget montar o combo e aplica o idioma ativo
+        if (_gtLang !== 'pt') {
+          applyGTLang(_gtLang);
+        }
+      };
+
+      /* ── 6. Protege nome "MONOSPHERA" da tradução ── */
+      function protectBrand() {
+        var all = document.querySelectorAll('*');
+        for (var i = 0; i < all.length; i++) {
+          var el = all[i];
+          if (el.childNodes.length === 1 && el.childNodes[0].nodeType === 3) {
+            if (/monosphera/i.test(el.textContent)) {
+              el.setAttribute('translate', 'no');
+              el.classList.add('notranslate');
+            }
+          }
+        }
+      }
+      document.addEventListener('DOMContentLoaded', function() {
+        protectBrand();
+        new MutationObserver(protectBrand).observe(document.body, { childList:true, subtree:true });
+      });
+    </script>
+
+    <div id="gt-el" style="display:none;position:absolute;left:-9999px"></div>
+    <script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+    <style>
+      /* Oculta a barra visível do GT mas mantém o widget funcional */
+      .goog-te-banner-frame        { display:none !important; }
+      #gt-el .skiptranslate        { visibility:hidden; height:0; overflow:hidden; }
+      body                         { top:0 !important; }
+      /* Esconde apenas o gadget visual no topo da página */
+      body > .skiptranslate:first-of-type { display:none !important; }
+    </style>
+  </body>
+</html>

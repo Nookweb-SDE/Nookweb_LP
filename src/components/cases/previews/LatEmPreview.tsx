@@ -249,7 +249,7 @@ export default function LatEmPreview() {
             <img
               src="/latem-mascot.png"
               alt="TheTeo"
-              style={{ position:"absolute", bottom:"-10px", right:"0", width:"130px", objectFit:"contain", dropShadow:"drop-shadow(0 4px 12px rgba(0,0,0,0.4))", zIndex:0, pointerEvents:"none", opacity:0.92 }}
+              style={{ position:"absolute", bottom:"-10px", right:"0", width:"130px", objectFit:"contain", filter:"drop-shadow(0 4px 12px rgba(0,0,0,0.4))", zIndex:0, pointerEvents:"none", opacity:0.92 }}
             />
 
             <div style={{ position:"relative", zIndex:1, maxWidth:"72%" }}>

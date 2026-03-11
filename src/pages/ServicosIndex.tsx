@@ -5,14 +5,14 @@ import { services } from '@/data/services'
 
 export function ServicosIndex() {
   return (
-    <main className="pt-24 pb-20">
+    <main className="pt-20 sm:pt-24 pb-12 sm:pb-20">
       <Container>
         <SectionHeader
           label="Serviços"
           title="7 formas de transformar seu negócio"
           subtitle="Clique em cada serviço para ver detalhes, stack e cases."
         />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
           {services.map((s) => (
             <Link
               key={s.id}

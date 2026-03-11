@@ -35,3 +35,5 @@ Thumbs.db
 
 # Puppeteer / Chromium (em public/sites)
 public/sites/node_modules/
+
+.vercel

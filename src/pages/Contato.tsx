@@ -41,10 +41,10 @@ export function Contato() {
 
   if (sent) {
     return (
-      <main className="py-20">
+      <main className="py-12 sm:py-16 md:py-20">
         <Container>
-          <div className="max-w-xl mx-auto text-center">
-            <h1 className="font-display text-3xl text-heavy">Mensagem enviada!</h1>
+          <div className="max-w-xl mx-auto text-center px-2">
+            <h1 className="font-display text-2xl sm:text-3xl text-heavy">Mensagem enviada!</h1>
             <p className="mt-4 text-neutral">Em breve entraremos em contato.</p>
           </div>
         </Container>
@@ -60,7 +60,7 @@ export function Contato() {
           title="Fale conosco"
           subtitle="Preencha o formulário e retornaremos em breve."
         />
-        <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl space-y-4">
+        <form onSubmit={handleSubmit(onSubmit)} className="mx-auto max-w-xl space-y-4 w-full">
           {error && <p className="text-accent-danger">{error}</p>}
           <div>
             <label className="block font-mono text-sm text-heavy">Nome *</label>

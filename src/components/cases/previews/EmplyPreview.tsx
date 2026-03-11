@@ -740,7 +740,7 @@ function CobrancasScreen() {
             </tr>
           </thead>
           <tbody>
-            {recentCharges.map((c, i) => (
+            {recentCharges.map((c) => (
               <tr key={c.id} style={{ borderTop: `1px solid ${T.borderLight}` }}>
                 <td style={{ padding: "7px 10px", fontSize: "8px", color: T.textMuted, fontFamily: "monospace" }}>{c.id}</td>
                 <td style={{ padding: "7px 10px", fontSize: "9px", fontWeight: 600, color: T.heading }}>{c.description}</td>

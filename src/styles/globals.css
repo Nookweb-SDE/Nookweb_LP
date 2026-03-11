@@ -454,3 +454,55 @@ video {
     padding: 80px 28px;
   }
 }
+
+/* ═══ Responsivo global: Footer CTA, marquee, containers ═══ */
+.footer-cta-block {
+  padding: 40px 16px 32px !important;
+}
+@media (min-width: 640px) {
+  .footer-cta-block {
+    padding: 56px 24px 48px !important;
+  }
+}
+@media (min-width: 1024px) {
+  .footer-cta-block {
+    padding: 80px 24px 64px !important;
+  }
+}
+
+.footer-marquee-wrapper {
+  padding: 24px 0 !important;
+}
+@media (min-width: 640px) {
+  .footer-marquee-wrapper {
+    padding: 32px 0 !important;
+  }
+}
+
+/* Stats cards: em telas muito pequenas permitir que o card não force 340px */
+@media (max-width: 380px) {
+  .stats-cards-grid {
+    grid-template-columns: 1fr;
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+  .stats-card-wrapper,
+  .stats-card {
+    min-width: 0;
+    max-width: 100%;
+    width: 100%;
+  }
+}
+
+/* Safe area: header fixo respeita notch; conteúdo principal também */
+.navbar-safe-top {
+  padding-top: env(safe-area-inset-top, 0);
+}
+.main-safe-top {
+  padding-top: calc(3.5rem + env(safe-area-inset-top, 0));
+}
+@media (min-width: 640px) {
+  .main-safe-top {
+    padding-top: calc(4rem + env(safe-area-inset-top, 0));
+  }
+}

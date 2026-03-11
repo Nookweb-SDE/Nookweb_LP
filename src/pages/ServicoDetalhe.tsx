@@ -9,7 +9,7 @@ export function ServicoDetalhe() {
 
   if (!service) {
     return (
-      <main className="pt-24 pb-20 text-center">
+      <main className="pt-20 sm:pt-24 pb-12 sm:pb-20 text-center px-4">
         <p>Serviço não encontrado.</p>
         <Link to="/servicos">Voltar aos serviços</Link>
       </main>
@@ -17,13 +17,13 @@ export function ServicoDetalhe() {
   }
 
   return (
-    <main className="pt-24 pb-20">
+    <main className="pt-20 sm:pt-24 pb-12 sm:pb-20">
       <Container>
-        <div className="max-w-3xl">
+        <div className="max-w-3xl w-full">
           {service.stack && service.stack.length > 0 && (
             <span className="font-mono text-sm text-accent-primary">{service.stack.join(' • ')}</span>
           )}
-          <h1 className="mt-2 font-display text-4xl text-heavy md:text-5xl">{service.name}</h1>
+          <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-5xl text-heavy">{service.name}</h1>
           <p className="mt-6 text-lg text-neutral">{service.description}</p>
           {service.features && service.features.length > 0 && (
             <ul className="mt-4 list-disc list-inside text-neutral">

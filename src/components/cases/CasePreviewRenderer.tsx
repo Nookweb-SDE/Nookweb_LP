@@ -12,7 +12,8 @@ import LatEmPreview from "./previews/LatEmPreview";
 import ContPixPreview from "./previews/ContPixPreview";
 import GrupoWR2Preview from "./previews/GrupoWR2Preview";
 import RevivazIframePreview from "./previews/RevivazIframePreview";
-import OnlyCaesPreview from "./previews/OnlyCaesPreview";
+import NookpetPreview from "./previews/NookpetPreview";
+import MonospheraDashboardPreview from "./previews/MonospheraDashboardPreview";
 import { FoodieWagonPreview } from "./previews/FoodieWagonPreview";
 import { MinimalAnimatedHeroPreview } from "./previews/MinimalAnimatedHeroPreview";
 import { AppPreview } from "./previews/AppPreview";
@@ -22,7 +23,6 @@ import { DashboardPreview } from "./previews/DashboardPreview";
 import { DesignShowcasePreview } from "./previews/DesignShowcasePreview";
 
 // Verticals 03–08 custom previews
-import RevivazPreview from "./previews/RevivazPreview";
 import NookleadCRMPreview from "./previews/NookleadCRMPreview";
 import MetricFlowPreview from "./previews/MetricFlowPreview";
 import EmplyPreview from "./previews/EmplyPreview";
@@ -64,8 +64,10 @@ export function CasePreviewRenderer({ caseType, variant }: Props) {
 
   // SaaS (03)
   if (data.id === "saas-nooklead-crm") return <NookleadCRMPreview />;
-  if (data.id === "saas-onlycaes") return <OnlyCaesPreview />;
+  if (data.id === "saas-nookpet") return <NookpetPreview />;
   if (data.id === "saas-b") return <MetricFlowPreview />;
+  if (data.id === "saas-monosphera-dashboard") return <MonospheraDashboardPreview />;
+  if (data.id === "saas-e") return <SmartDeskPreview />;
 
   // BaaS (04)
   if (data.id === "baas-emply") return <EmplyPreview />;

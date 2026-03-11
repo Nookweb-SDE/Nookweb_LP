@@ -14,7 +14,7 @@ export function CaseDetalhe() {
 
   if (!caseItem) {
     return (
-      <main className="py-20 text-center">
+      <main className="py-12 sm:py-20 text-center px-4">
         <p>Case não encontrado.</p>
         <Link to="/cases">Voltar aos cases</Link>
       </main>
@@ -22,11 +22,11 @@ export function CaseDetalhe() {
   }
 
   return (
-    <main className="py-20">
+    <main className="py-12 sm:py-16 md:py-20">
       <Container>
-        <div className="max-w-3xl">
+        <div className="max-w-3xl w-full">
           <span className="font-mono text-sm text-accent">{caseItem.tag}</span>
-          <h1 className="mt-2 font-display text-4xl text-heavy">{caseItem.title}</h1>
+          <h1 className="mt-2 font-display text-3xl sm:text-4xl md:text-5xl text-heavy">{caseItem.title}</h1>
           <p className="mt-6 text-lg text-neutral">{caseItem.description}</p>
           {caseItem.results && (
             <p className="mt-4 font-medium text-accent">{caseItem.results}</p>

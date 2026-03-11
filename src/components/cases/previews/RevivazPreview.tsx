@@ -6,7 +6,7 @@
 import { useState, useEffect, useRef } from "react";
 import {
   Star, Download, Search, Heart, ArrowRight, ChevronLeft, ChevronRight,
-  Clock, MessageCircle, Smartphone, Video, Monitor, Sparkles, Brain,
+  Clock, MessageCircle, Smartphone, Video, Sparkles, Brain,
   Stethoscope, FileText, Users, MapPin, Calendar, User, Phone, Mail,
   Send, X, CheckCircle, Instagram, Linkedin, Newspaper,
 } from "lucide-react";

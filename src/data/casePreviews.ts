@@ -245,11 +245,11 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       sections: [],
     },
     {
-      id: "saas-onlycaes",
-      clientName: "OnlyCaes",
-      clientTagline: "Plataforma SaaS — version-test",
+      id: "saas-nookpet",
+      clientName: "Nookpet",
+      clientTagline: "Marketplace de serviços pet — hospedagem, dog walker, banho & tosa",
       template: "dashboard",
-      palette: { bg: "#F8FAFC", accent: "#6366f1", accentSoft: "rgba(99,102,241,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
+      palette: { bg: "#FAF5FF", accent: "#5C2D91", accentSoft: "rgba(92,45,145,0.12)", text: "#1A1A2E", textMuted: "#6B7280", card: "#FFFFFF", border: "#E5E7EB" },
       sections: [],
     },
     {
@@ -264,6 +264,22 @@ export const CASE_PREVIEWS: CasePreviewMap = {
         { type: "chart", title: "Crescimento de Usuários", chartType: "line", data: [4200, 5100, 6300, 7800, 8900, 9600, 11200, 12384], labels: ["Wk1", "Wk2", "Wk3", "Wk4", "Wk5", "Wk6", "Wk7", "Wk8"] },
         { type: "table", title: "Tenants Ativos", headers: ["Tenant", "Plano", "MRR"], rows: [{ cells: ["Acme Corp", "Enterprise", "$12.4k"], status: "Enterprise", statusColor: "#8B5CF6" }, { cells: ["TechFlow", "Pro", "$4.2k"], status: "Pro", statusColor: "#06B6D4" }, { cells: ["NovaLabs", "Starter", "$890"], status: "Starter", statusColor: "#64748B" }, { cells: ["DataPrime", "Pro", "$6.1k"], status: "Pro", statusColor: "#06B6D4" }] },
       ],
+    },
+    {
+      id: "saas-monosphera-dashboard",
+      clientName: "Monosphera Dashboard",
+      clientTagline: "Monitoramento e controle remoto V3.0",
+      template: "dashboard",
+      palette: { bg: "#0a0e14", accent: "#14B8A6", accentSoft: "rgba(20,184,166,0.12)", text: "#FFFFFF", textMuted: "#94A3B8", card: "#1E293B", border: "rgba(255,255,255,0.06)" },
+      sections: [],
+    },
+    {
+      id: "saas-e",
+      clientName: "SmartDesk Pro",
+      clientTagline: "Workspace e produtividade",
+      template: "dashboard",
+      palette: { bg: "#F8FAFC", accent: "#7C3AED", accentSoft: "rgba(124,58,237,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
+      sections: [],
     },
   ],
 

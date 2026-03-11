@@ -9,18 +9,18 @@ const posts = [
 
 export function BlogIndex() {
   return (
-    <main className="py-20">
+    <main className="py-12 sm:py-16 md:py-20">
       <Container>
         <SectionHeader label="Blog" title="Conteúdo para você" />
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {posts.map((p) => (
             <Link
               key={p.slug}
               to={`/blog/${p.slug}`}
-              className="block rounded-xl border border-soft bg-pure p-6 transition hover:shadow-md"
+              className="block rounded-xl border border-soft bg-pure p-4 sm:p-6 transition hover:shadow-md"
             >
               <span className="font-mono text-sm text-neutral">{p.date}</span>
-              <h2 className="mt-2 font-display text-2xl text-heavy">{p.title}</h2>
+              <h2 className="mt-2 font-display text-xl sm:text-2xl text-heavy">{p.title}</h2>
               <p className="mt-2 text-neutral">{p.excerpt}</p>
             </Link>
           ))}

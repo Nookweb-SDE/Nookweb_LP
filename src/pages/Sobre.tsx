@@ -4,14 +4,14 @@ import { Equipe } from '../components/sections/Equipe'
 
 export function Sobre() {
   return (
-    <main className="py-20">
+    <main className="py-12 sm:py-16 md:py-20">
       <Container>
         <SectionHeader
           label="Sobre"
           title="Nookweb"
           subtitle="Holding Digital do Grupo ImpulsoTech."
         />
-        <div className="prose prose-lg max-w-3xl">
+        <div className="prose prose-lg max-w-3xl w-full overflow-x-hidden">
           <p className="text-neutral">
             A Nookweb é a holding digital e empresa matriz do grupo que inclui a ImpulsoTech.
             Fusão entre as duas empresas criou um ecossistema completo de tecnologia, com a Nookweb

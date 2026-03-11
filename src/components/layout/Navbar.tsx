@@ -61,9 +61,9 @@ export function Navbar() {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow] duration-500 ease-out ${headerBg}`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow] duration-500 ease-out navbar-safe-top ${headerBg}`}
     >
-      <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <nav className="max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
         <Link
           to="/"
           className={`font-sans text-xl transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
@@ -71,7 +71,7 @@ export function Navbar() {
           Nookweb
         </Link>
 
-        <div className="hidden md:flex items-center gap-8">
+        <div className="hidden md:flex items-center gap-6 lg:gap-8">
           {links.map((link) => (
             <Link
               key={link.to}
@@ -98,7 +98,7 @@ export function Navbar() {
         </div>
 
         <button
-          className={`md:hidden p-2 rounded-lg font-sans transition-colors duration-300 ${
+          className={`md:hidden min-w-[44px] min-h-[44px] flex items-center justify-center rounded-lg font-sans transition-colors duration-300 ${
             textLight ? 'text-white hover:bg-white/10' : 'text-heavy hover:bg-heavy/5'
           }`}
           onClick={() => setMobileOpen(!mobileOpen)}
@@ -123,12 +123,12 @@ export function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className={`md:hidden border-t ${textLight ? 'bg-heavy border-white/10' : 'bg-pure border-heavy/5'}`}
           >
-            <div className="px-4 py-4 flex flex-col gap-4 font-sans">
+            <div className="px-4 py-4 flex flex-col gap-1 font-sans">
               {links.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
-                  className={textLight ? 'text-white hover:text-[#FF4500]' : 'text-heavy hover:text-accent-primary'}
+                  className={`min-h-[44px] flex items-center px-3 rounded-lg ${textLight ? 'text-white hover:text-[#FF4500] hover:bg-white/10' : 'text-heavy hover:text-accent-primary hover:bg-heavy/5'}`}
                   onClick={() => setMobileOpen(false)}
                 >
                   {link.label}

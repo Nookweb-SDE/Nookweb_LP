@@ -7,8 +7,8 @@ export function Hero() {
   return (
     <section
       data-dark-section
-      className="relative min-h-screen flex flex-col overflow-hidden pb-32 bg-hero-dark"
-      style={{ paddingTop: '56px' }}
+      className="relative min-h-screen min-h-[100dvh] flex flex-col overflow-hidden pb-20 sm:pb-24 md:pb-32 bg-hero-dark"
+      style={{ paddingTop: 'clamp(48px, 12vw, 56px)' }}
     >
       <div
         className="absolute inset-0 z-0 opacity-[0.03] pointer-events-none"
@@ -17,7 +17,7 @@ export function Hero() {
         }}
       />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex flex-col items-stretch min-h-[calc(100vh-64px)] pb-4">
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 flex flex-col items-stretch min-h-[calc(100vh-64px)] min-h-[calc(100dvh-64px)] pb-4">
         <div className="hero-layout flex flex-col min-h-0 items-start">
           <div className="hero-left w-full">
             <motion.div
