@@ -47,6 +47,7 @@ export function IACorporativaSection() {
       className="ia-section"
       id="ia-corporativa"
       aria-labelledby="ia-hero-heading"
+      data-dark-section
     >
       {/* Hero */}
       <div className="ia-hero">

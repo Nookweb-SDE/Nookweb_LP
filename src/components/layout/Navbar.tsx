@@ -18,7 +18,17 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [overDarkSection, setOverDarkSection] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [language, setLanguage] = useState('pt')
+  const [langOpen, setLangOpen] = useState(false)
   const { pathname } = useLocation()
+  const languageOptions = [
+    { value: 'pt', label: 'Português' },
+    { value: 'en', label: 'English' },
+    { value: 'fr', label: 'Français' },
+    { value: 'ja', label: '日本語' },
+    { value: 'zh', label: '中文(简体)' },
+  ]
+  const activeLanguageLabel = languageOptions.find((opt) => opt.value === language)?.label ?? 'Português'
   const isHome = pathname === '/'
   const onHero = isHome && !scrolled
   const isSolid = scrolled
@@ -56,6 +66,13 @@ export function Navbar() {
       : isSolid
         ? 'bg-pure/95 backdrop-blur-xl border-b border-heavy/5 shadow-sm'
         : 'bg-transparent'
+  const languageButtonBg = onHero
+    ? 'bg-black/50'
+    : overDark
+      ? 'bg-black/70'
+      : isSolid
+        ? 'bg-transparent'
+        : 'bg-transparent'
 
   const textLight = overDark
 
@@ -63,20 +80,20 @@ export function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow] duration-500 ease-out navbar-safe-top ${headerBg}`}
     >
-      <nav className="max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
+      <nav className="max-w-7xl mx-auto w-full px-4 sm:px-7 lg:px-10 h-16 sm:h-[72px] flex items-center justify-between gap-3">
         <Link
           to="/"
-          className={`font-mono text-xs md:text-sm font-semibold uppercase tracking-wider transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
+          className={`font-mono text-sm md:text-[15px] font-semibold uppercase tracking-[0.08em] transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
         >
           NOOKWEB®
         </Link>
 
-        <div className="hidden md:flex items-center gap-3 sm:gap-4 md:gap-8">
+        <div className="hidden md:flex items-center gap-5 lg:gap-7 h-full">
           {links.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`group relative text-xs md:text-sm font-mono uppercase tracking-wider ${
+              className={`group relative h-full inline-flex items-center text-[11px] md:text-xs font-mono uppercase tracking-[0.1em] font-medium leading-none ${
                 textLight ? 'text-white/60' : 'text-heavy/60'
               }`}
             >
@@ -94,7 +111,41 @@ export function Navbar() {
               />
             </Link>
           ))}
-          <div className="ml-2 lg:ml-4">
+          <div className="relative ml-3">
+            <button
+              type="button"
+              onClick={() => setLangOpen((v) => !v)}
+              className={`h-8 px-3 rounded-md border text-[11px] font-mono uppercase tracking-[0.08em] ${
+                textLight ? `text-white/80 border-white/25 ${languageButtonBg}` : `text-heavy/80 border-heavy/25 ${languageButtonBg}`
+              }`}
+              aria-label="Selecionar idioma"
+              aria-expanded={langOpen}
+            >
+              {activeLanguageLabel}
+            </button>
+            {langOpen && (
+              <div
+                className="absolute right-0 mt-2 min-w-[140px] rounded-md border border-white/15 bg-black/95 shadow-2xl overflow-hidden z-[70]"
+              >
+                {languageOptions.map((opt) => (
+                  <button
+                    key={opt.value}
+                    type="button"
+                    onClick={() => {
+                      setLanguage(opt.value)
+                      setLangOpen(false)
+                    }}
+                    className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
+                      language === opt.value ? 'text-white bg-white/10' : 'text-white/75 hover:bg-white/10'
+                    }`}
+                  >
+                    {opt.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+          <div className="ml-8 lg:ml-10 pl-4 border-l border-white/20">
             <LiquidMetalButton label="INICIAR PROJETO" to="/contato" textStyle="mono" />
           </div>
         </div>
@@ -146,6 +197,27 @@ export function Navbar() {
                 to="/contato"
                 onClick={() => setMobileOpen(false)}
               />
+              <div className="pt-2 mt-2 border-t border-white/10">
+                <label className={`block text-[10px] font-mono uppercase tracking-[0.12em] mb-2 ${textLight ? 'text-white/60' : 'text-heavy/60'}`}>
+                  Idioma
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {languageOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setLanguage(opt.value)}
+                      className={`px-3 py-2 rounded-md border text-xs font-mono ${
+                        language === opt.value
+                          ? 'text-white bg-white/10 border-white/25'
+                          : 'text-white/75 border-white/15 hover:bg-white/10'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
