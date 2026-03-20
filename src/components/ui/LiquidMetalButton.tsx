@@ -10,6 +10,7 @@ interface LiquidMetalButtonProps {
   onClick?: () => void
   /** 'compact' = cards | 'default' = header | 'wide' = footer | 'large' = CTAs */
   size?: 'compact' | 'default' | 'wide' | 'large'
+  textStyle?: 'default' | 'mono'
 }
 
 const SIZES = {
@@ -25,6 +26,7 @@ export function LiquidMetalButton({
   href,
   onClick,
   size = 'default',
+  textStyle = 'default',
 }: LiquidMetalButtonProps) {
   const { width, height, innerWidth, innerHeight, fontSize, translateZ } = SIZES[size]
   const [isHovered, setIsHovered] = useState(false)
@@ -146,6 +148,14 @@ export function LiquidMetalButton({
               textAlign: 'center',
               textShadow: '0 1px 2px rgba(0,0,0,0.6), 0 0 1px rgba(0,0,0,0.8)',
               whiteSpace: 'nowrap',
+              ...(textStyle === 'mono'
+                ? {
+                    fontFamily: "'Space Mono', monospace",
+                    fontSize: `${Math.max(10, fontSize - 2)}px`,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase' as const,
+                  }
+                : {}),
             }}
           >
             {label}

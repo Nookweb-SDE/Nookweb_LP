@@ -53,14 +53,18 @@ export function WorksGallery() {
       <CustomCursor isActive={hoveredId !== null} />
       <div className="w-full px-4 md:px-6">
         {/* Desktop: horizontal flex gallery */}
-        <div className="hidden md:flex gap-4 items-stretch">
-          {projects.map((project) => (
-            <VideoCard
-              key={project.id}
-              project={project}
-              isHovered={hoveredId === project.id}
-              onHoverChange={(hovered) => setHoveredId(hovered ? project.id : null)}
-            />
+        <div className="hidden md:flex flex-col gap-8">
+          {[0].map((row) => (
+            <div key={row} className="flex gap-12 items-stretch">
+              {projects.map((project) => (
+                <VideoCard
+                  key={`${row}-${project.id}`}
+                  project={project}
+                  isHovered={hoveredId === project.id}
+                  onHoverChange={(hovered) => setHoveredId(hovered ? project.id : null)}
+                />
+              ))}
+            </div>
           ))}
         </div>
 

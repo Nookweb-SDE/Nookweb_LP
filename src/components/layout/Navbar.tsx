@@ -66,18 +66,18 @@ export function Navbar() {
       <nav className="max-w-7xl mx-auto w-full px-3 sm:px-6 lg:px-8 h-14 sm:h-16 flex items-center justify-between gap-2">
         <Link
           to="/"
-          className={`font-sans text-xl transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
+          className={`font-mono text-xs md:text-sm font-semibold uppercase tracking-wider transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
         >
-          Nookweb
+          NOOKWEB®
         </Link>
 
-        <div className="hidden md:flex items-center gap-6 lg:gap-8">
+        <div className="hidden md:flex items-center gap-3 sm:gap-4 md:gap-8">
           {links.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`group relative text-sm font-sans ${
-                textLight ? 'text-white/80' : 'text-heavy/80'
+              className={`group relative text-xs md:text-sm font-mono uppercase tracking-wider ${
+                textLight ? 'text-white/60' : 'text-heavy/60'
               }`}
             >
               <span className="nav-link-text inline-block">
@@ -94,7 +94,9 @@ export function Navbar() {
               />
             </Link>
           ))}
-          <LiquidMetalButton label="Iniciar Projeto" to="/contato" />
+          <div className="ml-2 lg:ml-4">
+            <LiquidMetalButton label="INICIAR PROJETO" to="/contato" textStyle="mono" />
+          </div>
         </div>
 
         <button
@@ -109,7 +111,12 @@ export function Navbar() {
             {mobileOpen ? (
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+              <>
+                <rect x="4" y="4" width="7" height="7" fill="currentColor" stroke="none" />
+                <rect x="13" y="4" width="7" height="7" fill="currentColor" stroke="none" />
+                <rect x="4" y="13" width="7" height="7" fill="currentColor" stroke="none" />
+                <rect x="13" y="13" width="7" height="7" fill="currentColor" stroke="none" />
+              </>
             )}
           </svg>
         </button>
