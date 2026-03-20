@@ -1,0 +1,22 @@
+# Stack Docker Swarm para Nookweb LP atrás do Traefik
+# Na VPS: identificar a rede do Traefik com "docker network ls" e ajustar
+# o nome da rede abaixo (ex.: traefik_public, traefik_default, traefik_web).
+
+version: "3.8"
+
+services:
+  nookweb-lp:
+    image: nookweb-lp:latest
+    deploy:
+      replicas: 1
+      labels:
+        traefik.enable: "true"
+        traefik.http.routers.nookweb-lp.rule: "Host(`nookweb.com.br`)"
+        traefik.http.routers.nookweb-lp.entrypoints: "web"
+        traefik.http.services.nookweb-lp.loadbalancer.server.port: "80"
+    networks:
+      - traefik_public
+
+networks:
+  traefik_public:
+    external: true
