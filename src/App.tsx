@@ -19,6 +19,8 @@ import { NotFound } from './pages/NotFound'
 export default function App() {
   const location = useLocation()
   const isSuperAdminPreview = location.pathname.startsWith('/superadmin-preview')
+  const isHome = location.pathname === '/'
+  const mainClass = `min-h-screen min-h-[100dvh] flex flex-col${isHome ? '' : ' main-safe-top'}`
 
   return (
     <>
@@ -27,7 +29,7 @@ export default function App() {
         <meta name="description" content="Apps inteligentes até 90% mais barato e 10x mais rápido. Sites, E-commerce, SaaS, ERP, IA." />
       </Helmet>
       {!isSuperAdminPreview && <Navbar />}
-      <div className="min-h-screen min-h-[100dvh] flex flex-col main-safe-top">
+      <div className={mainClass}>
         <Routes>
           <Route path="/superadmin-preview/*" element={<SuperAdminMonospheraCopy />} />
           <Route path="/" element={<Home />} />

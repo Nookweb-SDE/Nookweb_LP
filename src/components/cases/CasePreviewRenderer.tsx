@@ -28,8 +28,7 @@ import MetricFlowPreview from "./previews/MetricFlowPreview";
 import EmplyPreview from "./previews/EmplyPreview";
 import PayGuardPreview from "./previews/PayGuardPreview";
 import VaultAPIPreview from "./previews/VaultAPIPreview";
-import FlowSyncPreview from "./previews/FlowSyncPreview";
-import AutoPilotPreview from "./previews/AutoPilotPreview";
+import N8nPortfolioPreview from "./previews/N8nPortfolioPreview";
 import HealthBridgePreview from "./previews/HealthBridgePreview";
 import EduFlowPreview from "./previews/EduFlowPreview";
 import QuickMarketPreview from "./previews/QuickMarketPreview";
@@ -76,8 +75,9 @@ export function CasePreviewRenderer({ caseType, variant }: Props) {
   if (data.id === "baas-b") return <VaultAPIPreview />;
 
   // N8N (05)
-  if (data.id === "n8n-a") return <FlowSyncPreview />;
-  if (data.id === "n8n-b") return <AutoPilotPreview />;
+  if (data.id === "n8n-a") return <N8nPortfolioPreview variant={0} />;
+  if (data.id === "n8n-b") return <N8nPortfolioPreview variant={1} />;
+  if (data.id === "n8n-c") return <N8nPortfolioPreview variant={2} />;
 
   // Design / UI-UX (06)
   if (data.id === "design-a") return <HealthBridgePreview />;

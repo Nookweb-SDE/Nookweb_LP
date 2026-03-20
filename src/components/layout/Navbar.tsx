@@ -50,9 +50,9 @@ export function Navbar() {
   }, [pathname])
 
   const headerBg = onHero
-    ? 'bg-transparent'
+    ? 'bg-transparent border-b border-transparent shadow-none backdrop-blur-0'
     : overDark
-      ? 'bg-heavy/90 backdrop-blur-md border-b border-white/10'
+      ? 'bg-black/85 backdrop-blur-md border-b border-white/10'
       : isSolid
         ? 'bg-pure/95 backdrop-blur-xl border-b border-heavy/5 shadow-sm'
         : 'bg-transparent'

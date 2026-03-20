@@ -79,11 +79,11 @@ const CASES = [
   },
   {
     id: 5, num: "05", cat: "N8N",
-    title: "Automações N8N",
-    tagline: "Workflows sem código",
+    title: "Automações N8N Reais",
+    tagline: "BaaS · ETL diário · Blog com IA",
     result: "−80%",  resultLabel: "Tempo manual",
-    desc: "Tipo: automação entre sistemas — CRM, Sheets, e-mail e APIs. Onboarding, follow-up e relatórios recorrentes.",
-    tags: ["N8N", "Webhooks", "Zapier", "APIs"],
+    desc: "Tipo: orquestração n8n com 3 casos reais: (1) fluxo de BaaS com certificado por ambiente, (2) automação ETL de carga diária com split de entidades e persistência, e (3) pipeline de blog com IA (conteúdo + imagem + watermark + resposta por webhook).",
+    tags: ["N8N", "BaaS", "ETL", "OpenAI", "DALL-E", "Webhook"],
     visual: "n8n",
   },
   {
@@ -114,6 +114,21 @@ const CASES = [
     visual: "ai",
   },
 ];
+
+const N8N_VARIANT_CONTENT = [
+  {
+    desc: "Tipo: pipeline de blog com IA — gatilho por webhook, geração de conteúdo com assistente de IA, criação de imagem (DALL-E), aplicação de watermark/composição e resposta automatizada.",
+    tags: ["N8N", "OpenAI", "DALL-E", "Webhook", "Composição"],
+  },
+  {
+    desc: "Tipo: automação ETL de carga diária — valida quantidade, consulta origem, faz split por entidade (contato, escolaridade, endereço e socio), persiste os dados e dispara callback HTTP.",
+    tags: ["N8N", "ETL", "Carga Diária", "Split", "HTTP Request"],
+  },
+  {
+    desc: "Tipo: fluxo de BaaS com certificado — orquestração visual de etapas certificadas entre blocos/ambientes, padronizando execução, roteamento e controle operacional.",
+    tags: ["N8N", "BaaS", "Certificação", "Orquestração"],
+  },
+] as const;
 
 /* ─── ANIMATED RESULT NUMBER ─────────────────── */
 function AnimResult({ value, label, active }: { value: string; label: string; active: boolean }) {
@@ -190,6 +205,9 @@ export function CasesSection() {
   const previewScrollRef = useRef<HTMLDivElement>(null);
   const c = CASES[active];
   const variantCount = CASE_PREVIEWS[c.visual]?.length ?? 2;
+  const n8nVariant = N8N_VARIANT_CONTENT[caseVariant] ?? N8N_VARIANT_CONTENT[0];
+  const resolvedDesc = c.visual === "n8n" ? n8nVariant.desc : c.desc;
+  const resolvedTags = c.visual === "n8n" ? [...n8nVariant.tags] : c.tags;
 
   useEffect(() => {
     if (caseVariant >= variantCount) setCaseVariant(0);
@@ -506,11 +524,11 @@ export function CasesSection() {
                   fontSize:"14px", lineHeight:"1.75",
                   color:P.neutral,
                   margin:"0 0 24px", flex:1,
-                }}>{c.desc}</p>
+                }}>{resolvedDesc}</p>
 
                 <div style={{ display:"flex", justifyContent:"space-between", alignItems:"center", flexWrap:"wrap", gap:"12px" }}>
                   <div style={{ display:"flex", gap:"7px", flexWrap:"wrap" }}>
-                    {c.tags.map(t=>(
+                    {resolvedTags.map(t=>(
                       <span key={t} style={{
                         fontFamily:"'Space Mono',monospace",
                         fontSize:"9px", letterSpacing:"1px",
