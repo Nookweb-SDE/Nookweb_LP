@@ -20,13 +20,21 @@ USER = os.environ.get("VPS_USER", "root")
 
 
 def main() -> int:
+    # Evita UnicodeEncodeError no console Windows (cp1252)
+    if hasattr(sys.stdout, "reconfigure"):
+        try:
+            sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+            sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+        except Exception:
+            pass
+
     pwd = os.environ.get("VPS_SSH_PASSWORD")
     if not pwd:
         print("Defina a variável de ambiente VPS_SSH_PASSWORD.", file=sys.stderr)
         return 1
 
     tar_path = os.path.join(os.environ.get("TEMP", "/tmp"), f"nookweb-{uuid.uuid4().hex}.tar")
-    print(f"[deploy] A empacotar repositório (git archive HEAD) → {tar_path}", flush=True)
+    print(f"[deploy] A empacotar repositorio (git archive HEAD) -> {tar_path}", flush=True)
     r = subprocess.run(
         ["git", "-C", PROJECT, "archive", "--format=tar", "-o", tar_path, "HEAD"],
         check=False,
@@ -38,7 +46,7 @@ def main() -> int:
     except OSError:
         tar_size = 0
     print(
-        f"[deploy] Ficheiro único gerado: {tar_size / 1024 / 1024:.2f} MiB (não é upload ficheiro a ficheiro)",
+        f"[deploy] Ficheiro unico gerado: {tar_size / 1024 / 1024:.2f} MiB (um .tar, nao e upload ficheiro a ficheiro)",
         flush=True,
     )
 
@@ -59,7 +67,7 @@ def main() -> int:
         )
         with SCPClient(ssh.get_transport()) as scp:
             scp.put(tar_path, "/tmp/nookweb-lp-src.tar")
-        print("[deploy] Upload concluído.", flush=True)
+        print("[deploy] Upload concluido.", flush=True)
 
         remote = r"""set -e
 rm -rf /tmp/nookweb-lp
