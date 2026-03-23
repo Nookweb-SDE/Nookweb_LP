@@ -37,7 +37,7 @@ Variável opcional: `$env:VPS = "root@SEU_IP"` antes de executar (default no scr
 
 ## Traefik e rede Docker
 
-O [`docker-stack.yml`](../docker-stack.yml) usa uma rede externa (ex.: `impulsoNet`) onde o Traefik também está ligado. Na VPS:
+O [`docker-stack.yml`](../docker-stack.yml) na VPS **Nooklead** usa a rede overlay **`NookNet`** (a mesma do serviço `traefik_traefik`). Na VPS:
 
 ```bash
 docker network ls
@@ -59,7 +59,7 @@ Labels do router devem bater com o Traefik da VPS:
 - **`web`** = HTTP (porta 80). Só com isto, **`https://` não fica com certificado válido** — o browser mostra `NET::ERR_CERT_AUTHORITY_INVALID` (certificado por defeito do Traefik).
 - **`websecure`** + **`tls.certresolver`** = HTTPS com Let’s Encrypt (ou outro ACME configurado no Traefik).
 
-O [`docker-stack.yml`](../docker-stack.yml) usa `websecure` e `tls.certresolver: letsencrypt`. Se o teu Traefik usar outro nome de resolver, ajusta o label (ex.: `le`, `default`).
+O [`docker-stack.yml`](../docker-stack.yml) usa `websecure` e `tls.certresolver: letsencryptresolver` (nome definido no Traefik desta VPS). Noutro servidor, confirma com `docker service inspect traefik_traefik` o valor de `--certificatesresolvers.NOME`.
 
 **Descobrir o nome do certresolver na VPS:**
 

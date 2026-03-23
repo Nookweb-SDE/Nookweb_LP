@@ -4,7 +4,7 @@ O browser **chega ao servidor** (DNS ok), mas o certificado **não é o Let’s 
 
 ## Causas mais comuns
 
-1. **`tls.certresolver` com nome errado** — no `docker-stack.yml` está `letsencrypt`, mas o teu Traefik pode usar outro (ex.: `le`, `default`).
+1. **`tls.certresolver` com nome errado** — tem de ser **igual** a `--certificatesresolvers.NOME` no Traefik (nesta VPS: **`letsencryptresolver`**, não `letsencrypt`).
 2. **Nomes dos entrypoints errados** — no stack usamos `web` (HTTP) e `websecure` (HTTPS). O teu Traefik pode usar `http` / `https` ou outros.
 3. **Let’s Encrypt a falhar** — muitas vezes porque **`www` está no router mas o DNS do `www` não aponta para a VPS** (validação HTTP-01 falha).
 4. **Traefik e o serviço em redes diferentes** — confirma `traefik.swarm.network` e a rede overlay certa.

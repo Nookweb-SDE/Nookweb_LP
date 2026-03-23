@@ -1,6 +1,6 @@
 # Stack Docker Swarm para Nookweb LP atrás do Traefik
-# Na VPS: identificar a rede do Traefik com "docker network ls" e ajustar
-# o nome da rede abaixo (ex.: traefik_public, traefik_default, traefik_web).
+# VPS Nooklead: Traefik usa rede overlay **NookNet** e certresolver **letsencryptresolver**
+# (confirmar com: docker network ls | docker service inspect traefik_traefik)
 
 version: "3.8"
 
@@ -12,15 +12,15 @@ services:
       labels:
         traefik.enable: "true"
         # Obrigatório no Swarm se o serviço tem mais do que uma rede: Traefik usa esta para alcançar o container
-        traefik.swarm.network: "impulsoNet"
+        traefik.swarm.network: "NookNet"
         # Backend (Nginx no container)
         traefik.http.services.nookweb-lp.loadbalancer.server.port: "80"
         # HTTPS + ACME — só apex (evita falha LE se www ainda não tiver A → VPS; ver docs/DNS-CHECKLIST.md)
         traefik.http.routers.nookweb-lp.rule: "Host(`nookweb.com.br`)"
         traefik.http.routers.nookweb-lp.entrypoints: "websecure"
         traefik.http.routers.nookweb-lp.tls: "true"
-        # TEM de coincidir com --certificatesresolvers.NOME no Traefik (nem sempre é "letsencrypt")
-        traefik.http.routers.nookweb-lp.tls.certresolver: "letsencrypt"
+        # Obrigatorio: mesmo NOME que --certificatesresolvers.NOME no Traefik (aqui: letsencryptresolver)
+        traefik.http.routers.nookweb-lp.tls.certresolver: "letsencryptresolver"
         traefik.http.routers.nookweb-lp.service: "nookweb-lp"
         # HTTP → HTTPS (ACME HTTP-01 é tratado pelo Traefik antes destes routers)
         traefik.http.routers.nookweb-lp-web.rule: "Host(`nookweb.com.br`)"
@@ -30,9 +30,8 @@ services:
         traefik.http.middlewares.nookweb-lp-redirect.redirectscheme.scheme: "https"
         traefik.http.middlewares.nookweb-lp-redirect.redirectscheme.permanent: "true"
     networks:
-      - impulsoNet
+      - NookNet
 
-# Rede overlay existente na VPS (docker network ls). Ajuste se o Traefik estiver noutra.
 networks:
-  impulsoNet:
+  NookNet:
     external: true
