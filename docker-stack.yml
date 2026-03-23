@@ -15,8 +15,9 @@ services:
         traefik.http.routers.nookweb-lp.entrypoints: "web"
         traefik.http.services.nookweb-lp.loadbalancer.server.port: "80"
     networks:
-      - traefik_public
+      - impulsoNet
 
+# Rede overlay existente na VPS (docker network ls). Ajuste se o Traefik estiver noutra.
 networks:
-  traefik_public:
+  impulsoNet:
     external: true
