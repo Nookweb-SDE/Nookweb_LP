@@ -11,9 +11,23 @@ services:
       replicas: 1
       labels:
         traefik.enable: "true"
-        traefik.http.routers.nookweb-lp.rule: "Host(`nookweb.com.br`)"
-        traefik.http.routers.nookweb-lp.entrypoints: "web"
+        # Obrigatório no Swarm se o serviço tem mais do que uma rede: Traefik usa esta para alcançar o container
+        traefik.swarm.network: "impulsoNet"
+        # Backend (Nginx no container)
         traefik.http.services.nookweb-lp.loadbalancer.server.port: "80"
+        # HTTPS + ACME (Let's Encrypt via certresolver configurado no Traefik)
+        traefik.http.routers.nookweb-lp.rule: "Host(`nookweb.com.br`)"
+        traefik.http.routers.nookweb-lp.entrypoints: "websecure"
+        traefik.http.routers.nookweb-lp.tls: "true"
+        traefik.http.routers.nookweb-lp.tls.certresolver: "letsencrypt"
+        traefik.http.routers.nookweb-lp.service: "nookweb-lp"
+        # HTTP → HTTPS (ACME HTTP-01 é tratado pelo Traefik antes destes routers)
+        traefik.http.routers.nookweb-lp-web.rule: "Host(`nookweb.com.br`)"
+        traefik.http.routers.nookweb-lp-web.entrypoints: "web"
+        traefik.http.routers.nookweb-lp-web.middlewares: "nookweb-lp-redirect"
+        traefik.http.routers.nookweb-lp-web.service: "nookweb-lp"
+        traefik.http.middlewares.nookweb-lp-redirect.redirectscheme.scheme: "https"
+        traefik.http.middlewares.nookweb-lp-redirect.redirectscheme.permanent: "true"
     networks:
       - impulsoNet
 
