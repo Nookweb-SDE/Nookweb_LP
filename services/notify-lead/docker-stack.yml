@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  notify-lead:
+    image: notify-lead:latest
+    environment:
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=587
+      - SMTP_USER=admin@nookweb.com.br
+      - SMTP_PASS=mkum iqpr mvsb eqkm
+      - SMTP_FROM=admin@nookweb.com.br
+      - ADMIN_EMAIL=admin@nookweb.com.br
+      - WEBHOOK_SECRET=
+      - PORT=8090
+    deploy:
+      replicas: 1
+      labels:
+        traefik.enable: "true"
+        traefik.swarm.network: "NookNet"
+        traefik.http.services.notify-lead.loadbalancer.server.port: "8090"
+        traefik.http.routers.notify-lead.rule: "Host(`nookweb.com.br`) && PathPrefix(`/webhook`)"
+        traefik.http.routers.notify-lead.entrypoints: "websecure"
+        traefik.http.routers.notify-lead.tls: "true"
+        traefik.http.routers.notify-lead.tls.certresolver: "letsencryptresolver"
+        traefik.http.routers.notify-lead.priority: "100"
+    networks:
+      - NookNet
+
+networks:
+  NookNet:
+    external: true

@@ -1,7 +1,10 @@
 /* ═══════════════════════════════════════════════
-   CASE PREVIEWS DATA — 16 cases (2 por vertical)
+   CASE PREVIEWS DATA — variantes por vertical
+   Última variante de cada vertical: captura do Hero (HERO_CAROUSEL_ITEMS)
    Usado pelo CasePreviewRenderer na CasesSection
 ═══════════════════════════════════════════════ */
+
+import { HERO_CAROUSEL_ITEMS } from "./heroCarousel";
 
 export interface CasePalette {
   bg: string;
@@ -132,6 +135,30 @@ export interface CasePreviewData {
   template: "landing" | "app" | "dashboard" | "showcase";
   palette: CasePalette;
   sections: CaseSection[];
+  /** Mesma imagem do carrossel do Hero (public/sites/siteN.jpg) */
+  carouselImage?: string;
+}
+
+/** Variante extra: screenshot do item N do carrossel do Hero (0 = Sites … 7 = IA) */
+function heroCarouselShotCase(visual: string, carouselIndex: number): CasePreviewData {
+  const item = HERO_CAROUSEL_ITEMS[carouselIndex];
+  return {
+    id: `${visual}-hero-carousel-shot`,
+    clientName: "Hero — referência",
+    clientTagline: item.label,
+    template: "landing",
+    palette: {
+      bg: "#000000",
+      accent: "#FF4500",
+      accentSoft: "rgba(255,69,0,0.12)",
+      text: "#F5F0E8",
+      textMuted: "#94a3b8",
+      card: "#0a0a0a",
+      border: "rgba(255,255,255,0.08)",
+    },
+    sections: [],
+    carouselImage: item.image ?? `/sites/site${carouselIndex + 1}.jpg`,
+  };
 }
 
 // Map: caseType → [variantA, variantB, ...]
@@ -203,7 +230,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       palette: { bg: "#0a0a0a", accent: "#f59e0b", accentSoft: "rgba(245,158,11,0.12)", text: "#ffffff", textMuted: "#9ca3af", card: "#111111", border: "rgba(255,255,255,0.08)" },
       sections: [],
     };
-    return [contpix, foodie, minimal, latem, nooklead, case1Brillance, grupowr2];
+    return [contpix, foodie, minimal, latem, nooklead, case1Brillance, grupowr2, heroCarouselShotCase("site", 0)];
   })(),
 
   /* ═══ 02. APLICATIVOS MOBILE ═══ */
@@ -232,6 +259,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       palette: { bg: "#F8FAFC", accent: "#0D9488", accentSoft: "rgba(13,148,136,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
       sections: [],
     },
+    heroCarouselShotCase("app", 1),
   ],
 
   /* ═══ 03. PLATAFORMAS SAAS — Multi-vertical ═══ */
@@ -281,6 +309,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       palette: { bg: "#F8FAFC", accent: "#7C3AED", accentSoft: "rgba(124,58,237,0.12)", text: "#0F172A", textMuted: "#64748B", card: "#FFFFFF", border: "#E2E8F0" },
       sections: [],
     },
+    heroCarouselShotCase("saas", 2),
   ],
 
   /* ═══ 04. BAAS & INFRAESTRUTURA ═══ */
@@ -320,6 +349,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
         { type: "metrics", items: [{ value: "AWS", label: "Lambda" }, { value: "RDS", label: "Database" }, { value: "CF", label: "CDN" }, { value: "S3", label: "Storage" }] },
       ],
     },
+    heroCarouselShotCase("baas", 3),
   ],
 
   /* ═══ 05. AUTOMACOES N8N ═══ */
@@ -348,6 +378,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       palette: { bg: "#101317", accent: "#FF4500", accentSoft: "rgba(255,69,0,0.12)", text: "#F9FAFB", textMuted: "#9CA3AF", card: "#111827", border: "rgba(255,255,255,0.08)" },
       sections: [],
     },
+    heroCarouselShotCase("n8n", 4),
   ],
 
   /* ═══ 06. UI/UX DESIGN ═══ */
@@ -378,6 +409,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
         { type: "colorPalette", colors: [{ name: "Primary", hex: "#EAB308" }, { name: "Navy", hex: "#1E293B" }, { name: "White", hex: "#FFFFFF" }, { name: "Gray", hex: "#F8FAFC" }] },
       ],
     },
+    heroCarouselShotCase("design", 5),
   ],
 
   /* ═══ 07. LOW-CODE ═══ */
@@ -407,6 +439,7 @@ export const CASE_PREVIEWS: CasePreviewMap = {
         { type: "features", title: "Insights Automáticos", items: [{ icon: "✅", title: "PMF confirmado", desc: "78% seriam 'muito desapontados' sem o produto." }, { icon: "📊", title: "Feature mais pedida", desc: "Integração com Slack — mencionada 23×." }, { icon: "⚠️", title: "Segmento fraco", desc: "Freelancers: NPS 45, abaixo da média geral." }] },
       ],
     },
+    heroCarouselShotCase("lowcode", 6),
   ],
 
   /* ═══ 08. IA INTEGRADA ═══ */
@@ -445,5 +478,6 @@ export const CASE_PREVIEWS: CasePreviewMap = {
       palette: { bg: "#0a0e14", accent: "#FF4500", accentSoft: "rgba(255,69,0,0.12)", text: "#F5F0E8", textMuted: "#94A3B8", card: "#141414", border: "rgba(255,255,255,0.06)" },
       sections: [],
     },
+    heroCarouselShotCase("ai", 7),
   ],
 };

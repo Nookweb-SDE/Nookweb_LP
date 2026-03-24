@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
 import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton'
+import { useI18n } from '@/i18n/I18nProvider'
 
 /* ════════════════════════════════
    PALETA NOOKWEB
@@ -273,6 +274,27 @@ const SERVICES = [
    MAIN
 ════════════════════════════════ */
 export function ServicosSection() {
+  const { language } = useI18n()
+  const isPt = language === 'pt'
+  const copy = isPt
+    ? {
+        section: 'Serviços',
+        titleA: 'Do Excel ao Dashboard',
+        titleB: 'em Dias',
+        subtitle: '7 categorias: do site à IA corporativa local, cobrindo toda a jornada digital do seu negócio.',
+        explore: 'Explore nossos serviços',
+        hoverHelp: 'Passe o mouse para descobrir',
+        cta: 'Agendar Diagnóstico',
+      }
+    : {
+        section: 'Services',
+        titleA: 'From Spreadsheets to Dashboards',
+        titleB: 'in Days',
+        subtitle: '7 categories: from websites to local corporate AI, covering your full digital journey.',
+        explore: 'Explore our services',
+        hoverHelp: 'Hover to discover',
+        cta: 'Book Diagnostic',
+      }
   const [activeIdx, setActiveIdx] = useState<number | null>(null)
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
   const [entered, setEntered] = useState(false)
@@ -396,7 +418,7 @@ export function ServicosSection() {
 
       <div style={{ textAlign: 'center', padding: '68px 24px 16px', position: 'relative', zIndex: 2 }}>
         <div style={{ opacity: entered ? 1 : 0, transform: entered ? 'translateY(0)' : 'translateY(16px)', transition: 'all .8s cubic-bezier(.23,1,.32,1) .1s' }}>
-          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '.35em', textTransform: 'uppercase', color: P.neutral }}>Serviços</span>
+          <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, letterSpacing: '.35em', textTransform: 'uppercase', color: P.neutral }}>{copy.section}</span>
         </div>
 
         <h2
@@ -413,9 +435,9 @@ export function ServicosSection() {
             transition: 'all 1s cubic-bezier(.23,1,.32,1) .25s',
           }}
         >
-          Do Excel ao Dashboard{' '}
+          {copy.titleA}{' '}
           <em style={{ fontStyle: 'italic', color: P.orange }}>
-            em Dias
+            {copy.titleB}
           </em>
         </h2>
 
@@ -430,7 +452,7 @@ export function ServicosSection() {
             transition: 'all .8s ease .45s',
           }}
         >
-          7 categorias: do site à IA corporativa local, cobrindo toda a jornada digital do seu negócio.
+          {copy.subtitle}
         </p>
 
         <div style={{ maxWidth: 200, margin: '20px auto 0', opacity: entered ? 1 : 0, transition: 'opacity 1s ease .65s' }}>
@@ -530,8 +552,8 @@ export function ServicosSection() {
                   <svg viewBox="0 0 52 52" fill="none" style={{ width: 52, height: 52, display: 'block', margin: '0 auto 16px', animation: 'slowSpin 24s linear infinite' }}>
                     <circle cx="26" cy="26" r="22" stroke={P.silver} strokeWidth=".5" strokeDasharray="3 5" opacity=".2" />
                   </svg>
-                  <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 18, fontStyle: 'italic', color: P.heavy, opacity: 0.2 }}>Explore nossos serviços</div>
-                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 9, color: P.silver, marginTop: 8, letterSpacing: '.2em', textTransform: 'uppercase', opacity: 0.35 }}>Passe o mouse para descobrir</div>
+                  <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 18, fontStyle: 'italic', color: P.heavy, opacity: 0.2 }}>{copy.explore}</div>
+                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 9, color: P.silver, marginTop: 8, letterSpacing: '.2em', textTransform: 'uppercase', opacity: 0.35 }}>{copy.hoverHelp}</div>
                 </div>
               )}
             </div>
@@ -540,7 +562,7 @@ export function ServicosSection() {
       </div>
 
       <div style={{ textAlign: 'center', paddingBottom: 64, opacity: entered ? 1 : 0, transition: 'opacity 1.2s ease 1.8s', position: 'relative', zIndex: 2 }}>
-        <LiquidMetalButton label="Agendar Diagnóstico" to="/contato" size="large" />
+        <LiquidMetalButton label={copy.cta} to="/contato" size="large" />
       </div>
     </section>
   )

@@ -3,6 +3,8 @@ import { LiquidMetalButton } from "@/components/ui/LiquidMetalButton";
 import { LiquidMetalIconButton } from "@/components/ui/LiquidMetalIconButton";
 import { CasePreviewRenderer } from "@/components/cases/CasePreviewRenderer";
 import { CASE_PREVIEWS } from "@/data/casePreviews";
+import { getCasesHref, isCasesModalRouteEnabled } from "@/config/casesModal";
+import { useI18n } from "@/i18n/I18nProvider";
 
 /* ═══════════════════════════════════════════════
    CONCEITO: "INTELLIGENCE DOSSIER"
@@ -196,6 +198,27 @@ function ScanLine({ active }: { active: boolean }) {
 
 /* ─── MAIN COMPONENT ─────────────────────────── */
 export function CasesSection() {
+  const { language } = useI18n();
+  const isPt = language === "pt";
+  const copy = isPt
+    ? {
+        titleA: "Projetos que",
+        titleB: "transformam",
+        titleC: "negócios reais.",
+        firstPrototype: "Primeiro protótipo",
+        verticals: "Verticais",
+        lockin: "Lock-in",
+        allCases: "Ver todos os cases →",
+      }
+    : {
+        titleA: "Projects that",
+        titleB: "transform",
+        titleC: "real businesses.",
+        firstPrototype: "First prototype",
+        verticals: "Verticals",
+        lockin: "Lock-in",
+        allCases: "See all cases →",
+      };
   const [active,  setActive]  = useState(0);
   const [entered, setEntered] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
@@ -263,6 +286,7 @@ export function CasesSection() {
 
   return (
     <section
+      id="cases"
       ref={sectionRef}
       data-dark-section
       className="bg-hero-dark"
@@ -274,6 +298,7 @@ export function CasesSection() {
         display:"flex",
         flexDirection:"column",
         justifyContent:"center",
+        scrollMarginTop: "calc(4.5rem + env(safe-area-inset-top, 0px))",
       }}
     >
       {/* ── TOP BORDER ── */}
@@ -305,7 +330,7 @@ export function CasesSection() {
               color:P.warm,
               margin:0,
             }}>
-              Projetos que{" "}
+              {copy.titleA}{" "}
               <em style={{
                 fontStyle:"italic",
                 background:`linear-gradient(90deg,${P.orange},${P.orangeAlt},#e8e8e8,${P.orange})`,
@@ -313,8 +338,8 @@ export function CasesSection() {
                 WebkitBackgroundClip:"text",
                 WebkitTextFillColor:"transparent",
                 animation:"shimmer 4s linear infinite",
-              }}>transformam</em>
-              <br/>negócios reais.
+              }}>{copy.titleB}</em>
+              <br/>{copy.titleC}
             </h2>
           </div>
 
@@ -589,9 +614,9 @@ export function CasesSection() {
         }}>
           <div style={{ display:"flex", gap:"40px" }}>
             {[
-              ["72h","Primeiro protótipo"],
-              ["8","Verticais"],
-              ["0","Lock-in"],
+              ["72h", copy.firstPrototype],
+              ["8", copy.verticals],
+              ["0", copy.lockin],
             ].map(([v,l],i)=>(
               <div key={i} style={{ animation:`floatY ${2.5+i*.5}s ease-in-out infinite`, animationDelay:`${i*.25}s` }}>
                 <div style={{ fontFamily:"'Instrument Serif',serif", fontSize:"28px", fontStyle:"italic", color:P.orange, lineHeight:1, textShadow:`0 0 20px ${P.orange}44` }}>{v}</div>
@@ -600,7 +625,9 @@ export function CasesSection() {
             ))}
           </div>
 
-          <LiquidMetalButton label="Ver todos os cases →" to="/cases" size="wide" />
+          {isCasesModalRouteEnabled() && (
+            <LiquidMetalButton label={copy.allCases} to={getCasesHref()} size="wide" />
+          )}
         </div>
       </div>
     </section>

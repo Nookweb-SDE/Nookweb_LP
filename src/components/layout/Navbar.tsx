@@ -2,14 +2,8 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton'
-
-const links = [
-  { to: '/servicos', label: 'Serviços' },
-  { to: '/cases', label: 'Cases' },
-  { to: '/sobre', label: 'Sobre' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contato', label: 'Contato' },
-]
+import { getCasesHref } from '@/config/casesModal'
+import { useI18n } from '@/i18n/I18nProvider'
 
 const SCROLL_THRESHOLD = 80
 const HEADER_HEIGHT = 64
@@ -18,16 +12,33 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [overDarkSection, setOverDarkSection] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [language, setLanguage] = useState('pt')
+  const { language, setLanguage, t } = useI18n()
   const [langOpen, setLangOpen] = useState(false)
   const { pathname } = useLocation()
+  const links = [
+    { to: '/servicos', label: t('nav.links.services') },
+    { to: getCasesHref(), label: t('nav.links.cases') },
+    { to: '/sobre', label: t('nav.links.about') },
+    { to: '/blog', label: t('nav.links.blog') },
+    { to: '/contato', label: t('nav.links.contact') },
+  ]
+  // Dev: sempre. Preview local (npm run preview): mostrar (PROD=false no bundle mas hostname é localhost).
+  // Produção: só se VITE_ENABLE_LANGUAGE_SELECTOR=true
+  const showLanguageSelector =
+    import.meta.env.DEV ||
+    import.meta.env.VITE_ENABLE_LANGUAGE_SELECTOR === 'true' ||
+    (typeof window !== 'undefined' &&
+      (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))
   const languageOptions = [
     { value: 'pt', label: 'Português' },
     { value: 'en', label: 'English' },
+    { value: 'es', label: 'Español' },
+    { value: 'zh', label: '中文' },
+    { value: 'hi', label: 'हिन्दी' },
+    { value: 'ar', label: 'العربية' },
+    { value: 'ru', label: 'Русский' },
     { value: 'fr', label: 'Français' },
-    { value: 'ja', label: '日本語' },
-    { value: 'zh', label: '中文(简体)' },
-  ]
+  ] as const
   const activeLanguageLabel = languageOptions.find((opt) => opt.value === language)?.label ?? 'Português'
   const isHome = pathname === '/'
   const onHero = isHome && !scrolled
@@ -85,7 +96,7 @@ export function Navbar() {
           to="/"
           className={`font-mono text-sm md:text-[15px] font-semibold uppercase tracking-[0.08em] transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
         >
-          NOOKWEB®
+          {t('nav.brand')}
         </Link>
 
         <div className="hidden md:flex items-center gap-5 lg:gap-7 h-full">
@@ -111,42 +122,44 @@ export function Navbar() {
               />
             </Link>
           ))}
-          <div className="relative ml-3">
-            <button
-              type="button"
-              onClick={() => setLangOpen((v) => !v)}
-              className={`h-8 px-3 rounded-md border text-[11px] font-mono uppercase tracking-[0.08em] ${
-                textLight ? `text-white/80 border-white/25 ${languageButtonBg}` : `text-heavy/80 border-heavy/25 ${languageButtonBg}`
-              }`}
-              aria-label="Selecionar idioma"
-              aria-expanded={langOpen}
-            >
-              {activeLanguageLabel}
-            </button>
-            {langOpen && (
-              <div
-                className="absolute right-0 mt-2 min-w-[140px] rounded-md border border-white/15 bg-black/95 shadow-2xl overflow-hidden z-[70]"
+          {showLanguageSelector && (
+            <div className="relative ml-3">
+              <button
+                type="button"
+                onClick={() => setLangOpen((v) => !v)}
+                className={`h-8 px-3 rounded-md border text-[11px] font-mono uppercase tracking-[0.08em] ${
+                  textLight ? `text-white/80 border-white/25 ${languageButtonBg}` : `text-heavy/80 border-heavy/25 ${languageButtonBg}`
+                }`}
+                aria-label={t('nav.languageLabel')}
+                aria-expanded={langOpen}
               >
-                {languageOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    type="button"
-                    onClick={() => {
-                      setLanguage(opt.value)
-                      setLangOpen(false)
-                    }}
-                    className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
-                      language === opt.value ? 'text-white bg-white/10' : 'text-white/75 hover:bg-white/10'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
+                {activeLanguageLabel}
+              </button>
+              {langOpen && (
+                <div
+                  className="absolute right-0 mt-2 min-w-[140px] rounded-md border border-white/15 bg-black/95 shadow-2xl overflow-hidden z-[70]"
+                >
+                  {languageOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => {
+                        setLanguage(opt.value)
+                        setLangOpen(false)
+                      }}
+                      className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
+                        language === opt.value ? 'text-white bg-white/10' : 'text-white/75 hover:bg-white/10'
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
           <div className="ml-8 lg:ml-10 pl-4 border-l border-white/20">
-            <LiquidMetalButton label="INICIAR PROJETO" to="/contato" textStyle="mono" />
+            <LiquidMetalButton label={t('nav.startProject')} to="/contato" textStyle="mono" />
           </div>
         </div>
 
@@ -155,7 +168,7 @@ export function Navbar() {
             textLight ? 'text-white hover:bg-white/10' : 'text-heavy hover:bg-heavy/5'
           }`}
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? 'Fechar menu' : 'Abrir menu'}
+          aria-label={mobileOpen ? t('nav.mobile.close') : t('nav.mobile.open')}
           aria-expanded={mobileOpen}
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,31 +206,33 @@ export function Navbar() {
                 </Link>
               ))}
               <LiquidMetalButton
-                label="Iniciar Projeto"
+                label={t('nav.startProject')}
                 to="/contato"
                 onClick={() => setMobileOpen(false)}
               />
-              <div className="pt-2 mt-2 border-t border-white/10">
-                <label className={`block text-[10px] font-mono uppercase tracking-[0.12em] mb-2 ${textLight ? 'text-white/60' : 'text-heavy/60'}`}>
-                  Idioma
-                </label>
-                <div className="flex flex-wrap gap-2">
-                  {languageOptions.map((opt) => (
-                    <button
-                      key={opt.value}
-                      type="button"
-                      onClick={() => setLanguage(opt.value)}
-                      className={`px-3 py-2 rounded-md border text-xs font-mono ${
-                        language === opt.value
-                          ? 'text-white bg-white/10 border-white/25'
-                          : 'text-white/75 border-white/15 hover:bg-white/10'
-                      }`}
-                    >
-                      {opt.label}
-                    </button>
-                  ))}
+              {showLanguageSelector && (
+                <div className="pt-2 mt-2 border-t border-white/10">
+                  <label className={`block text-[10px] font-mono uppercase tracking-[0.12em] mb-2 ${textLight ? 'text-white/60' : 'text-heavy/60'}`}>
+                    {t('nav.mobile.language')}
+                  </label>
+                  <div className="flex flex-wrap gap-2">
+                    {languageOptions.map((opt) => (
+                      <button
+                        key={opt.value}
+                        type="button"
+                        onClick={() => setLanguage(opt.value)}
+                        className={`px-3 py-2 rounded-md border text-xs font-mono ${
+                          language === opt.value
+                            ? 'text-white bg-white/10 border-white/25'
+                            : 'text-white/75 border-white/15 hover:bg-white/10'
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </motion.div>
         )}

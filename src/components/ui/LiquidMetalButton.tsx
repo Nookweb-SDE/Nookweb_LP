@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, useRef, useEffect, useCallback, type MouseEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
 interface LiquidMetalButtonProps {
   label?: string
@@ -28,6 +28,7 @@ export function LiquidMetalButton({
   size = 'default',
   textStyle = 'default',
 }: LiquidMetalButtonProps) {
+  const navigate = useNavigate()
   const { width, height, innerWidth, innerHeight, fontSize, translateZ } = SIZES[size]
   const [isHovered, setIsHovered] = useState(false)
   const [isPressed, setIsPressed] = useState(false)
@@ -40,6 +41,9 @@ export function LiquidMetalButton({
       const style = document.createElement('style')
       style.id = styleId
       style.textContent = `
+        .shader-container-nookweb {
+          pointer-events: none !important;
+        }
         .shader-container-nookweb canvas {
           width: 100% !important;
           height: 100% !important;
@@ -48,6 +52,7 @@ export function LiquidMetalButton({
           top: 0 !important;
           left: 0 !important;
           border-radius: 100px !important;
+          pointer-events: none !important;
         }
       `
       document.head.appendChild(style)
@@ -104,13 +109,39 @@ export function LiquidMetalButton({
     shaderMount.current?.setSpeed?.(0.6)
   }
 
-  const handleClick = () => {
+  const runClickFeedback = useCallback(() => {
     shaderMount.current?.setSpeed?.(2.4)
     setTimeout(() => shaderMount.current?.setSpeed?.(0.6), 300)
+  }, [])
+
+  const handleStandaloneClick = () => {
+    runClickFeedback()
     onClick?.()
   }
 
-  const content = (
+  const handleLinkClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      runClickFeedback()
+      onClick?.()
+      e.preventDefault()
+      navigate(to)
+    },
+    [navigate, onClick, runClickFeedback, to]
+  )
+
+  const handleHrefClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
+      if (!href) return
+      runClickFeedback()
+      onClick?.()
+      e.preventDefault()
+      window.open(href, '_blank', 'noopener,noreferrer')
+    },
+    [href, onClick, runClickFeedback]
+  )
+
+  /** Apenas camadas visuais + overlay invisível para modo botão (sem to/href) */
+  const renderStack = (withStandaloneHitLayer: boolean) => (
     <div style={{ perspective: '1000px', perspectiveOrigin: '50% 50%' }}>
       <div
         style={{
@@ -172,6 +203,7 @@ export function LiquidMetalButton({
             transformStyle: 'preserve-3d',
             transform: `translateZ(10px) ${isPressed ? 'translateY(1px) scale(0.98)' : 'translateY(0) scale(1)'}`,
             zIndex: 20,
+            pointerEvents: 'none',
           }}
         >
           <div
@@ -198,6 +230,7 @@ export function LiquidMetalButton({
             transformStyle: 'preserve-3d',
             transform: `translateZ(0px) ${isPressed ? 'translateY(1px) scale(0.98)' : 'translateY(0) scale(1)'}`,
             zIndex: 10,
+            pointerEvents: 'none',
           }}
         >
           <div
@@ -223,41 +256,20 @@ export function LiquidMetalButton({
                 width: `${width}px`,
                 maxWidth: `${width}px`,
                 height: `${height}px`,
+                pointerEvents: 'none',
               }}
             />
           </div>
         </div>
 
-        {to || href ? (
-          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onMouseDown={() => setIsPressed(true)}
-            onMouseUp={() => setIsPressed(false)}
-            onClick={handleClick}
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: `${width}px`,
-              height: `${height}px`,
-              background: 'transparent',
-              cursor: 'pointer',
-              zIndex: 40,
-              transformStyle: 'preserve-3d',
-              transform: `translateZ(${translateZ + 5}px)`,
-              borderRadius: '100px',
-            }}
-            aria-hidden
-          />
-        ) : (
+        {withStandaloneHitLayer ? (
           <button
             type="button"
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
             onMouseDown={() => setIsPressed(true)}
             onMouseUp={() => setIsPressed(false)}
-            onClick={handleClick}
+            onClick={handleStandaloneClick}
             style={{
               position: 'absolute',
               top: 0,
@@ -275,24 +287,59 @@ export function LiquidMetalButton({
             }}
             aria-label={label}
           />
+        ) : (
+          /* Hit layer for Link/anchor wrapping — ensures clicks reach the parent <a> */
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: `${width}px`,
+              height: `${height}px`,
+              zIndex: 40,
+              cursor: 'pointer',
+              borderRadius: '100px',
+            }}
+          />
         )}
       </div>
     </div>
   )
 
-  if (to) {
-    return (
-      <Link to={to} className="inline-block" style={{ textDecoration: 'none' }}>
-        {content}
-      </Link>
-    )
-  }
+  const linkStyle = { textDecoration: 'none' as const, cursor: 'pointer' as const }
+
   if (href) {
     return (
-      <a href={href} className="inline-block" style={{ textDecoration: 'none' }}>
-        {content}
+      <a
+        href={href}
+        className="inline-block"
+        style={linkStyle}
+        onClick={handleHrefClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
+      >
+        {renderStack(false)}
       </a>
     )
   }
-  return <div className="inline-block">{content}</div>
+  if (to) {
+    return (
+      <Link
+        to={to}
+        className="inline-block"
+        style={linkStyle}
+        onClick={handleLinkClick}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        onMouseDown={() => setIsPressed(true)}
+        onMouseUp={() => setIsPressed(false)}
+      >
+        {renderStack(false)}
+      </Link>
+    )
+  }
+
+  return <div className="inline-block">{renderStack(true)}</div>
 }

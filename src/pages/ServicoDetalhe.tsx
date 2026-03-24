@@ -2,16 +2,29 @@ import { useParams, Link } from 'react-router-dom'
 import { Container } from '@/components/ui/Container'
 import { Button } from '@/components/ui/Button'
 import { services } from '@/data/services'
+import { useI18n } from '@/i18n/I18nProvider'
 
 export function ServicoDetalhe() {
+  const { language } = useI18n()
+  const copy = language === 'pt'
+    ? {
+        notFound: 'Serviço não encontrado.',
+        back: 'Voltar aos serviços',
+        cta: 'Falar com a gente',
+      }
+    : {
+        notFound: 'Service not found.',
+        back: 'Back to services',
+        cta: 'Talk to our team',
+      }
   const { slug } = useParams<{ slug: string }>()
   const service = services.find((s) => s.slug === slug)
 
   if (!service) {
     return (
       <main className="pt-20 sm:pt-24 pb-12 sm:pb-20 text-center px-4">
-        <p>Serviço não encontrado.</p>
-        <Link to="/servicos">Voltar aos serviços</Link>
+        <p>{copy.notFound}</p>
+        <Link to="/servicos">{copy.back}</Link>
       </main>
     )
   }
@@ -33,7 +46,7 @@ export function ServicoDetalhe() {
             </ul>
           )}
           <Link to="/contato" className="mt-8 inline-block">
-            <Button variant="primary">Falar com a gente</Button>
+            <Button variant="primary">{copy.cta}</Button>
           </Link>
         </div>
       </Container>

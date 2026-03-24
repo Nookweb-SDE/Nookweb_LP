@@ -1,6 +1,8 @@
 import { useParams, Link } from 'react-router-dom'
+import { getCasesHref } from '@/config/casesModal'
 import { Container } from '../components/ui/Container'
 import { Button } from '../components/ui/Button'
+import { useI18n } from '@/i18n/I18nProvider'
 
 const cases: Record<string, { tag: string; title: string; description: string; results?: string }> = {
   'saas-vendas': { tag: 'SaaS', title: 'Pipeline de Vendas', description: 'Dashboard e CRM integrado para equipe comercial.', results: 'Aumento de 40% na conversão.' },
@@ -9,14 +11,26 @@ const cases: Record<string, { tag: string; title: string; description: string; r
 }
 
 export function CaseDetalhe() {
+  const { language } = useI18n()
+  const copy = language === 'pt'
+    ? {
+        notFound: 'Case não encontrado.',
+        back: 'Voltar aos cases',
+        cta: 'Quero um resultado assim',
+      }
+    : {
+        notFound: 'Case not found.',
+        back: 'Back to cases',
+        cta: 'I want this kind of result',
+      }
   const { slug } = useParams<{ slug: string }>()
   const caseItem = slug ? cases[slug] : null
 
   if (!caseItem) {
     return (
       <main className="py-12 sm:py-20 text-center px-4">
-        <p>Case não encontrado.</p>
-        <Link to="/cases">Voltar aos cases</Link>
+        <p>{copy.notFound}</p>
+        <Link to={getCasesHref()}>{copy.back}</Link>
       </main>
     )
   }
@@ -32,7 +46,7 @@ export function CaseDetalhe() {
             <p className="mt-4 font-medium text-accent">{caseItem.results}</p>
           )}
           <Link to="/contato" className="mt-8 inline-block">
-            <Button variant="primary">Quero um resultado assim</Button>
+            <Button variant="primary">{copy.cta}</Button>
           </Link>
         </div>
       </Container>

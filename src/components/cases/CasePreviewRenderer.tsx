@@ -5,6 +5,7 @@
 ═══════════════════════════════════════════════ */
 
 import { CASE_PREVIEWS } from "@/data/casePreviews";
+import { HeroCarouselShotPreview } from "./previews/HeroCarouselShotPreview";
 import { LandingPreview } from "./previews/LandingPreview";
 import MonospheraPreview from "./previews/MonospheraPreview";
 import NookLeadPreview from "./previews/NookLeadPreview";
@@ -39,7 +40,7 @@ import IACorporativaPreview from "./previews/IACorporativaPreview";
 
 interface Props {
   caseType: string;   // "site" | "app" | "saas" | "baas" | "n8n" | "design" | "lowcode" | "ai"
-  variant: number;    // 0 ou 1
+  variant: number;    // índice da variante na vertical
 }
 
 export function CasePreviewRenderer({ caseType, variant }: Props) {
@@ -47,6 +48,10 @@ export function CasePreviewRenderer({ caseType, variant }: Props) {
   if (!cases) return null;
 
   const data = cases[variant] ?? cases[0];
+
+  if (data.carouselImage) {
+    return <HeroCarouselShotPreview src={data.carouselImage} label={data.clientTagline} />;
+  }
 
   // Sites (01) — Case 1 Brillance (GitHub case1_landingpage) + Foodie + Minimal
   if (data.id === "site-case1-brillance") return <MonospheraPreview />;

@@ -1,6 +1,6 @@
 /**
  * Itens do carrossel do Hero.
- * Para usar imagem: coloque o arquivo em public/sites/ e defina image: '/sites/nome-do-arquivo.jpg'
+ * Imagens em public/sites/site1.jpg … site8.jpg (capturas do pipeline do projeto).
  */
 export const HERO_CAROUSEL_ITEMS: { label: string; image?: string }[] = [
   { label: 'Sites de Alto Impacto', image: '/sites/site1.jpg' },

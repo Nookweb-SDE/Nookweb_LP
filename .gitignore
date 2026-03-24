@@ -37,3 +37,12 @@ Thumbs.db
 public/sites/node_modules/
 
 .vercel
+
+# Experimentos / v0 / cópias temporárias (não versionar — pesado e irrelevante)
+temp-*/
+temp-v0-*/
+temp-v0-app-sport/
+temp-v0-foodie/
+
+# Cursor local (opcional neste repo)
+.cursor/

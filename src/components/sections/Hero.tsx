@@ -1,9 +1,12 @@
 import { motion } from 'framer-motion'
 import { HeroCarousel } from '@/components/ui/HeroCarousel'
-
-const words = ['CRIAMOS', 'MUNDOS', 'DIGITAIS.']
+import { useI18n } from '@/i18n/I18nProvider'
 
 export function Hero() {
+  const { t, list } = useI18n()
+  const words = list('hero.words')
+  const marqueeItems = list('hero.marquee')
+
   return (
     <section
       data-dark-section
@@ -31,7 +34,7 @@ export function Hero() {
                   className="font-mono text-xs font-bold tracking-[0.2em] uppercase"
                   style={{ color: 'var(--hero-orange)' }}
                 >
-                  Agência Digital
+                  {t('hero.badge')}
                 </span>
                 <span className="text-xs text-white/30">Est. 2022 · São Paulo, BR</span>
               </div>
@@ -83,9 +86,7 @@ export function Hero() {
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
                 <p className="font-sans text-base text-white/50 leading-relaxed max-w-[420px]">
-                  Do papel ao ar em semanas. Do amador ao profissional.
-                <br />
-                Site, app, ERP, CRM, BaaS, IA ou automação — seja começando do zero ou reconstruindo o que não funciona, entregamos a solução certa para seu negócio crescer sem limite.
+                  {t('hero.description')}
                 </p>
               </motion.div>
             </div>
@@ -103,29 +104,11 @@ export function Hero() {
           transition={{ delay: 1 }}
         >
           <div className="flex gap-0 w-max animate-marquee-hero">
-            {[
-              'Sites de Alto Impacto',
-              'Aplicativos Mobile',
-              'Plataformas SaaS',
-              'BaaS & Infraestrutura',
-              'Automações N8N',
-              'UI/UX Design',
-              'Low-code',
-              'IA Integrada',
-            ]
-              .concat([
-                'Sites de Alto Impacto',
-                'Aplicativos Mobile',
-                'Plataformas SaaS',
-                'BaaS & Infraestrutura',
-                'Automações N8N',
-                'UI/UX Design',
-                'Low-code',
-                'IA Integrada',
-              ])
-              .map((item) => (
+            {marqueeItems
+              .concat(marqueeItems)
+              .map((item, idx) => (
                 <div
-                  key={item}
+                  key={`${item}-${idx}`}
                   className="flex items-center gap-6 px-8 font-mono text-xs font-semibold tracking-widest uppercase text-white/30 whitespace-nowrap"
                 >
                   {item}

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { MeshGradientBackground } from '@/components/ui/MeshGradientBackground'
 import { Container } from '@/components/ui/Container'
+import { useI18n } from '@/i18n/I18nProvider'
 
 const P = {
   orange: '#FF4500',
@@ -435,6 +436,27 @@ function Card({ card }: { card: (typeof CARDS)[0] }) {
 }
 
 export function Stats() {
+  const { language } = useI18n()
+  const isPt = language === 'pt'
+  const copy = isPt
+    ? {
+        why: 'Por que a Nookweb',
+        titleA: 'Entregamos',
+        titleB: 'resultados reais.',
+      }
+    : {
+        why: 'Why Nookweb',
+        titleA: 'We deliver',
+        titleB: 'real results.',
+      }
+  const cards = isPt
+    ? CARDS
+    : [
+        { ...CARDS[0], title: 'Projects', orange: 'Delivered with quality', desc: 'High-quality deliveries completed by Nookweb, on time.' },
+        { ...CARDS[1], title: 'Faster', orange: 'Up to 10x faster', desc: 'Smart applications up to 10x faster than traditional development.' },
+        { ...CARDS[2], title: 'Experts', orange: 'Senior multidisciplinary team', desc: 'Multidisciplinary senior team, from concept to delivery with the right expertise.' },
+      ]
+
   useEffect(() => {
     const s = document.createElement('style')
     s.innerHTML = `
@@ -464,7 +486,7 @@ export function Stats() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
             <div style={{ width: 32, height: 1, background: `linear-gradient(90deg,transparent,${P.orange})` }} />
             <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: P.orange, letterSpacing: '4px', textTransform: 'uppercase' }}>
-              Por que a Nookweb
+              {copy.why}
             </span>
             <div style={{ width: 32, height: 1, background: `linear-gradient(90deg,${P.orange},transparent)` }} />
           </div>
@@ -480,7 +502,7 @@ export function Stats() {
               maxWidth: 600,
             }}
           >
-            Entregamos{' '}
+            {copy.titleA}{' '}
             <span
               style={{
                 fontStyle: 'italic',
@@ -491,7 +513,7 @@ export function Stats() {
                 animation: 'statsShimmer 3.5s linear infinite',
               }}
             >
-              resultados reais.
+              {copy.titleB}
             </span>
           </h2>
         </div>
@@ -504,7 +526,7 @@ export function Stats() {
             alignItems: 'stretch',
           }}
         >
-          {CARDS.map((card) => (
+          {cards.map((card) => (
             <Card key={card.id} card={card} />
           ))}
         </div>

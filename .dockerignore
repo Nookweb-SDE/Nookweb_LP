@@ -1,12 +1,48 @@
+# Dependências e build local
 node_modules
 dist
 .git
+.vite
+*.tsbuildinfo
+.eslintcache
+npm-debug.log*
+*.log
+
+# IDE / local
 .cursor
 .vscode
-*.md
+.claude
+.vercel
+
+# Env (exceto exemplo — não vai para imagem com segredos)
 .env
 .env.*
 !.env.example
+
+# Documentação e artefactos que não entram no Vite build
+docs
+api
+prisma
+scripts
+*.md
+COPIAR-COLA*.txt
+DESIGN-TOKENS*.md
+DESIGN-TOKENS-PARA-COPIAR.md
+ENVIAR-PARA-OUTRO-GIT.md
+INSTRUCOES*.md
+NOOKWEB-PALETAS*.md
+*.code-workspace
+
+# Deploy Swarm (na VPS; não entram no COPY . do builder)
+deploy-vps.ps1
+docker-stack.yml
+
+# Pastas temporárias / experimentos
 temp-*
-*.log
+temp-v0-*
+temp-v0-app-sport
+temp-v0-foodie
+
+# OS
 .DS_Store
+Thumbs.db

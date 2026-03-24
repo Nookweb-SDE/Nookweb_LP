@@ -21,6 +21,14 @@ const T = {
   gray200: "#E5E7EB", gray050: "#F9FAFB", white: "#FFFFFF",
 };
 
+/** Imagens remotas (Unsplash) — carregam sem depender de arquivos em public/revivaz/ */
+const RVZ = {
+  team: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f2e?w=600&q=80",
+  heroAlt: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80",
+  partners: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80",
+  hero: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=600&q=80",
+} as const;
+
 const pill = (active: boolean) => ({
   padding: "7px 16px", fontSize: "10px", fontWeight: 700 as const,
   border: "none", borderRadius: 9999, cursor: "pointer" as const,
@@ -254,10 +262,10 @@ export default function RevivazPreview() {
   ];
 
   const FEATURES = [
-    { icon: Brain, title: "Psiquiatria", sub: "Acompanhamento especializado com profissionais voluntários qualificados.", img: "/revivaz/team.png", imgPos: "center" },
-    { icon: Calendar, title: "Agendamento fácil", sub: "Presencial ou online, sem burocracia. Agende em poucos cliques.", img: "/revivaz/hero-alt.png", imgPos: "center" },
-    { icon: FileText, title: "Receita digital", sub: "Receba sua receita por SMS ou WhatsApp logo após a consulta.", img: "/revivaz/partners.png", imgPos: "center calc(50% + 10px)" },
-    { icon: Users, title: "Voluntários", sub: "Psicólogos e psiquiatras dedicados ao atendimento solidário.", img: "/revivaz/hero.png", imgPos: "center" },
+    { icon: Brain, title: "Psiquiatria", sub: "Acompanhamento especializado com profissionais voluntários qualificados.", img: RVZ.team, imgPos: "center" },
+    { icon: Calendar, title: "Agendamento fácil", sub: "Presencial ou online, sem burocracia. Agende em poucos cliques.", img: RVZ.heroAlt, imgPos: "center" },
+    { icon: FileText, title: "Receita digital", sub: "Receba sua receita por SMS ou WhatsApp logo após a consulta.", img: RVZ.partners, imgPos: "center calc(50% + 10px)" },
+    { icon: Users, title: "Voluntários", sub: "Psicólogos e psiquiatras dedicados ao atendimento solidário.", img: RVZ.hero, imgPos: "center" },
   ];
 
   const SOLUCOES = [
@@ -268,9 +276,9 @@ export default function RevivazPreview() {
   ];
 
   const NEWS = [
-    { title: "Revivaz e SUS: parceria para reduzir filas", cat: "Solidário", date: "1 out.", img: "/revivaz/partners.png" },
-    { title: "Saúde mental nas periferias: entrevista", cat: "Imprensa", date: "25 set.", img: "/revivaz/hero-alt.png" },
-    { title: "Novos profissionais voluntários em 2025", cat: "Imprensa", date: "23 set.", img: "/revivaz/team.png" },
+    { title: "Revivaz e SUS: parceria para reduzir filas", cat: "Solidário", date: "1 out.", img: RVZ.partners },
+    { title: "Saúde mental nas periferias: entrevista", cat: "Imprensa", date: "25 set.", img: RVZ.heroAlt },
+    { title: "Novos profissionais voluntários em 2025", cat: "Imprensa", date: "23 set.", img: RVZ.team },
   ];
 
   const openAgendar = () => { setModalAgendar(true); setAgendarOk(false); };
@@ -340,7 +348,7 @@ export default function RevivazPreview() {
           </div>
           {/* image */}
           <div style={{ width: "42%", minHeight: 110, borderRadius: 14, overflow: "hidden", position: "relative", flexShrink: 0 }}>
-            <img src="/revivaz/team.png" alt="Equipe" style={{ width: "100%", height: 140, objectFit: "cover", objectPosition: "top center", display: "block" }} />
+            <img src={RVZ.team} alt="Equipe" style={{ width: "100%", height: 140, objectFit: "cover", objectPosition: "top center", display: "block" }} loading="lazy" decoding="async" />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, padding: "18px 8px 6px", background: "linear-gradient(transparent,rgba(0,0,0,.55))" }}>
               <span style={{ fontSize: 8, color: T.white, fontWeight: 700 }}>+500 profissionais</span>
             </div>
@@ -409,7 +417,7 @@ export default function RevivazPreview() {
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
           {FEATURES.map(({ icon: Ic, title, sub, img, imgPos }) => (
             <div key={title} style={{ borderRadius: 14, overflow: "hidden", position: "relative", boxShadow: "0 2px 12px rgba(0,0,0,.08)" }}>
-              <img src={img} alt={title} style={{ width: "100%", height: 120, objectFit: "cover", objectPosition: imgPos, display: "block" }} />
+              <img src={img} alt={title} style={{ width: "100%", height: 120, objectFit: "cover", objectPosition: imgPos, display: "block" }} loading="lazy" decoding="async" />
               <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top,rgba(11,29,58,.82) 35%,transparent 70%)" }} />
               <div style={{ position: "absolute", top: 6, left: 6, width: 22, height: 22, borderRadius: 6, background: "rgba(255,255,255,.2)", backdropFilter: "blur(4px)", display: "flex", alignItems: "center", justifyContent: "center" }}>
                 <Ic size={12} color={T.white} />
@@ -427,7 +435,7 @@ export default function RevivazPreview() {
       <section style={{ padding: "24px 16px", background: T.navy }}>
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <div style={{ width: "40%", borderRadius: 14, overflow: "hidden", flexShrink: 0 }}>
-            <img src="/revivaz/team.png" alt="Equipe" style={{ width: "100%", height: 140, objectFit: "cover", objectPosition: "top center", display: "block" }} />
+            <img src={RVZ.team} alt="Equipe" style={{ width: "100%", height: 140, objectFit: "cover", objectPosition: "top center", display: "block" }} loading="lazy" decoding="async" />
           </div>
           <div style={{ flex: 1 }}>
             <h2 style={{ fontFamily: "'Nunito',sans-serif", fontWeight: 800, fontSize: 15, color: T.white, marginBottom: 10 }}>Nossas soluções</h2>
@@ -542,7 +550,7 @@ export default function RevivazPreview() {
         <div style={{ display: "flex", gap: 10 }}>
           {NEWS.map(n => (
             <div key={n.title} style={{ flex: 1, borderRadius: 12, overflow: "hidden", border: `1px solid ${T.gray200}`, background: T.gray050 }}>
-              <img src={n.img} alt={n.title} style={{ width: "100%", height: 90, objectFit: "cover", objectPosition: "top center", display: "block" }} />
+              <img src={n.img} alt={n.title} style={{ width: "100%", height: 90, objectFit: "cover", objectPosition: "top center", display: "block" }} loading="lazy" decoding="async" />
               <div style={{ padding: "7px 8px" }}>
                 <div style={{ fontSize: 8, color: T.teal700, fontWeight: 700, marginBottom: 2 }}>{n.cat}</div>
                 <div style={{ fontSize: 9, fontWeight: 600, color: T.gray950, lineHeight: 1.3, marginBottom: 2 }}>{n.title}</div>

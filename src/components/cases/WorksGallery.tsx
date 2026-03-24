@@ -8,7 +8,7 @@ const projects = [
     title: "MONOSPHERA",
     category: "PROTEÇÃO INTELIGENTE",
     year: "2024",
-    thumbnail: "/cases/monosphera-cover.jpg",
+    thumbnail: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=900&fit=crop&q=80",
     video: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
   },
   {

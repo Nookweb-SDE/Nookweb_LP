@@ -1,8 +1,11 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Mail, ArrowRight, Sparkles } from 'lucide-react'
 import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton'
 import { marqueeTools } from '@/data/marquee'
+import { getCasesHref } from '@/config/casesModal'
+import { useI18n } from '@/i18n/I18nProvider'
 
 /* ═══════════════════════════════════════════════
    FOOTER PREMIUM — "Closing act"
@@ -24,21 +27,163 @@ const P = {
   border: 'rgba(255,255,255,0.06)',
 }
 
-const navLinks = [
-  { to: '/servicos', label: 'Serviços' },
-  { to: '/cases', label: 'Cases' },
-  { to: '/sobre', label: 'Sobre' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contato', label: 'Contato' },
-]
+/* ── Loss Counter: animated "money lost" ticker ── */
+const CURRENCY_BY_LANG: Record<string, { currency: string; locale: string }> = {
+  pt: { currency: 'BRL', locale: 'pt-BR' },
+  en: { currency: 'USD', locale: 'en-US' },
+  es: { currency: 'USD', locale: 'es-MX' },
+  fr: { currency: 'EUR', locale: 'fr-FR' },
+  zh: { currency: 'CNY', locale: 'zh-CN' },
+  hi: { currency: 'INR', locale: 'hi-IN' },
+  ar: { currency: 'AED', locale: 'ar-AE' },
+  ru: { currency: 'RUB', locale: 'ru-RU' },
+}
 
-const STATS = [
-  { value: '90%', label: 'mais barato' },
-  { value: '10×', label: 'mais rápido' },
-  { value: '72h', label: 'protótipo' },
-]
+function LossCounter({ label, lang }: { label: string; lang: string }) {
+  const [value, setValue] = useState(0)
+  const [hov, setHov] = useState(false)
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setValue((v) => v + 487)
+    }, 600)
+    return () => clearInterval(interval)
+  }, [])
+
+  const { currency, locale } = CURRENCY_BY_LANG[lang] ?? CURRENCY_BY_LANG.pt
+  const formatted = value.toLocaleString(locale, {
+    style: 'currency',
+    currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  })
+
+  return (
+    <div
+      onMouseEnter={() => setHov(true)}
+      onMouseLeave={() => setHov(false)}
+      style={{
+        position: 'relative',
+        overflow: 'hidden',
+        display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        gap: '0',
+        padding: '32px 40px 28px',
+        borderRadius: '20px',
+        width: '100%',
+        maxWidth: '360px',
+        background: hov ? `linear-gradient(145deg,#222224,#1a1a1c)` : '#1a1a1c',
+        border: `1px solid ${hov ? P.orange + '55' : 'rgba(192,192,192,0.5)'}`,
+        cursor: 'default',
+        transform: hov ? 'translateY(-8px)' : 'translateY(0)',
+        boxShadow: hov
+          ? `0 32px 72px rgba(0,0,0,0.67), 0 0 0 1px ${P.orange}22, inset 0 1px 0 rgba(255,255,255,0.12)`
+          : `0 4px 24px rgba(0,0,0,0.33), inset 0 1px 0 rgba(255,255,255,0.12)`,
+        transition: 'all .45s cubic-bezier(.34,1.2,.64,1)',
+      }}
+    >
+      {/* Gradient overlay — matches Stats card */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          borderRadius: '20px',
+          pointerEvents: 'none',
+          background: 'linear-gradient(135deg,rgba(255,255,255,0.12) 0%,transparent 50%,rgba(192,192,192,0.1) 100%)',
+        }}
+      />
+      {/* Orange radial glow top-right */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          right: 0,
+          width: '160px',
+          height: '160px',
+          pointerEvents: 'none',
+          background: `radial-gradient(circle,${P.orange}${hov ? '16' : '08'} 0%,transparent 70%)`,
+          transition: 'all .4s ease',
+        }}
+      />
+      {/* Bottom orange line on hover */}
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          left: '20%',
+          width: hov ? '60%' : '0%',
+          height: '1px',
+          background: `linear-gradient(90deg,transparent,${P.orange},transparent)`,
+          transition: 'width .5s ease',
+        }}
+      />
+      {/* Counter value */}
+      <span
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: 'clamp(28px, 4.5vw, 42px)',
+          fontWeight: 700,
+          color: P.orange,
+          lineHeight: 1,
+          animation: 'countTick 0.6s ease-in-out infinite',
+          textShadow: `0 0 30px ${P.orange}44, 0 0 60px ${P.orange}22`,
+          letterSpacing: '0.02em',
+          position: 'relative',
+          zIndex: 1,
+          marginBottom: '12px',
+        }}
+      >
+        {formatted}
+      </span>
+      {/* Divider */}
+      <div
+        style={{
+          width: hov ? '48px' : '24px',
+          height: '1px',
+          background: `linear-gradient(90deg,${P.orange},${P.orangeAlt})`,
+          marginBottom: '12px',
+          transition: 'width .4s ease',
+          borderRadius: 1,
+          position: 'relative',
+          zIndex: 1,
+        }}
+      />
+      {/* Label */}
+      <span
+        style={{
+          fontFamily: "'Space Mono', monospace",
+          fontSize: '9px',
+          letterSpacing: '0.18em',
+          color: hov ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.35)',
+          textTransform: 'uppercase',
+          textAlign: 'center',
+          position: 'relative',
+          zIndex: 1,
+          transition: 'color .3s ease',
+        }}
+      >
+        {label}
+      </span>
+    </div>
+  )
+}
 
 export function Footer() {
+  const { t, language } = useI18n()
+  const navLinks = [
+    { to: '/servicos', label: t('nav.links.services') },
+    { to: getCasesHref(), label: t('nav.links.cases') },
+    { to: '/sobre', label: t('nav.links.about') },
+    { to: '/blog', label: t('nav.links.blog') },
+    { to: '/contato', label: t('nav.links.contact') },
+  ]
+  const stats = [
+    { value: '90%', label: t('footer.stats.cheaper') },
+    { value: '10×', label: t('footer.stats.faster') },
+    { value: '72h', label: t('footer.stats.prototype') },
+  ]
+
   return (
     <footer
       data-dark-section
@@ -94,16 +239,25 @@ export function Footer() {
         </div>
       </div>
 
-      {/* ── CTA Block: "Pronto para construir?" ── */}
+      {/* ── CTA Block: "O Custo de Não Agir" — Loss Aversion ── */}
       <div
         className="footer-cta-block"
         style={{
           maxWidth: '1280px',
           margin: '0 auto',
-          padding: '40px 16px 32px',
+          padding: '48px 16px 36px',
           textAlign: 'center',
         }}
       >
+        <style>{`
+          @keyframes countTick {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
+          }
+        `}</style>
+
+        {/* Section label */}
         <motion.div
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -132,10 +286,11 @@ export function Footer() {
               textTransform: 'uppercase',
             }}
           >
-            Próximo passo
+            {t('footer.nextStep')}
           </span>
         </motion.div>
 
+        {/* Headline */}
         <motion.h2
           initial={{ opacity: 0, y: 28 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -143,48 +298,74 @@ export function Footer() {
           transition={{ duration: 0.6, delay: 0.1, ease: [0.23, 1, 0.32, 1] }}
           style={{
             fontFamily: "'Instrument Serif', serif",
-            fontSize: 'clamp(36px, 5vw, 64px)',
+            fontSize: 'clamp(32px, 5vw, 58px)',
             fontWeight: 400,
-            lineHeight: 1.08,
+            lineHeight: 1.1,
             letterSpacing: '-1.5px',
             color: P.warm,
-            margin: '0 0 28px',
+            margin: '0 0 8px',
           }}
         >
-          Pronto para{' '}
-          <em className="footer-shimmer-text" style={{ fontStyle: 'italic' }}>
-            construir o próximo
-          </em>
-          ?
+          {t('footer.lossTitle')}
+        </motion.h2>
+        <motion.h2
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.6, delay: 0.15, ease: [0.23, 1, 0.32, 1] }}
+          style={{
+            fontFamily: "'Instrument Serif', serif",
+            fontSize: 'clamp(32px, 5vw, 58px)',
+            fontWeight: 400,
+            lineHeight: 1.1,
+            letterSpacing: '-1.5px',
+            color: P.orange,
+            fontStyle: 'italic',
+            margin: '0 0 28px',
+            textShadow: `0 0 40px ${P.orange}33`,
+          }}
+        >
+          {t('footer.lossEmphasis')}
         </motion.h2>
 
+        {/* Loss counter */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          style={{ marginBottom: '28px' }}
+        >
+          <LossCounter label={t('footer.lossCounter')} lang={language} />
+        </motion.div>
+
+        {/* Sub-headline */}
         <motion.p
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
+          transition={{ duration: 0.5, delay: 0.25 }}
           style={{
             fontSize: '15px',
             color: P.neutral,
-            margin: '0 0 36px',
-            maxWidth: '420px',
-            marginLeft: 'auto',
-            marginRight: 'auto',
-            lineHeight: 1.6,
+            margin: '0 auto 36px',
+            maxWidth: '460px',
+            lineHeight: 1.65,
           }}
         >
-          Agende um diagnóstico gratuito. Sem compromisso.
+          {t('footer.lossSub')}
         </motion.p>
 
+        {/* CTA button — LiquidMetal → WhatsApp */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.25 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
         >
           <LiquidMetalButton
-            label="Agendar Diagnóstico Gratuito"
-            to="/contato"
+            label={t('footer.whatsappButton')}
+            href="https://wa.me/5511960630085"
             size="large"
           />
         </motion.div>
@@ -194,10 +375,10 @@ export function Footer() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.35 }}
+          transition={{ duration: 0.5, delay: 0.4 }}
           className="flex justify-center gap-6 sm:gap-10 md:gap-12 lg:gap-16 mt-8 sm:mt-10 md:mt-12 flex-wrap"
         >
-          {STATS.map(({ value, label }) => (
+          {stats.map(({ value, label }) => (
             <div
               key={label}
               style={{
@@ -251,22 +432,24 @@ export function Footer() {
           <Link
             to="/"
             style={{
-              fontFamily: "'Instrument Serif', serif",
-              fontSize: '28px',
-              fontWeight: 400,
-              color: P.cream,
+              fontFamily: "'Space Mono', monospace",
+              fontSize: '15px',
+              fontWeight: 600,
+              color: '#ffffff',
               textDecoration: 'none',
               display: 'inline-block',
+              textTransform: 'uppercase',
+              letterSpacing: '0.08em',
               transition: 'color 0.3s ease',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.color = P.orange
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.color = P.cream
+              e.currentTarget.style.color = '#ffffff'
             }}
           >
-            Nookweb
+            NOOKWEB®
           </Link>
           <p
             style={{
@@ -276,7 +459,7 @@ export function Footer() {
               color: P.neutral,
             }}
           >
-            Holding Digital do Grupo ImpulsoTech. Sistema Certo, Na Hora Certa.
+            {t('footer.companyLine')}
           </p>
           <div
             style={{
@@ -300,7 +483,7 @@ export function Footer() {
                 textTransform: 'uppercase',
               }}
             >
-              Criamos Mundos Digitais
+              {t('footer.tagline')}
             </span>
           </div>
         </motion.div>
@@ -322,7 +505,7 @@ export function Footer() {
               marginBottom: '20px',
             }}
           >
-            Navegação
+            {t('footer.navigation')}
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
             {navLinks.map((link) => (
@@ -372,10 +555,10 @@ export function Footer() {
               marginBottom: '20px',
             }}
           >
-            Contato
+            {t('footer.contact')}
           </p>
           <a
-            href="mailto:contato@nookweb.com.br"
+            href="mailto:parceria@nookweb.com.br"
             style={{
               display: 'inline-flex',
               alignItems: 'center',
@@ -393,7 +576,7 @@ export function Footer() {
             }}
           >
             <Mail size={16} />
-            contato@nookweb.com.br
+            parceria@nookweb.com.br
           </a>
         </motion.div>
       </div>
@@ -412,7 +595,7 @@ export function Footer() {
               color: 'rgba(255,255,255,0.3)',
             }}
           >
-            © {new Date().getFullYear()} Nookweb. Todos os direitos reservados.
+            © {new Date().getFullYear()} Nookweb. {t('footer.rights')}
           </p>
           <div style={{ display: 'flex', gap: '24px' }}>
             <Link
@@ -430,7 +613,7 @@ export function Footer() {
                 e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
               }}
             >
-              Privacidade
+              {t('footer.privacy')}
             </Link>
             <Link
               to="/termos"
@@ -447,7 +630,7 @@ export function Footer() {
                 e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
               }}
             >
-              Termos
+              {t('footer.terms')}
             </Link>
           </div>
         </div>
