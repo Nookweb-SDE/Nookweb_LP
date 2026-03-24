@@ -4,6 +4,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
+# Vite embute env no build: sem isto, o seletor de idioma some em produção (Navbar).
+# Sobrescreva no build: docker build --build-arg VITE_ENABLE_LANGUAGE_SELECTOR=false .
+ARG VITE_ENABLE_LANGUAGE_SELECTOR=true
+ENV VITE_ENABLE_LANGUAGE_SELECTOR=$VITE_ENABLE_LANGUAGE_SELECTOR
+
 COPY package.json package-lock.json* ./
 RUN npm ci || npm install
 
