@@ -13,8 +13,9 @@ export function Home() {
   const location = useLocation()
 
   useEffect(() => {
-    if (location.hash !== '#cases') return
-    const el = document.getElementById('cases')
+    const id = location.hash.replace(/^#/, '')
+    if (!id) return
+    const el = document.getElementById(id)
     if (!el) return
     const t = window.requestAnimationFrame(() => {
       el.scrollIntoView({ behavior: 'smooth', block: 'start' })

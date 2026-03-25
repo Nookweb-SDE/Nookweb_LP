@@ -2,7 +2,7 @@
  * Seção IA Corporativa Local — Hero + Side Tabs (pilares).
  * Layout: hero, métricas em frase, tabs à esquerda, painel à direita, CTAs.
  */
-import { useState } from 'react'
+import { useState, useCallback, type MouseEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { useI18n } from '@/i18n/I18nProvider'
 
@@ -66,6 +66,13 @@ export function IACorporativaSection() {
         ctaSecondary: 'See how it works',
       }
   const [activeTab, setActiveTab] = useState(0)
+  const scrollToComoFunciona = useCallback((e: MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault()
+    const el = document.getElementById('como-funciona')
+    if (!el) return
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    window.history.replaceState(null, '', '#como-funciona')
+  }, [])
   const data = PILLAR_DATA[activeTab]
   const dataView = isPt
     ? data
@@ -183,7 +190,11 @@ export function IACorporativaSection() {
         <Link to="/contato" className="ia-cta-primary">
           {copy.ctaPrimary}
         </Link>
-        <a href="#como-funciona" className="ia-cta-secondary">
+        <a
+          href="#como-funciona"
+          className="ia-cta-secondary"
+          onClick={scrollToComoFunciona}
+        >
           {copy.ctaSecondary}
         </a>
       </div>

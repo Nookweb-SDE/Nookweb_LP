@@ -13,7 +13,11 @@ const features = [
 
 export function Metodologia() {
   return (
-    <section id="como-funciona" className="py-24 bg-pure-warm/50">
+    <section
+      id="como-funciona"
+      className="py-24 bg-pure-warm/50"
+      style={{ scrollMarginTop: 'calc(4.5rem + env(safe-area-inset-top, 0px))' }}
+    >
       <Container>
         <SectionHeader
           label="Metodologia"
