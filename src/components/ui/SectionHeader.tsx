@@ -13,7 +13,7 @@ export function SectionHeader({
   return (
     <div className="text-center max-w-2xl mx-auto mb-12">
       {label && (
-        <p className="font-mono text-[10px] sm:text-xs tracking-[0.15em] uppercase text-neutral mb-2">
+        <p className="font-mono text-[10px] sm:text-xs tracking-[0.15em] uppercase text-heavy/80 mb-2">
           {label}
         </p>
       )}
@@ -21,7 +21,7 @@ export function SectionHeader({
         {title}
       </h2>
       {desc && (
-        <p className="text-neutral text-sm sm:text-base leading-relaxed">
+        <p className="text-heavy/80 text-sm sm:text-base leading-relaxed">
           {desc}
         </p>
       )}

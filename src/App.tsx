@@ -39,7 +39,7 @@ export default function App() {
         <meta name="description" content={t('app.description')} />
       </Helmet>
       {!isSuperAdminPreview && <Navbar />}
-      <div className={mainClass}>
+      <main className={mainClass}>
         <Routes>
           <Route path="/superadmin-preview/*" element={<SuperAdminMonospheraCopy />} />
           <Route path="/" element={<Home />} />
@@ -64,7 +64,7 @@ export default function App() {
           <Route path="/termos" element={<Termos />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
-      </div>
+      </main>
       {!isSuperAdminPreview && <Footer />}
     </>
   )

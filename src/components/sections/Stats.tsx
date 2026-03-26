@@ -14,7 +14,7 @@ const P = {
   blackSoft: '#0a0a0a',
   warmWhite: '#F9F9F4',
   cream: '#F5F0E8',
-  neutral: '#767069',
+  neutral: '#d0cbc4',
   white: '#FFFFFF',
 }
 

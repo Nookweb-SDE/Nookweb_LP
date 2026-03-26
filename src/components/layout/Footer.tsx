@@ -22,8 +22,8 @@ const P = {
   orangeAlt: '#FF6D00',
   cream: '#F5F0E8',
   warm: '#F9F9F4',
-  neutral: 'rgba(255,255,255,0.45)',
-  silver: 'rgba(192,192,192,0.4)',
+  neutral: 'rgba(255,255,255,0.78)',
+  silver: 'rgba(192,192,192,0.78)',
   border: 'rgba(255,255,255,0.06)',
 }
 
@@ -155,7 +155,7 @@ function LossCounter({ label, lang }: { label: string; lang: string }) {
           fontFamily: "'Space Mono', monospace",
           fontSize: '9px',
           letterSpacing: '0.18em',
-          color: hov ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.35)',
+          color: hov ? 'rgba(255,255,255,0.85)' : 'rgba(255,255,255,0.75)',
           textTransform: 'uppercase',
           textAlign: 'center',
           position: 'relative',
@@ -405,7 +405,7 @@ export function Footer() {
                   fontFamily: "'Space Mono', monospace",
                   fontSize: '8px',
                   letterSpacing: '0.2em',
-                  color: 'rgba(255,255,255,0.25)',
+                  color: 'rgba(255,255,255,0.66)',
                   textTransform: 'uppercase',
                 }}
               >
@@ -592,7 +592,7 @@ export function Footer() {
           <p
             style={{
               fontSize: '12px',
-              color: 'rgba(255,255,255,0.3)',
+              color: 'rgba(255,255,255,0.72)',
             }}
           >
             © {new Date().getFullYear()} Nookweb. {t('footer.rights')}
@@ -602,7 +602,7 @@ export function Footer() {
               to="/politica-privacidade"
               style={{
                 fontSize: '12px',
-                color: 'rgba(255,255,255,0.35)',
+                color: 'rgba(255,255,255,0.75)',
                 textDecoration: 'none',
                 transition: 'color 0.2s ease',
               }}
@@ -610,7 +610,7 @@ export function Footer() {
                 e.currentTarget.style.color = P.orange
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+                e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
               }}
             >
               {t('footer.privacy')}
@@ -619,7 +619,7 @@ export function Footer() {
               to="/termos"
               style={{
                 fontSize: '12px',
-                color: 'rgba(255,255,255,0.35)',
+                color: 'rgba(255,255,255,0.75)',
                 textDecoration: 'none',
                 transition: 'color 0.2s ease',
               }}
@@ -627,7 +627,7 @@ export function Footer() {
                 e.currentTarget.style.color = P.orange
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
+                e.currentTarget.style.color = 'rgba(255,255,255,0.75)'
               }}
             >
               {t('footer.terms')}

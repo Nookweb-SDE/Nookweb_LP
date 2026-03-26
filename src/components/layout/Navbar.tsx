@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton'
+import { NookwebLogo } from '@/components/ui/NookwebLogo'
 import { getCasesHref } from '@/config/casesModal'
 import { useI18n } from '@/i18n/I18nProvider'
 
@@ -92,11 +93,8 @@ export function Navbar() {
       className={`fixed top-0 left-0 right-0 z-50 transition-[background-color,border-color,box-shadow] duration-500 ease-out navbar-safe-top ${headerBg}`}
     >
       <nav className="max-w-7xl mx-auto w-full px-4 sm:px-7 lg:px-10 h-16 sm:h-[72px] flex items-center justify-between gap-3">
-        <Link
-          to="/"
-          className={`font-mono text-sm md:text-[15px] font-semibold uppercase tracking-[0.08em] transition-colors duration-500 ${textLight ? 'text-white' : 'text-heavy'}`}
-        >
-          {t('nav.brand')}
+        <Link to="/" className="transition-colors duration-500">
+          <NookwebLogo isScrolled={scrolled} overDark={overDark} />
         </Link>
 
         <div className="hidden md:flex items-center gap-5 lg:gap-7 h-full">
@@ -130,7 +128,7 @@ export function Navbar() {
                 className={`h-8 px-3 rounded-md border text-[11px] font-mono uppercase tracking-[0.08em] ${
                   textLight ? `text-white/80 border-white/25 ${languageButtonBg}` : `text-heavy/80 border-heavy/25 ${languageButtonBg}`
                 }`}
-                aria-label={t('nav.languageLabel')}
+                aria-label={`${t('nav.languageLabel')}: ${activeLanguageLabel}`}
                 aria-expanded={langOpen}
               >
                 {activeLanguageLabel}

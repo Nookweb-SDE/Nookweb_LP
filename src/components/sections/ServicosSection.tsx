@@ -8,13 +8,14 @@ import { useI18n } from '@/i18n/I18nProvider'
 const P = {
   orange: '#FF4500',
   orangeAlt: '#FF6D00',
+  orangeText: '#B63A00',
   silver: '#c0c0c0',
-  silverB: 'rgba(192,192,192,0.35)',
+  silverB: 'rgba(192,192,192,0.55)',
   metal: '#1a1a1c',
   black: '#000000',
   blackSoft: '#0a0a0a',
   heavy: '#1C1A16',
-  neutral: '#767069',
+  neutral: '#5e5750',
   cream: '#F5F0E8',
   warm: '#F9F9F4',
   surface: '#E7E8E0',
@@ -366,7 +367,7 @@ export function ServicosSection() {
         .serv-row:hover .serv-row-arrow{opacity:1;transform:translateX(0);}
 
         .serv-row-bar{position:absolute;left:0;top:20%;bottom:20%;width:2px;background:#FF4500;transform:scaleY(0);transform-origin:center;transition:transform .4s cubic-bezier(.23,1,.32,1);border-radius:1px;}
-        .serv-row-num{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;color:rgba(192,192,192,.5);min-width:26px;transition:color .4s;}
+        .serv-row-num{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;color:rgba(192,192,192,.78);min-width:26px;transition:color .4s;}
         .serv-row-icon{opacity:.4;flex-shrink:0;transition:all .45s cubic-bezier(.23,1,.32,1);}
         .serv-row-title{font-family:'Instrument Serif',serif;font-size:clamp(18px,2.4vw,26px);color:#1C1A16;line-height:1.15;font-weight:400;transition:all .4s ease;}
         .serv-row-sub{font-family:'Space Mono',monospace;font-size:9px;color:#FF4500;text-transform:uppercase;letter-spacing:.14em;opacity:0;transform:translateX(-6px);transition:all .45s cubic-bezier(.23,1,.32,1);margin-top:3px;}
@@ -436,7 +437,7 @@ export function ServicosSection() {
           }}
         >
           {copy.titleA}{' '}
-          <em style={{ fontStyle: 'italic', color: P.orange }}>
+          <em style={{ fontStyle: 'italic', color: P.orangeText }}>
             {copy.titleB}
           </em>
         </h2>
@@ -464,9 +465,9 @@ export function ServicosSection() {
         <div style={{ display: 'flex', animation: 'marquee 42s linear infinite', width: 'max-content' }}>
           {[...Array(2)].map((_, si) =>
             ['React', 'TypeScript', 'Python', 'Node.js', 'Flutter', 'Next.js', 'Supabase', 'AWS', 'Docker', 'GraphQL', 'Bubble', 'N8N', 'Claude AI'].map((t, i) => (
-              <span key={`${si}-${i}`} style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: P.heavy, padding: '0 20px', opacity: 0.12, whiteSpace: 'nowrap', letterSpacing: '.1em', textTransform: 'uppercase' }}>
+              <span key={`${si}-${i}`} style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: P.heavy, padding: '0 20px', opacity: 0.96, whiteSpace: 'nowrap', letterSpacing: '.1em', textTransform: 'uppercase' }}>
                 {t}
-                <span style={{ margin: '0 14px', color: P.silver, opacity: 0.4 }}>·</span>
+                        <span style={{ margin: '0 14px', color: P.silver, opacity: 0.75 }}>·</span>
               </span>
             ))
           )}
@@ -531,7 +532,7 @@ export function ServicosSection() {
                       <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: P.silver, letterSpacing: '.16em', textTransform: 'uppercase', display: 'flex', alignItems: 'center', gap: 8 }}>
                         <span style={{ color: P.orange }}>{svc.number}</span>
                         <span style={{ display: 'inline-block', height: 1, background: P.silver, opacity: 0.3, animation: 'lineGrow .5s ease .15s both' }} />
-                        <span style={{ opacity: 0.5 }}>{svc.subtitle}</span>
+                        <span style={{ opacity: 0.85 }}>{svc.subtitle}</span>
                       </div>
                       <h3 style={{ fontFamily: "'Instrument Serif',serif", fontSize: 22, fontWeight: 400, color: P.heavy, margin: '6px 0 0', lineHeight: 1.1 }}>{svc.title}</h3>
                     </div>
@@ -553,7 +554,7 @@ export function ServicosSection() {
                     <circle cx="26" cy="26" r="22" stroke={P.silver} strokeWidth=".5" strokeDasharray="3 5" opacity=".2" />
                   </svg>
                   <div style={{ fontFamily: "'Instrument Serif',serif", fontSize: 18, fontStyle: 'italic', color: P.heavy, opacity: 0.2 }}>{copy.explore}</div>
-                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 9, color: P.silver, marginTop: 8, letterSpacing: '.2em', textTransform: 'uppercase', opacity: 0.35 }}>{copy.hoverHelp}</div>
+                  <div style={{ fontFamily: "'Space Mono',monospace", fontSize: 9, color: P.heavy, marginTop: 8, letterSpacing: '.2em', textTransform: 'uppercase', opacity: 0.75 }}>{copy.hoverHelp}</div>
                 </div>
               )}
             </div>

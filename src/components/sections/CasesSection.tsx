@@ -28,11 +28,11 @@ const P = {
   orange:   "#FF4500",
   orangeAlt:"#FF6D00",
   silver:   "#c0c0c0",
-  silverDim:"rgba(192,192,192,0.35)",
+  silverDim:"rgba(192,192,192,0.70)",
   heavy:    "#1C1A16",
   cream:    "#F5F0E8",
   warm:     "#F9F9F4",
-  neutral:  "rgba(255,255,255,0.45)",
+  neutral:  "rgba(255,255,255,0.82)",
   white:    "#FFFFFF",
   metalHL:  "rgba(255,255,255,0.07)",
 };
@@ -165,7 +165,7 @@ function AnimResult({ value, label, active }: { value: string; label: string; ac
         fontSize:"clamp(48px,5vw,72px)",
         fontWeight:"400",
         lineHeight:"1",
-        color: active ? P.orange : "rgba(255,255,255,0.12)",
+        color: active ? P.orange : "rgba(255,255,255,0.62)",
         textShadow: active ? `0 0 40px ${P.orange}55` : "none",
         fontStyle:"italic",
         letterSpacing:"-2px",
@@ -175,7 +175,7 @@ function AnimResult({ value, label, active }: { value: string; label: string; ac
       <div style={{
         fontFamily:"'Space Mono',monospace",
         fontSize:"9px",
-        color: active ? "rgba(255,255,255,0.45)" : "rgba(255,255,255,0.12)",
+        color: active ? "rgba(255,255,255,0.82)" : "rgba(255,255,255,0.62)",
         letterSpacing:"3px", textTransform:"uppercase",
         marginTop:"8px",
         transition:"color .5s ease",
@@ -344,7 +344,7 @@ export function CasesSection() {
           </div>
 
           <div style={{ textAlign:"right", paddingBottom:"6px" }}>
-            <div style={{ fontFamily:"'Instrument Serif',serif", fontSize:"56px", fontWeight:"400", fontStyle:"italic", color:"rgba(255,255,255,0.06)", lineHeight:1, letterSpacing:"-2px" }}>
+            <div style={{ fontFamily:"'Instrument Serif',serif", fontSize:"56px", fontWeight:"400", fontStyle:"italic", color:"rgba(255,255,255,0.66)", lineHeight:1, letterSpacing:"-2px" }}>
               {String(active+1).padStart(2,"0")}
               <span style={{ fontSize:"20px", letterSpacing:"-1px" }}>/0{CASES.length}</span>
             </div>
@@ -403,7 +403,7 @@ export function CasesSection() {
                   <span style={{
                     fontFamily:"'Space Mono',monospace",
                     fontSize:"10px", letterSpacing:"2px",
-                    color: isActive ? P.orange : "rgba(255,255,255,0.2)",
+                    color: isActive ? P.orange : "rgba(255,255,255,0.62)",
                     transition:"color .35s ease",
                     minWidth:"20px",
                   }}>{item.num}</span>
@@ -413,7 +413,7 @@ export function CasesSection() {
                       fontFamily:"'Instrument Serif',serif",
                       fontSize:"clamp(15px,1.5vw,18px)",
                       fontWeight:"400",
-                      color: isActive ? P.warm : "rgba(255,255,255,0.35)",
+                      color: isActive ? P.warm : "rgba(255,255,255,0.75)",
                       lineHeight:"1.2",
                       letterSpacing:"-.3px",
                       transition:"color .35s ease",
@@ -423,7 +423,7 @@ export function CasesSection() {
                     <div style={{
                       fontFamily:"'Space Mono',monospace",
                       fontSize:"9px",
-                      color: isActive ? P.orange : "rgba(255,255,255,0.15)",
+                      color: isActive ? P.orange : "rgba(255,255,255,0.60)",
                       letterSpacing:"2px", textTransform:"uppercase",
                       marginTop:"3px",
                       transition:"color .35s ease",
@@ -433,7 +433,7 @@ export function CasesSection() {
                   <div style={{
                     fontFamily:"'Space Mono',monospace",
                     fontSize:"11px", fontWeight:"700",
-                    color: isActive ? P.orange : "rgba(255,255,255,0.12)",
+                    color: isActive ? P.orange : "rgba(255,255,255,0.62)",
                     background: isActive ? "rgba(255,69,0,0.12)" : "transparent",
                     border:`1px solid ${isActive?"rgba(255,69,0,0.25)":"transparent"}`,
                     padding:"3px 8px", borderRadius:"6px",
@@ -506,7 +506,7 @@ export function CasesSection() {
                   <span style={{
                     fontFamily:"'Space Mono',monospace",
                     fontSize:"8px", letterSpacing:"1px",
-                    color:"rgba(255,255,255,0.4)",
+                    color:"rgba(255,255,255,0.78)",
                   }}>{caseVariant + 1}/{variantCount}</span>
                 </div>
 
@@ -557,7 +557,7 @@ export function CasesSection() {
                       <span key={t} style={{
                         fontFamily:"'Space Mono',monospace",
                         fontSize:"9px", letterSpacing:"1px",
-                        color:"rgba(255,255,255,0.3)",
+                        color:"rgba(255,255,255,0.70)",
                         border:"1px solid rgba(255,255,255,0.08)",
                         padding:"3px 10px", borderRadius:"4px",
                       }}>{t}</span>
@@ -567,7 +567,7 @@ export function CasesSection() {
                   <div style={{ display:"flex", gap:"8px", alignItems:"center" }}>
                     <span style={{
                       fontFamily:"'Space Mono',monospace",
-                      fontSize:"9px", color:"rgba(255,255,255,0.35)",
+                      fontSize:"9px", color:"rgba(255,255,255,0.75)",
                       letterSpacing:"1px", padding:"0 2px",
                     }}>{caseVariant + 1}/{variantCount}</span>
                     <LiquidMetalIconButton
@@ -620,7 +620,7 @@ export function CasesSection() {
             ].map(([v,l],i)=>(
               <div key={i} style={{ animation:`floatY ${2.5+i*.5}s ease-in-out infinite`, animationDelay:`${i*.25}s` }}>
                 <div style={{ fontFamily:"'Instrument Serif',serif", fontSize:"28px", fontStyle:"italic", color:P.orange, lineHeight:1, textShadow:`0 0 20px ${P.orange}44` }}>{v}</div>
-                <div style={{ fontFamily:"'Space Mono',monospace", fontSize:"8px", color:"rgba(255,255,255,0.25)", letterSpacing:"2px", marginTop:"4px", textTransform:"uppercase" }}>{l}</div>
+                <div style={{ fontFamily:"'Space Mono',monospace", fontSize:"8px", color:"rgba(255,255,255,0.66)", letterSpacing:"2px", marginTop:"4px", textTransform:"uppercase" }}>{l}</div>
               </div>
             ))}
           </div>

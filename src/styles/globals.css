@@ -241,6 +241,28 @@
   100% { background-position: 200% 0; }
 }
 
+/* Nookweb logo — liquid metal effect */
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  100% { background-position: -100% 50%; }
+}
+.animate-gradient-shift {
+  animation: gradient-shift 6s linear infinite;
+}
+
+@keyframes liquid-highlight {
+  0% { background-position: 200% 50%; }
+  100% { background-position: -100% 50%; }
+}
+.animate-liquid-highlight {
+  animation: liquid-highlight 3s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-gradient-shift { animation: none; }
+  .animate-liquid-highlight { animation: none; }
+}
+
 .btn-hero-shimmer {
   position: relative;
   overflow: hidden;
@@ -512,9 +534,9 @@ video {
   --ia-accent: #FF4500;
   --ia-bg: #0D0D0D;
   --ia-card-bg: #161616;
-  --ia-border: #2a2a2a;
+  --ia-border: #4a4a4a;
   --ia-text: #e0e0e0;
-  --ia-muted: #888;
+  --ia-muted: #b8b8b8;
   box-sizing: border-box;
   background: var(--ia-bg);
   color: var(--ia-text);
@@ -575,7 +597,7 @@ video {
   font-style: italic;
 }
 .ia-metrics__dot {
-  color: #333;
+  color: #8a8a8a;
   margin: 0 8px;
 }
 
@@ -611,7 +633,7 @@ video {
 }
 .ia-tabs__tab-num {
   font-size: 11px;
-  color: #444;
+  color: #9a9a9a;
   letter-spacing: 2px;
   margin-bottom: 6px;
   font-weight: 600;
@@ -708,7 +730,7 @@ video {
   gap: 8px;
   padding: 14px 32px;
   background: var(--ia-accent);
-  color: #fff;
+  color: #111;
   font-size: 14px;
   font-weight: 600;
   border: none;
@@ -721,7 +743,7 @@ video {
 .ia-cta-primary:hover {
   background: #e03e00;
   transform: translateY(-1px);
-  color: #fff;
+  color: #111;
 }
 .ia-cta-secondary {
   display: inline-flex;
