@@ -1,42 +1,4 @@
-import { useRef, useCallback, useEffect } from "react";
-import { hideSignatureAndDisableDownloadButton } from "./monospheraIframePatch";
-
 export default function MonospheraPreview() {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-  const cleanupRef = useRef<(() => void) | null>(null);
-
-  const onLoad = useCallback(() => {
-    const iframe = iframeRef.current;
-    const doc = iframe?.contentDocument;
-    if (!doc) return;
-
-    cleanupRef.current?.();
-
-    const run = () => {
-      try {
-        if (iframe?.contentDocument) hideSignatureAndDisableDownloadButton(iframe.contentDocument);
-      } catch (_) {}
-    };
-
-    run();
-    const t1 = window.setTimeout(run, 800);
-    const t2 = window.setTimeout(run, 2000);
-
-    const observer = new MutationObserver(run);
-    observer.observe(doc.body, { childList: true, subtree: true });
-
-    cleanupRef.current = () => {
-      clearTimeout(t1);
-      clearTimeout(t2);
-      observer.disconnect();
-      cleanupRef.current = null;
-    };
-  }, []);
-
-  useEffect(() => () => {
-    cleanupRef.current?.();
-  }, []);
-
   return (
     <div
       style={{
@@ -47,8 +9,7 @@ export default function MonospheraPreview() {
       }}
     >
       <iframe
-        ref={iframeRef}
-        src="/monosphera/index.html"
+        src="https://monosphera-aegis.vercel.app/"
         title="Monosphera"
         style={{
           width: "100%",
@@ -56,8 +17,7 @@ export default function MonospheraPreview() {
           border: "none",
           overflow: "hidden",
         }}
-        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-        onLoad={onLoad}
+        sandbox="allow-scripts allow-popups allow-forms"
       />
     </div>
   );
