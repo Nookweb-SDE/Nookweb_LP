@@ -378,7 +378,7 @@ export function CasesSection() {
                   <span style={{
                     fontFamily:"'Space Mono',monospace",
                     fontSize:"10px", letterSpacing:"2px",
-                    color: isActive ? P.orange : "rgba(255,255,255,0.2)",
+                    color: isActive ? P.orange : "rgba(255,255,255,0.5)",
                     transition:"color .35s ease",
                     minWidth:"20px",
                   }}>{item.num}</span>
@@ -388,7 +388,7 @@ export function CasesSection() {
                       fontFamily:"'Instrument Serif',serif",
                       fontSize:"clamp(15px,1.5vw,18px)",
                       fontWeight:"400",
-                      color: isActive ? P.warm : "rgba(255,255,255,0.35)",
+                      color: isActive ? P.warm : "rgba(255,255,255,0.7)",
                       lineHeight:"1.2",
                       letterSpacing:"-.3px",
                       transition:"color .35s ease",
@@ -398,7 +398,7 @@ export function CasesSection() {
                     <div style={{
                       fontFamily:"'Space Mono',monospace",
                       fontSize:"9px",
-                      color: isActive ? P.orange : "rgba(255,255,255,0.15)",
+                      color: isActive ? P.orange : "rgba(255,255,255,0.45)",
                       letterSpacing:"2px", textTransform:"uppercase",
                       marginTop:"3px",
                       transition:"color .35s ease",
@@ -408,8 +408,8 @@ export function CasesSection() {
                   <div style={{
                     fontFamily:"'Space Mono',monospace",
                     fontSize:"11px", fontWeight:"700",
-                    color: isActive ? P.orange : "rgba(255,255,255,0.12)",
-                    background: isActive ? "rgba(255,69,0,0.12)" : "transparent",
+                    color: isActive ? P.orange : "rgba(255,255,255,0.42)",
+                    background: isActive ? "rgba(255,69,0,0.12)" : "rgba(255,255,255,0.05)",
                     border:`1px solid ${isActive?"rgba(255,69,0,0.25)":"transparent"}`,
                     padding:"3px 8px", borderRadius:"6px",
                     transition:"all .35s ease",
