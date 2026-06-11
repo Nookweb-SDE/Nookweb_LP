@@ -97,7 +97,7 @@ async function sendWhatsApp(nome, cargo, texto, rating) {
   await fetch(`${EVO_URL}/message/sendText/${EVO_INSTANCE}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', apikey: EVO_KEY },
-    body: JSON.stringify({ number: NOTIFY_PHONE, textMessage: { text: msg } }),
+    body: JSON.stringify({ number: NOTIFY_PHONE, text: msg }),
   }).catch(err => console.error('WhatsApp erro:', err))
 }
 
