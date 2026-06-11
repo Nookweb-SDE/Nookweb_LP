@@ -1,7 +1,9 @@
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { LiquidMetalButton } from "@/components/ui/LiquidMetalButton";
 import { LiquidMetalIconButton } from "@/components/ui/LiquidMetalIconButton";
-import { CasePreviewRenderer } from "@/components/cases/CasePreviewRenderer";
+const CasePreviewRenderer = lazy(
+  () => import("@/components/cases/CasePreviewRenderer")
+);
 import { CASE_PREVIEWS } from "@/data/casePreviews";
 
 /* ═══════════════════════════════════════════════
@@ -490,7 +492,9 @@ export function CasesSection() {
                   opacity: previewFading ? 0 : 1,
                   transition:"opacity .15s ease",
                 }}>
-                  <CasePreviewRenderer caseType={c.visual} variant={caseVariant} />
+                  <Suspense fallback={<div style={{ width: "100%", height: "100%" }} />}>
+                    <CasePreviewRenderer caseType={c.visual} variant={caseVariant} />
+                  </Suspense>
                 </div>
               </div>
 
