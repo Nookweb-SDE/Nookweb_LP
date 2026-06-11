@@ -41,6 +41,19 @@ async function initDb() {
       created_at TIMESTAMPTZ DEFAULT NOW()
     )
   `)
+  await pool.query(`
+    CREATE TABLE IF NOT EXISTS contacts (
+      id         SERIAL PRIMARY KEY,
+      name       TEXT NOT NULL,
+      email      TEXT NOT NULL,
+      phone      TEXT,
+      company    TEXT,
+      service    TEXT,
+      budget     TEXT,
+      message    TEXT NOT NULL,
+      created_at TIMESTAMPTZ DEFAULT NOW()
+    )
+  `)
   console.log('✅ DB pronto')
 }
 
@@ -181,6 +194,43 @@ app.delete('/admin/testimonials/:id', authMiddleware, async c => {
   const id = Number(c.req.param('id'))
   await pool.query('DELETE FROM testimonials WHERE id = $1', [id])
   return c.json({ ok: true })
+})
+
+/* ─ Formulário de contato (público) ─ */
+app.post('/contact', async c => {
+  const body = await c.req.json().catch(() => null)
+  if (!body?.name?.trim() || !body?.email?.trim() || !body?.message?.trim()) {
+    return c.json({ error: 'name, email e message são obrigatórios' }, 400)
+  }
+  const { name, email, phone = '', company = '', service = '', budget = '', message } = body
+
+  await pool.query(
+    `INSERT INTO contacts (name, email, phone, company, service, budget, message)
+     VALUES ($1,$2,$3,$4,$5,$6,$7)`,
+    [name.trim(), email.trim(), phone.trim(), company.trim(), service.trim(), budget.trim(), message.trim()]
+  )
+
+  /* WhatsApp */
+  if (EVO_KEY && NOTIFY_PHONE) {
+    const parts = [
+      `📩 *Novo contato — Nookweb*`,
+      ``,
+      `👤 *${name.trim()}*${company.trim() ? ` · ${company.trim()}` : ''}`,
+      `📧 ${email.trim()}${phone.trim() ? `\n📱 ${phone.trim()}` : ''}`,
+      service.trim() ? `🔧 Serviço: ${service.trim()}` : '',
+      budget.trim() ? `💰 Budget: ${budget.trim()}` : '',
+      ``,
+      `💬 _"${message.trim()}"_`,
+    ].filter(Boolean).join('\n')
+
+    fetch(`${EVO_URL}/message/sendText/${EVO_INSTANCE}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', apikey: EVO_KEY },
+      body: JSON.stringify({ number: NOTIFY_PHONE, text: parts }),
+    }).catch(err => console.error('WhatsApp contato erro:', err))
+  }
+
+  return c.json({ ok: true }, 201)
 })
 
 /* ── Start ── */
