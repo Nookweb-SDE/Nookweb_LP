@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import viteImagemin from 'vite-plugin-imagemin'
 
 // SPA fallback: /monosphera-dashboard/* (exceto /assets/) → index.html do dashboard
 function monospheraDashboardFallback() {
@@ -20,7 +21,18 @@ function monospheraDashboardFallback() {
 }
 
 export default defineConfig({
-  plugins: [react(), monospheraDashboardFallback()],
+  plugins: [
+    react(),
+    monospheraDashboardFallback(),
+    viteImagemin({
+      webp: { quality: 85 },
+      optipng: { optimizationLevel: 7 },
+      mozjpeg: { quality: 82 },
+      svgo: {
+        plugins: [{ name: 'removeViewBox', active: false }],
+      },
+    }),
+  ],
   resolve: { alias: { '@': path.resolve(__dirname, './src') } },
   server: {
     port: 5174,
