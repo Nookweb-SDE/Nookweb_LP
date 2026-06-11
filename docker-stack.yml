@@ -1,22 +1,129 @@
-# Stack Docker Swarm para Nookweb LP atrás do Traefik
-# Na VPS: identificar a rede do Traefik com "docker network ls" e ajustar
-# o nome da rede abaixo (ex.: traefik_public, traefik_default, traefik_web).
-
 version: "3.8"
 
+# nookweb.com.br stack — Hostinger VPS · Docker Swarm + Traefik
+# Serviços: lp (estático) · orcamento · notify-lead · nookweb-api (depoimentos) · nookweb-db (pg)
+#
+# Secrets (criar uma vez):
+#   printf 'DB_PASSWORD=GERADO\nADMIN_TOKEN=GERADO\nEVOLUTION_API_KEY=CHAVE\n' | docker secret create nookweb_api_env -
+#
+# Deploy:
+#   docker stack deploy -c /opt/stacks/nookweb/docker-compose.yml nookweb
+
+secrets:
+  notify_env: { external: true }
+  nookweb_api_env: { external: true }
+  nookweb_db_password: { external: true }
+
 services:
-  nookweb-lp:
-    image: nookweb-lp:latest
+
+  # ── Frontend LP (Vite estático via Nginx) ──
+  lp:
+    image: nookweb-lp:nocode-20260611143105
+    networks: [traefik-public]
     deploy:
       replicas: 1
+      placement: { constraints: [node.role == manager] }
+      resources: { limits: { cpus: "0.25", memory: 128M }, reservations: { memory: 16M } }
+      restart_policy: { condition: on-failure, delay: 10s, max_attempts: 5 }
+      update_config: { parallelism: 1, delay: 12s, order: start-first }
       labels:
-        traefik.enable: "true"
-        traefik.http.routers.nookweb-lp.rule: "Host(`nookweb.com.br`)"
-        traefik.http.routers.nookweb-lp.entrypoints: "web"
-        traefik.http.services.nookweb-lp.loadbalancer.server.port: "80"
-    networks:
-      - traefik_public
+        - traefik.enable=true
+        - "traefik.http.routers.nookweb-lp.rule=Host(`nookweb.com.br`) || Host(`nookweb-hostinger.nookweb.com.br`)"
+        - traefik.http.routers.nookweb-lp.entrypoints=websecure
+        - traefik.http.routers.nookweb-lp.tls.certresolver=le
+        - traefik.http.routers.nookweb-lp.priority=1
+        - traefik.http.services.nookweb-lp.loadbalancer.server.port=80
+
+  # ── Orçamento ──
+  orcamento:
+    image: nookweb-orcamento:v20260527-184942
+    networks: [traefik-public]
+    deploy:
+      replicas: 1
+      placement: { constraints: [node.role == manager] }
+      resources: { limits: { cpus: "0.25", memory: 128M }, reservations: { memory: 16M } }
+      restart_policy: { condition: on-failure, delay: 10s, max_attempts: 5 }
+      update_config: { parallelism: 1, delay: 12s, order: start-first }
+      labels:
+        - traefik.enable=true
+        - "traefik.http.routers.nookweb-orcamento.rule=(Host(`nookweb.com.br`) || Host(`nookweb-hostinger.nookweb.com.br`)) && PathPrefix(`/orcamento`)"
+        - traefik.http.routers.nookweb-orcamento.entrypoints=websecure
+        - traefik.http.routers.nookweb-orcamento.tls.certresolver=le
+        - traefik.http.routers.nookweb-orcamento.priority=200
+        - traefik.http.services.nookweb-orcamento.loadbalancer.server.port=80
+
+  # ── Notify Lead ──
+  notify-lead:
+    image: notify-lead:latest
+    command:
+      - sh
+      - -c
+      - 'while IFS= read -r l; do [ -n "$$l" ] && export "$$l"; done < /run/secrets/notify_env; exec python app.py'
+    secrets: [notify_env]
+    networks: [traefik-public]
+    deploy:
+      replicas: 1
+      placement: { constraints: [node.role == manager] }
+      resources: { limits: { cpus: "0.25", memory: 128M }, reservations: { memory: 16M } }
+      restart_policy: { condition: on-failure, delay: 10s, max_attempts: 5 }
+      update_config: { parallelism: 1, delay: 12s, order: start-first }
+      labels:
+        - traefik.enable=true
+        - "traefik.http.routers.notify-lead.rule=(Host(`nookweb.com.br`) || Host(`nookweb-hostinger.nookweb.com.br`)) && PathPrefix(`/webhook`)"
+        - traefik.http.routers.notify-lead.entrypoints=websecure
+        - traefik.http.routers.notify-lead.tls.certresolver=le
+        - traefik.http.routers.notify-lead.priority=100
+        - traefik.http.services.notify-lead.loadbalancer.server.port=8090
+
+  # ── API de depoimentos (Node/Hono) ──
+  nookweb-api:
+    image: nookweb-api:latest
+    command:
+      - sh
+      - -c
+      - 'while IFS= read -r l; do [ -n "$$l" ] && export "$$l"; done < /run/secrets/nookweb_api_env; exec node index.mjs'
+    environment:
+      PORT: "3000"
+      DATABASE_URL: "postgres://nookweb:NOOKWEB_DB_PASS@nookweb-db:5432/nookweb"
+      EVOLUTION_URL: "https://evolution.izai.dev"
+      EVOLUTION_INSTANCE: "izai-studio"
+      NOTIFY_PHONE: "5511965119797"
+    secrets: [nookweb_api_env]
+    networks: [traefik-public, backend]
+    deploy:
+      replicas: 1
+      placement: { constraints: [node.role == manager] }
+      resources: { limits: { cpus: "0.3", memory: 128M }, reservations: { memory: 32M } }
+      restart_policy: { condition: on-failure, delay: 10s, max_attempts: 5 }
+      update_config: { parallelism: 1, delay: 12s, order: start-first }
+      labels:
+        - traefik.enable=true
+        - "traefik.http.routers.nookweb-api.rule=Host(`api.nookweb.com.br`)"
+        - traefik.http.routers.nookweb-api.entrypoints=websecure
+        - traefik.http.routers.nookweb-api.tls.certresolver=le
+        - traefik.http.services.nookweb-api.loadbalancer.server.port=3000
+
+  # ── Postgres (depoimentos) ──
+  nookweb-db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: nookweb
+      POSTGRES_USER: nookweb
+      POSTGRES_PASSWORD_FILE: /run/secrets/nookweb_db_password
+    secrets: [nookweb_db_password]
+    volumes:
+      - nookweb-db-data:/var/lib/postgresql/data
+    networks: [backend]
+    deploy:
+      replicas: 1
+      placement: { constraints: [node.role == manager] }
+      resources: { limits: { cpus: "0.3", memory: 256M }, reservations: { memory: 64M } }
+      restart_policy: { condition: on-failure, delay: 15s, max_attempts: 5 }
+      update_config: { parallelism: 1, delay: 15s, order: stop-first }
+
+volumes:
+  nookweb-db-data:
 
 networks:
-  traefik_public:
-    external: true
+  traefik-public: { external: true }
+  backend: { external: true }

@@ -5,6 +5,7 @@ import { ServicosSection } from '@/components/sections/ServicosSection'
 import { Stats } from '@/components/sections/Stats'
 import { IACorporativaSection } from '@/components/sections/IACorporativaSection'
 import { CasesSection } from '@/components/sections/CasesSection'
+import { TestemunhosSection } from '@/components/sections/TestemunhosSection'
 import { Comparativo } from '@/components/sections/Comparativo'
 
 export function Home() {
@@ -17,6 +18,7 @@ export function Home() {
       <Stats />
       <IACorporativaSection />
       <CasesSection />
+      <TestemunhosSection />
       <Comparativo />
     </>
   )
