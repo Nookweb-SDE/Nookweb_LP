@@ -75,7 +75,13 @@ export function HeroCarousel() {
             <div className="hero-orbit-item-inner">
               {item.image ? (
                 <>
-                  <img src={item.image} alt="" className="hero-orbit-item-img" />
+                  <img
+                    src={item.image}
+                    alt=""
+                    className="hero-orbit-item-img"
+                    loading="eager"
+                    fetchPriority="high"
+                  />
                   <span className="hero-orbit-item-label">
                     <span className="hero-orbit-dot" />
                     {item.label}
