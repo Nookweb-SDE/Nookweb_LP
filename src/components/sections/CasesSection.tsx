@@ -3,6 +3,7 @@ import { LiquidMetalButton } from "@/components/ui/LiquidMetalButton";
 import { LiquidMetalIconButton } from "@/components/ui/LiquidMetalIconButton";
 const CasePreviewRenderer = lazy(
   () => import("@/components/cases/CasePreviewRenderer")
+    .then(m => ({ default: m.CasePreviewRenderer }))
 );
 import { CASE_PREVIEWS } from "@/data/casePreviews";
 
