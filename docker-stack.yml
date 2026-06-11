@@ -18,7 +18,7 @@ services:
 
   # ── Frontend LP (Vite estático via Nginx) ──
   lp:
-    image: nookweb-lp:nocode-20260611201645
+    image: nookweb-lp:nocode-20260611205003
     networks: [traefik-public]
     deploy:
       replicas: 1
