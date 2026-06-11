@@ -1,6 +1,6 @@
 # Nookweb LP — multi-stage: build Vite + serve with Nginx
 # Build stage
-FROM node:20-alpine AS builder
+FROM node:20 AS builder
 
 WORKDIR /app
 
