@@ -81,7 +81,7 @@ export default function NookpetPreview() {
       >
         <div style={{ display: "flex", alignItems: "center" }}>
           <img
-            src="/nookpet-logo.png"
+            src="/nookpet-logo.webp"
             alt="Nookpet"
             style={{ height: 36, width: "auto", display: "block", objectFit: "contain" }}
           />

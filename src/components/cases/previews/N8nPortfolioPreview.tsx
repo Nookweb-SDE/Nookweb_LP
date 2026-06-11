@@ -4,13 +4,13 @@ type Variant = 0 | 1 | 2;
 
 const CASES = [
   {
-    image: "/case-graphics/n8n/n8n-blog-ia.png",
+    image: "/case-graphics/n8n/n8n-blog-ia.webp",
   },
   {
-    image: "/case-graphics/n8n/n8n-etl-diario.png",
+    image: "/case-graphics/n8n/n8n-etl-diario.webp",
   },
   {
-    image: "/case-graphics/n8n/n8n-baas-certificado.png",
+    image: "/case-graphics/n8n/n8n-baas-certificado.webp",
   },
 ] as const;
 
@@ -87,6 +87,7 @@ const N8nPortfolioPreview: React.FC<Props> = ({ variant = 0 }) => {
             <img
               src={current.image}
               alt={`N8N case ${index + 1}`}
+              loading="lazy"
               style={{
                 width: "100%",
                 height: "auto",

@@ -223,8 +223,9 @@ export function FitConnectPreview() {
         }} />
         <div style={{ position: "relative", zIndex: 1, display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", minHeight: "140px", gap: "8px" }}>
           <img
-            src="/hero-phones-mockup.png"
+            src="/hero-phones-mockup.webp"
             alt="FitConnect — 3 telas do app"
+            loading="lazy"
             style={{ maxWidth: "220px", width: "85%", height: "auto", objectFit: "contain" }}
           />
           <span style={{ fontSize: "10px", color: "rgba(255,255,255,0.5)", letterSpacing: "0.15em", textTransform: "uppercase" }}>IronBox Academy · App de academia</span>

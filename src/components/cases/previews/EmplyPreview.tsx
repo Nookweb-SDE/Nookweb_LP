@@ -865,8 +865,9 @@ export default function EmplyPreview() {
           position: "relative",
         }}>
           <img
-            src="/logo-emply.png"
+            src="/logo-emply.webp"
             alt="Emply"
+            loading="lazy"
             style={{ height: collapsed ? "20px" : "24px", width: "auto", objectFit: "contain" }}
           />
           {!collapsed && (

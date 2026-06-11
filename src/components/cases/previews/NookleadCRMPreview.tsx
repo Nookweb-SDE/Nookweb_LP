@@ -928,7 +928,7 @@ export default function NookleadCRMPreview() {
            <aside style={{ width:"155px", flexShrink:0, background:C.white, boxShadow:C.shadowLg, display:"flex", flexDirection:"column", zIndex:10, overflowY:"auto" }}>
         {/* Logo */}
         <div style={{ height:"50px", display:"flex", alignItems:"center", justifyContent:"space-between", padding:"0 12px", borderBottom:`1px solid ${C.border}`, flexShrink:0 }}>
-          <img src="/nooklead-logo.jpeg" alt="Nooklead" style={{ height:"26px", width:"auto", objectFit:"contain" }} />
+          <img src="/nooklead-logo.webp" alt="Nooklead" style={{ height:"26px", width:"auto", objectFit:"contain" }} />
           <button type="button" style={{ background:"none", border:"none", cursor:"pointer", color:C.textMuted, padding:"2px" }}>
             <ChevronLeft size={11} />
           </button>

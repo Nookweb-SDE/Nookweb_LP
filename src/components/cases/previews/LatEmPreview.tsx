@@ -100,7 +100,7 @@ export default function LatEmPreview() {
         <div style={{ display:"flex", alignItems:"center", gap:"12px" }}>
           {/* Logo real */}
           <div style={{ flexShrink:0, cursor:"pointer" }} onClick={() => setPage("home")}>
-            <img src="/latem-logo.png" alt="Lá tem Costa Marta" style={{ height:"48px", width:"auto", objectFit:"contain" }} />
+            <img src="/latem-logo.webp" alt="Lá tem Costa Marta" style={{ height:"48px", width:"auto", objectFit:"contain" }} />
           </div>
 
           {/* Search */}
@@ -247,8 +247,9 @@ export default function LatEmPreview() {
 
             {/* Mascote — posicionado no canto inferior direito igual ao site original */}
             <img
-              src="/latem-mascot.png"
+              src="/latem-mascot.webp"
               alt="TheTeo"
+              loading="lazy"
               style={{ position:"absolute", bottom:"-10px", right:"0", width:"130px", objectFit:"contain", filter:"drop-shadow(0 4px 12px rgba(0,0,0,0.4))", zIndex:0, pointerEvents:"none", opacity:0.92 }}
             />
 
@@ -441,7 +442,7 @@ export default function LatEmPreview() {
             <div style={{ display:"grid", gridTemplateColumns:"1.2fr 1fr 1fr 1fr", gap:"16px", marginBottom:"16px" }}>
               {/* Logo col */}
               <div>
-                <img src="/latem-logo.png" alt="Lá tem" style={{ height:"52px", width:"auto", objectFit:"contain", marginBottom:"10px", filter:"brightness(0) invert(1)", opacity:0.9 }} />
+                <img src="/latem-logo.webp" alt="Lá tem" style={{ height:"52px", width:"auto", objectFit:"contain", marginBottom:"10px", filter:"brightness(0) invert(1)", opacity:0.9 }} />
                 <p style={{ fontSize:"9px", color:"rgba(255,255,255,0.6)", lineHeight:1.6, maxWidth:"140px" }}>
                   Sua parceira de confiança na distribuição de materiais de construção.
                 </p>
