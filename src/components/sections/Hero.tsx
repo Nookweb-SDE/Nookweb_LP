@@ -1,9 +1,10 @@
 import { motion } from 'framer-motion'
 import { HeroCarousel } from '@/components/ui/HeroCarousel'
-
-const words = ['CRIAMOS', 'MUNDOS', 'DIGITAIS.']
+import { useI18n } from '@/lib/i18n'
 
 export function Hero() {
+  const { t, tArr } = useI18n()
+  const words = tArr('hero', 'words')
   return (
     <section
       data-dark-section
@@ -31,9 +32,9 @@ export function Hero() {
                   className="font-mono text-xs font-bold tracking-[0.2em] uppercase"
                   style={{ color: 'var(--hero-orange)' }}
                 >
-                  Agência Digital
+                  {t('hero', 'badge')}
                 </span>
-                <span className="text-xs text-white/30">Est. 2022 · São Paulo, BR</span>
+                <span className="text-xs text-white/30">{t('hero', 'est')}</span>
               </div>
             </motion.div>
 
@@ -83,9 +84,7 @@ export function Hero() {
                 transition={{ duration: 0.6, delay: 0.6 }}
               >
                 <p className="font-sans text-base text-white/50 leading-relaxed max-w-[420px]">
-                  Do papel ao ar em semanas. Do amador ao profissional.
-                <br />
-                Site, app, ERP, CRM, BaaS, IA ou automação — seja começando do zero ou reconstruindo o que não funciona, entregamos a solução certa para seu negócio crescer sem limite.
+                  {t('hero', 'sub')}
                 </p>
               </motion.div>
             </div>

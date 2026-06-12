@@ -5,6 +5,7 @@ import { Footer } from './components/layout/Footer'
 import { Home } from './pages/Home'
 import SuperAdminMonospheraCopy from './superadmin-monosphera/SuperAdminApp'
 import { ServicosIndex } from './pages/ServicosIndex'
+import { ServicosPreview } from './pages/ServicosPreview'
 import { ServicoDetalhe } from './pages/ServicoDetalhe'
 import { CasesIndex } from './pages/CasesIndex'
 import { CaseDetalhe } from './pages/CaseDetalhe'
@@ -34,6 +35,7 @@ export default function App() {
           <Route path="/superadmin-preview/*" element={<SuperAdminMonospheraCopy />} />
           <Route path="/" element={<Home />} />
           <Route path="/servicos" element={<ServicosIndex />} />
+          <Route path="/servicos-preview" element={<ServicosPreview />} />
           <Route path="/servicos/:slug" element={<ServicoDetalhe />} />
           <Route path="/cases" element={<CasesIndex />} />
           <Route path="/cases/:slug" element={<CaseDetalhe />} />

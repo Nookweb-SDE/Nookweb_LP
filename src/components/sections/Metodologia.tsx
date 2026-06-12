@@ -3,6 +3,7 @@ import { FeatureCard } from '@/components/ui/FeatureCard'
 import { Container } from '@/components/ui/Container'
 import { SectionHeader } from '@/components/ui/SectionHeader'
 import { metodologiaIcons } from '@/components/ui/ServiceIcon'
+import { useI18n } from '@/lib/i18n'
 
 const features = [
   { key: 'Design', title: 'Design', description: 'Interfaces premium e experienciais que convertem.' },
@@ -12,12 +13,13 @@ const features = [
 ]
 
 export function Metodologia() {
+  const { t } = useI18n()
   return (
     <section id="como-funciona" className="py-24 bg-pure-warm/50">
       <Container>
         <SectionHeader
-          label="Metodologia"
-          title="Low-code, IA e Código Profissional"
+          label={t('metodologia', 'label')}
+          title={t('metodologia', 'title')}
           description="Do no-code ao código nativo: React, Python, Java, Node.js e mais. Escolhemos a stack certa para cada projeto."
         />
         <div className="grid sm:grid-cols-2 gap-6">

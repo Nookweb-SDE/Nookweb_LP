@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { useI18n } from '@/lib/i18n'
 
 const API = import.meta.env.VITE_API_URL ?? 'https://api.nookweb.com.br'
 
@@ -93,6 +94,7 @@ const ORANGE_45 = 'rgba(255,69,0,0.45)'
 
 /* ════════════════════════════════════════════════════════════════ */
 export function TestemunhosSection() {
+  const { t } = useI18n()
   const [depoimentos, setDepoimentos] = useState<Depoimento[]>(FALLBACK)
   const [activeIdx, setActiveIdx] = useState(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
@@ -211,7 +213,7 @@ export function TestemunhosSection() {
             letterSpacing: '0.22em',
             color: 'rgba(28,26,22,0.55)',
           }}>
-            Depoimentos
+            {t('depoimentos', 'label')}
           </span>
         </div>
 
@@ -444,7 +446,7 @@ export function TestemunhosSection() {
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
                 <input
                   required
-                  placeholder="Seu nome"
+                  placeholder={t('depoimentos', 'nome')}
                   value={formNome}
                   onChange={e => setFormNome(e.target.value)}
                   style={inputStyle}
@@ -512,7 +514,7 @@ export function TestemunhosSection() {
                   marginTop: 4,
                 }}
               >
-                {submitting ? 'Enviando…' : 'Enviar depoimento →'}
+                {submitting ? t('geral', 'carregando') : `${t('depoimentos', 'enviar')} →`}
               </button>
             </form>
           )}

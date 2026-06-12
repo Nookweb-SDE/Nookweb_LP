@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Mail, ArrowRight, Sparkles } from 'lucide-react'
 import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton'
 import { marqueeTools } from '@/data/marquee'
+import { useI18n } from '@/lib/i18n'
 
 /* ═══════════════════════════════════════════════
    FOOTER PREMIUM — "Closing act"
@@ -24,21 +25,22 @@ const P = {
   border: 'rgba(255,255,255,0.06)',
 }
 
-const navLinks = [
-  { to: '/servicos', label: 'Serviços' },
-  { to: '/cases', label: 'Cases' },
-  { to: '/sobre', label: 'Sobre' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contato', label: 'Contato' },
-]
-
-const STATS = [
-  { value: '90%', label: 'mais barato' },
-  { value: '10×', label: 'mais rápido' },
-  { value: '72h', label: 'protótipo' },
-]
+const NAV_KEYS = [
+  { to: '/servicos', key: 'servicos' },
+  { to: '/cases',    key: 'cases'    },
+  { to: '/sobre',    key: 'sobre'    },
+  { to: '/blog',     key: 'blog'     },
+  { to: '/contato',  key: 'contato'  },
+] as const
 
 export function Footer() {
+  const { t } = useI18n()
+
+  const STATS = [
+    { value: '90%', label: t('footer', 'maisBarato') },
+    { value: '10×', label: t('footer', 'maisRapido') },
+    { value: '72h', label: t('footer', 'prototipo') },
+  ]
   return (
     <footer
       data-dark-section
@@ -325,7 +327,7 @@ export function Footer() {
             Navegação
           </p>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
-            {navLinks.map((link) => (
+            {NAV_KEYS.map((link) => (
               <li key={link.to} style={{ marginBottom: '12px' }}>
                 <Link
                   to={link.to}
@@ -348,7 +350,7 @@ export function Footer() {
                   }}
                 >
                   <ArrowRight size={12} style={{ opacity: 0.6 }} />
-                  {link.label}
+                  {t('nav', link.key)}
                 </Link>
               </li>
             ))}
@@ -412,7 +414,7 @@ export function Footer() {
               color: 'rgba(255,255,255,0.3)',
             }}
           >
-            © {new Date().getFullYear()} Nookweb. Todos os direitos reservados.
+            {t('footer', 'direitos')}
           </p>
           <div style={{ display: 'flex', gap: '24px' }}>
             <Link
@@ -430,7 +432,7 @@ export function Footer() {
                 e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
               }}
             >
-              Privacidade
+              {t('footer', 'politica')}
             </Link>
             <Link
               to="/termos"
@@ -447,7 +449,7 @@ export function Footer() {
                 e.currentTarget.style.color = 'rgba(255,255,255,0.35)'
               }}
             >
-              Termos
+              {t('footer', 'termos')}
             </Link>
           </div>
         </div>

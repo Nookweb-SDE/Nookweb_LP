@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { MeshGradientBackground } from '@/components/ui/MeshGradientBackground'
 import { Container } from '@/components/ui/Container'
+import { useI18n } from '@/lib/i18n'
 
 const P = {
   orange: '#FF4500',
@@ -257,32 +258,7 @@ function MetalBadge({ value }: { value: string }) {
 /* ══════════════════════════════
    CARD
 ══════════════════════════════ */
-const CARDS = [
-  {
-    id: 1,
-    shape: 'rocket' as const,
-    title: 'Projetos',
-    orange: 'Entregues com qualidade',
-    desc: 'Entregas realizadas com qualidade e prazo pela Nookweb.',
-    badge: '1049+',
-  },
-  {
-    id: 2,
-    shape: 'lightning' as const,
-    title: 'Mais Rápido',
-    orange: 'Até 10x mais veloz',
-    desc: 'Apps inteligentes até 10x mais rápidos que o desenvolvimento tradicional.',
-    badge: '10X',
-  },
-  {
-    id: 3,
-    shape: 'star' as const,
-    title: 'Especialistas',
-    orange: 'Time sênior multidisciplinar',
-    desc: 'Time multidisciplinar de seniores. Do desenho à entrega, com a expertise certa.',
-    badge: '28+',
-  },
-]
+type CardData = { id: number; shape: 'rocket' | 'lightning' | 'star'; title: string; orange: string; desc: string; badge: string }
 
 const SHAPES: Record<string, React.ComponentType<{ hov?: boolean }>> = {
   rocket: RocketShape,
@@ -290,7 +266,7 @@ const SHAPES: Record<string, React.ComponentType<{ hov?: boolean }>> = {
   star: StarShape,
 }
 
-function Card({ card }: { card: (typeof CARDS)[0] }) {
+function Card({ card }: { card: CardData }) {
   const [hov, setHov] = useState(false)
   const Shape = SHAPES[card.shape]
 
@@ -435,6 +411,12 @@ function Card({ card }: { card: (typeof CARDS)[0] }) {
 }
 
 export function Stats() {
+  const { t } = useI18n()
+  const CARDS: CardData[] = [
+    { id: 1, shape: 'rocket',    title: t('stats', 'card1title'), orange: t('stats', 'card1orange'), desc: t('stats', 'card1desc'), badge: '1049+' },
+    { id: 2, shape: 'lightning', title: t('stats', 'card2title'), orange: t('stats', 'card2orange'), desc: t('stats', 'card2desc'), badge: '10X'   },
+    { id: 3, shape: 'star',      title: t('stats', 'card3title'), orange: t('stats', 'card3orange'), desc: t('stats', 'card3desc'), badge: '28+'   },
+  ]
   useEffect(() => {
     const s = document.createElement('style')
     s.innerHTML = `
@@ -464,7 +446,7 @@ export function Stats() {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 12, marginBottom: 20 }}>
             <div style={{ width: 32, height: 1, background: `linear-gradient(90deg,transparent,${P.orange})` }} />
             <span style={{ fontFamily: "'Space Mono',monospace", fontSize: 10, color: P.orange, letterSpacing: '4px', textTransform: 'uppercase' }}>
-              Por que a Nookweb
+              {t('stats', 'porQueLabel')}
             </span>
             <div style={{ width: 32, height: 1, background: `linear-gradient(90deg,${P.orange},transparent)` }} />
           </div>
@@ -480,7 +462,6 @@ export function Stats() {
               maxWidth: 600,
             }}
           >
-            Entregamos{' '}
             <span
               style={{
                 fontStyle: 'italic',
@@ -491,7 +472,7 @@ export function Stats() {
                 animation: 'statsShimmer 3.5s linear infinite',
               }}
             >
-              resultados reais.
+              {t('stats', 'heading')}
             </span>
           </h2>
         </div>

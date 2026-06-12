@@ -2,14 +2,7 @@ import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { LiquidMetalButton } from '@/components/ui/LiquidMetalButton'
-
-const links = [
-  { to: '/servicos', label: 'Serviços' },
-  { to: '/cases', label: 'Cases' },
-  { to: '/sobre', label: 'Sobre' },
-  { to: '/blog', label: 'Blog' },
-  { to: '/contato', label: 'Contato' },
-]
+import { useI18n, LANGUAGE_OPTIONS } from '@/lib/i18n'
 
 const SCROLL_THRESHOLD = 80
 const HEADER_HEIGHT = 64
@@ -18,17 +11,11 @@ export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [overDarkSection, setOverDarkSection] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const [language, setLanguage] = useState('pt')
   const [langOpen, setLangOpen] = useState(false)
   const { pathname } = useLocation()
-  const languageOptions = [
-    { value: 'pt', label: 'Português' },
-    { value: 'en', label: 'English' },
-    { value: 'fr', label: 'Français' },
-    { value: 'ja', label: '日本語' },
-    { value: 'zh', label: '中文(简体)' },
-  ]
-  const activeLanguageLabel = languageOptions.find((opt) => opt.value === language)?.label ?? 'Português'
+  const { lang, setLang, t } = useI18n()
+  const languageOptions = LANGUAGE_OPTIONS
+  const activeLanguageLabel = languageOptions.find((opt) => opt.value === lang)?.label ?? 'Português'
   const isHome = pathname === '/'
   const onHero = isHome && !scrolled
   const isSolid = scrolled
@@ -89,7 +76,13 @@ export function Navbar() {
         </Link>
 
         <div className="hidden md:flex items-center gap-5 lg:gap-7 h-full">
-          {links.map((link) => (
+          {([
+            { to: '/servicos', key: 'servicos' },
+            { to: '/cases',    key: 'cases'    },
+            { to: '/sobre',    key: 'sobre'    },
+            { to: '/blog',     key: 'blog'     },
+            { to: '/contato',  key: 'contato'  },
+          ] as const).map((link) => (
             <Link
               key={link.to}
               to={link.to}
@@ -98,7 +91,7 @@ export function Navbar() {
               }`}
             >
               <span className="nav-link-text inline-block">
-                {link.label}
+                {t('nav', link.key)}
               </span>
               <motion.span
                 className="absolute left-0 bottom-0 h-[2px] w-full block origin-left"
@@ -132,11 +125,11 @@ export function Navbar() {
                     key={opt.value}
                     type="button"
                     onClick={() => {
-                      setLanguage(opt.value)
+                      setLang(opt.value)
                       setLangOpen(false)
                     }}
                     className={`w-full text-left px-3 py-2 text-xs font-mono transition-colors ${
-                      language === opt.value ? 'text-white bg-white/10' : 'text-white/75 hover:bg-white/10'
+                      lang === opt.value ? 'text-white bg-white/10' : 'text-white/75 hover:bg-white/10'
                     }`}
                   >
                     {opt.label}
@@ -146,7 +139,7 @@ export function Navbar() {
             )}
           </div>
           <div className="ml-8 lg:ml-10 pl-4 border-l border-white/20">
-            <LiquidMetalButton label="INICIAR PROJETO" to="/contato" textStyle="mono" />
+            <LiquidMetalButton label={t('nav', 'cta')} to="/contato" textStyle="mono" />
           </div>
         </div>
 
@@ -182,33 +175,39 @@ export function Navbar() {
             className={`md:hidden border-t ${textLight ? 'bg-heavy border-white/10' : 'bg-pure border-heavy/5'}`}
           >
             <div className="px-4 py-4 flex flex-col gap-1 font-sans">
-              {links.map((link) => (
+              {([
+                { to: '/servicos', key: 'servicos' },
+                { to: '/cases',    key: 'cases'    },
+                { to: '/sobre',    key: 'sobre'    },
+                { to: '/blog',     key: 'blog'     },
+                { to: '/contato',  key: 'contato'  },
+              ] as const).map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   className={`min-h-[44px] flex items-center px-3 rounded-lg ${textLight ? 'text-white hover:text-[#FF4500] hover:bg-white/10' : 'text-heavy hover:text-accent-primary hover:bg-heavy/5'}`}
                   onClick={() => setMobileOpen(false)}
                 >
-                  {link.label}
+                  {t('nav', link.key)}
                 </Link>
               ))}
               <LiquidMetalButton
-                label="Iniciar Projeto"
+                label={t('nav', 'ctaMobile')}
                 to="/contato"
                 onClick={() => setMobileOpen(false)}
               />
               <div className="pt-2 mt-2 border-t border-white/10">
                 <label className={`block text-[10px] font-mono uppercase tracking-[0.12em] mb-2 ${textLight ? 'text-white/60' : 'text-heavy/60'}`}>
-                  Idioma
+                  {t('nav', 'idioma')}
                 </label>
                 <div className="flex flex-wrap gap-2">
                   {languageOptions.map((opt) => (
                     <button
                       key={opt.value}
                       type="button"
-                      onClick={() => setLanguage(opt.value)}
+                      onClick={() => setLang(opt.value)}
                       className={`px-3 py-2 rounded-md border text-xs font-mono ${
-                        language === opt.value
+                        lang === opt.value
                           ? 'text-white bg-white/10 border-white/25'
                           : 'text-white/75 border-white/15 hover:bg-white/10'
                       }`}

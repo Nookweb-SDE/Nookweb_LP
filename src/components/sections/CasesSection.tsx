@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback, lazy, Suspense } from "react";
 import { LiquidMetalButton } from "@/components/ui/LiquidMetalButton";
 import { LiquidMetalIconButton } from "@/components/ui/LiquidMetalIconButton";
+import { useI18n } from "@/lib/i18n";
 const CasePreviewRenderer = lazy(
   () => import("@/components/cases/CasePreviewRenderer")
     .then(m => ({ default: m.CasePreviewRenderer }))
@@ -90,17 +91,17 @@ const CASES = [
     visual: "n8n",
   },
   {
-    id: 6, num: "06", cat: "UI/UX",
-    title: "UI/UX Design",
-    tagline: "Interfaces que convertem",
-    result: "3×",   resultLabel: "Engajamento",
-    desc: "Tipo: design system completo — pesquisa, wireframes, Figma e protótipos. Do conceito à entrega para o time de dev.",
-    tags: ["Figma", "Protopie", "Research", "Design System"],
-    visual: "design",
+    id: 6, num: "06", cat: "E-commerce",
+    title: "E-commerce",
+    tagline: "Lojas que vendem de verdade",
+    result: "3×",   resultLabel: "Conversão",
+    desc: "Loja completa com catálogo, carrinho, checkout e pagamentos integrados. Do design ao deploy em produção.",
+    tags: ["React", "Medusa", "Asaas", "Stripe", "Docker"],
+    visual: "ecommerce",
   },
   {
-    id: 7, num: "07", cat: "Low-code",
-    title: "Low-code",
+    id: 7, num: "07", cat: "No-code",
+    title: "No-code",
     tagline: "MVP em semanas",
     result: "6wk",  resultLabel: "Time to market",
     desc: "Tipo: validação rápida — Airtable, Bubble, Glide. Protótipos funcionais sem contratar equipe de desenvolvimento.",
@@ -114,7 +115,7 @@ const CASES = [
     result: "0%",   resultLabel: "Dado sensível em cloud",
     desc: "IA generativa dentro da empresa: LLM local (Ollama), base de conhecimento própria com RAG, relatórios em português que viram SQL e dashboard. Privacidade e controle operacional totais.",
     tags: ["Ollama", "RAG", "Supabase", "LangChain"],
-    visual: "ai",
+    visual: "ai-corporativa",
   },
 ];
 
@@ -199,6 +200,7 @@ function ScanLine({ active }: { active: boolean }) {
 
 /* ─── MAIN COMPONENT ─────────────────────────── */
 export function CasesSection() {
+  const { t } = useI18n()
   const [active,  setActive]  = useState(0);
   const [entered, setEntered] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
@@ -605,7 +607,7 @@ export function CasesSection() {
             ))}
           </div>
 
-          <LiquidMetalButton label="Ver todos os cases →" to="/cases" size="wide" />
+          <LiquidMetalButton label={`${t('cases', 'verTodos')} →`} to="/cases" size="wide" />
         </div>
       </div>
     </section>
