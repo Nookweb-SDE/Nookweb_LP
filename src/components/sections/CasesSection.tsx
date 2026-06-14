@@ -134,31 +134,47 @@ const N8N_VARIANT_CONTENT = [
   },
 ] as const;
 
+/* ─── IS MOBILE HOOK ─────────────────────────── */
+function useIsMobile() {
+  const [mobile, setMobile] = useState(
+    typeof window !== 'undefined' && window.innerWidth < 768
+  )
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 767px)')
+    const handler = (e: MediaQueryListEvent) => setMobile(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+  return mobile
+}
+
 /* ─── ANIMATED RESULT NUMBER ─────────────────── */
 function AnimResult({ value, label, active }: { value: string; label: string; active: boolean }) {
-  const [displayed, setDisplayed] = useState("—");
-  const prev = useRef<string | null>(null);
+  const isMobile = useIsMobile()
+  const [displayed, setDisplayed] = useState("—")
+  const prev = useRef<string | null>(null)
 
   useEffect(() => {
-    if (!active) return;
-    if (prev.current === value) return;
-    prev.current = value;
-    let i = 0;
-    const chars = "0123456789+−×%kwk".split("");
-    const target = value;
+    if (!active) return
+    if (isMobile) { setDisplayed(value); return }
+    if (prev.current === value) return
+    prev.current = value
+    let i = 0
+    const chars = "0123456789+−×%kwk".split("")
+    const target = value
     const inter = setInterval(() => {
-      i++;
-      if (i > 12) { setDisplayed(target); clearInterval(inter); return; }
+      i++
+      if (i > 12) { setDisplayed(target); clearInterval(inter); return }
       setDisplayed(
         target.split("").map((c, idx) =>
           idx < Math.floor((i/12)*target.length)
             ? c
             : chars[Math.floor(Math.random()*chars.length)]
         ).join("")
-      );
-    }, 45);
-    return () => clearInterval(inter);
-  }, [value, active]);
+      )
+    }, 45)
+    return () => clearInterval(inter)
+  }, [value, active, isMobile])
 
   return (
     <div style={{ textAlign:"center" }}>
@@ -183,7 +199,7 @@ function AnimResult({ value, label, active }: { value: string; label: string; ac
         transition:"color .5s ease",
       }}>{label}</div>
     </div>
-  );
+  )
 }
 
 /* ─── SCAN LINE COMPONENT ─────────────────────── */
@@ -201,6 +217,7 @@ function ScanLine({ active }: { active: boolean }) {
 /* ─── MAIN COMPONENT ─────────────────────────── */
 export function CasesSection() {
   const { t } = useI18n()
+  const isMobile = useIsMobile()
   const [active,  setActive]  = useState(0);
   const [entered, setEntered] = useState(false);
   const [transitioning, setTransitioning] = useState(false);
@@ -376,7 +393,7 @@ export function CasesSection() {
                     border:`1px solid ${isActive?P.orange:"rgba(255,255,255,0.15)"}`,
                     boxShadow: isActive ? `0 0 16px ${P.orange}66` : "none",
                     transition:"all .35s ease",
-                    animation: isActive ? "pulse 2s ease-in-out infinite" : "none",
+                    animation: (!isMobile && isActive) ? "pulse 2s ease-in-out infinite" : "none",
                     zIndex:2,
                   }}/>
 
@@ -443,7 +460,7 @@ export function CasesSection() {
             display:"flex",
             flexDirection:"column",
           }}>
-            <ScanLine active={!transitioning} />
+            {!isMobile && <ScanLine active={!transitioning} />}
 
             <div style={{
               flex:1, display:"flex", flexDirection:"column",
@@ -519,7 +536,7 @@ export function CasesSection() {
                     }}>{c.tagline}</p>
                   </div>
 
-                  <div style={{ animation:"floatY 3s ease-in-out infinite" }}>
+                  <div style={{ animation: isMobile ? 'none' : "floatY 3s ease-in-out infinite" }}>
                     <AnimResult value={c.result} label={c.resultLabel} active={!transitioning} />
                   </div>
                 </div>
@@ -600,7 +617,7 @@ export function CasesSection() {
               ["8","Verticais"],
               ["0","Lock-in"],
             ].map(([v,l],i)=>(
-              <div key={i} style={{ animation:`floatY ${2.5+i*.5}s ease-in-out infinite`, animationDelay:`${i*.25}s` }}>
+              <div key={i} style={{ animation: isMobile ? 'none' : `floatY ${2.5+i*.5}s ease-in-out infinite`, animationDelay: isMobile ? '0s' : `${i*.25}s` }}>
                 <div style={{ fontFamily:"'Instrument Serif',serif", fontSize:"28px", fontStyle:"italic", color:P.orange, lineHeight:1, textShadow:`0 0 20px ${P.orange}44` }}>{v}</div>
                 <div style={{ fontFamily:"'Space Mono',monospace", fontSize:"8px", color:"rgba(255,255,255,0.25)", letterSpacing:"2px", marginTop:"4px", textTransform:"uppercase" }}>{l}</div>
               </div>
