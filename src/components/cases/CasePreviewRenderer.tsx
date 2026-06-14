@@ -23,6 +23,8 @@ import { DashboardPreview } from "./previews/DashboardPreview";
 import { DesignShowcasePreview } from "./previews/DesignShowcasePreview";
 
 // Verticals 03–08 custom previews
+import BlackIceIframePreview from "./previews/BlackIceIframePreview";
+import LowcodeBubblePreview from "./previews/LowcodeBubblePreview";
 import NookleadCRMPreview from "./previews/NookleadCRMPreview";
 import MetricFlowPreview from "./previews/MetricFlowPreview";
 import EmplyPreview from "./previews/EmplyPreview";
@@ -79,13 +81,15 @@ export function CasePreviewRenderer({ caseType, variant }: Props) {
   if (data.id === "n8n-b") return <N8nPortfolioPreview variant={1} />;
   if (data.id === "n8n-c") return <N8nPortfolioPreview variant={2} />;
 
-  // Design / UI-UX (06)
+  // E-commerce (06)
+  if (data.id === "ecommerce-blackice") return <BlackIceIframePreview />;
+
+  // Design / UI-UX (old 06 — kept for reference)
   if (data.id === "design-a") return <HealthBridgePreview />;
   if (data.id === "design-b") return <EduFlowPreview />;
 
   // Low-code (07)
-  if (data.id === "lowcode-a") return <QuickMarketPreview />;
-  if (data.id === "lowcode-b") return <ValidaKitPreview />;
+  if (data.id === "lowcode-bubble") return <LowcodeBubblePreview />;
 
   // IA (08)
   if (data.id === "ai-a") return <SmartDeskPreview />;

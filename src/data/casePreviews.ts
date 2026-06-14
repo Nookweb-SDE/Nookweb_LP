@@ -380,32 +380,23 @@ export const CASE_PREVIEWS: CasePreviewMap = {
     },
   ],
 
+  /* ═══ 06b. E-COMMERCE ═══ */
+  ecommerce: [
+    {
+      id: "ecommerce-blackice",
+      clientName: "Black Ice Confecções",
+      clientTagline: "E-commerce fashion — Medusa + Asaas",
+      template: "iframe",
+    },
+  ],
+
   /* ═══ 07. LOW-CODE ═══ */
   lowcode: [
     {
-      id: "lowcode-a",
-      clientName: "QuickMarket",
-      clientTagline: "Marketplace MVP",
-      template: "dashboard",
-      palette: { bg: "#FFFFFF", accent: "#059669", accentSoft: "rgba(5,150,105,0.08)", text: "#111827", textMuted: "#6B7280", card: "#FFFFFF", border: "#E5E7EB" },
-      sections: [
-        { type: "nav", logo: "quickmarket", links: ["Produtos", "Categorias", "Ofertas"], ctaText: "Vender" },
-        { type: "cards", title: "Mais vendidos", items: [{ title: "Fone Bluetooth Pro X", price: "R$189", desc: "★ 4.8 · 847 vendas", gradient: "linear-gradient(135deg, #DBEAFE, #BFDBFE)" }, { title: "Mouse Ergonômico", price: "R$129", desc: "★ 4.6 · 523 vendas", gradient: "linear-gradient(135deg, #FEE2E2, #FECACA)" }, { title: "Hub USB-C 7 portas", price: "R$89", desc: "★ 4.9 · 1.2k vendas", gradient: "linear-gradient(135deg, #D1FAE5, #A7F3D0)" }, { title: "Webcam 4K Ultra", price: "R$349", desc: "★ 4.7 · 312 vendas", gradient: "linear-gradient(135deg, #FEF3C7, #FDE68A)" }] },
-        { type: "metrics", items: [{ value: "🔒", label: "Pagamento seguro" }, { value: "🚚", label: "Frete rastreável" }, { value: "↩️", label: "Devolução grátis" }] },
-      ],
-    },
-    {
-      id: "lowcode-b",
-      clientName: "ValidaKit",
-      clientTagline: "Validação de produto",
-      template: "dashboard",
-      palette: { bg: "#FAFBFF", accent: "#7C3AED", accentSoft: "rgba(124,58,237,0.08)", text: "#111827", textMuted: "#6B7280", card: "#FFFFFF", border: "#E5E7EB" },
-      sections: [
-        { type: "nav", logo: "ValidaKit ✓", links: ["Dashboard", "Pesquisas", "Insights"] },
-        { type: "kpi", items: [{ label: "Respostas", value: "847", change: "+23%", changeColor: "#7C3AED" }, { label: "NPS", value: "72", changeColor: "#14B8A6" }, { label: "Conclusão", value: "89%", changeColor: "#10B981" }, { label: "Tempo médio", value: "2m34s" }] },
-        { type: "chart", title: "Product-Market Fit", chartType: "ring", data: [78], labels: ["PMF Score"] },
-        { type: "features", title: "Insights Automáticos", items: [{ icon: "✅", title: "PMF confirmado", desc: "78% seriam 'muito desapontados' sem o produto." }, { icon: "📊", title: "Feature mais pedida", desc: "Integração com Slack — mencionada 23×." }, { icon: "⚠️", title: "Segmento fraco", desc: "Freelancers: NPS 45, abaixo da média geral." }] },
-      ],
+      id: "lowcode-bubble",
+      clientName: "Group Fluxos — Bubble",
+      clientTagline: "Sistema de gestão de ideias low-code",
+      template: "iframe",
     },
   ],
 
@@ -437,6 +428,16 @@ export const CASE_PREVIEWS: CasePreviewMap = {
         { type: "chart", title: "Previsão de Leads — 7 dias", chartType: "line", data: [32, 38, 42, 35, 45, 48, 52], labels: ["Seg", "Ter", "Qua", "Qui", "Sex", "Sáb", "Dom"] },
       ],
     },
+    {
+      id: "ai-corporativa",
+      clientName: "IA Corporativa Local",
+      clientTagline: "On-premise · RAG · Relatórios self-service",
+      template: "dashboard",
+      palette: { bg: "#0a0e14", accent: "#FF4500", accentSoft: "rgba(255,69,0,0.12)", text: "#F5F0E8", textMuted: "#94A3B8", card: "#141414", border: "rgba(255,255,255,0.06)" },
+      sections: [],
+    },
+  ],
+  "ai-corporativa": [
     {
       id: "ai-corporativa",
       clientName: "IA Corporativa Local",
